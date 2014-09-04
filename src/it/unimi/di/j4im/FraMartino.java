@@ -1,13 +1,13 @@
-package it.unimi.di.infomus.labprog.esempi;
+package it.unimi.di.j4im;
 
 import java.io.IOException;
 
-import it.unimi.di.infomus.labprog.notazione.Durata;
-import it.unimi.di.infomus.labprog.notazione.Nota;
-import it.unimi.di.infomus.labprog.notazione.Pausa;
-import it.unimi.di.infomus.labprog.riproduzione.Brano;
-import it.unimi.di.infomus.labprog.riproduzione.Brano.Parte;
-import it.unimi.di.infomus.labprog.riproduzione.Sintetizzatore;
+import it.unimi.di.j4im.notazione.Durata;
+import it.unimi.di.j4im.notazione.Nota;
+import it.unimi.di.j4im.notazione.Pausa;
+import it.unimi.di.j4im.riproduzione.Brano;
+import it.unimi.di.j4im.riproduzione.Sintetizzatore;
+import it.unimi.di.j4im.riproduzione.Brano.Parte;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;

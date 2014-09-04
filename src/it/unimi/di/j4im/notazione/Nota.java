@@ -1,4 +1,4 @@
-package it.unimi.di.infomus.labprog.notazione;
+package it.unimi.di.j4im.notazione;
 
 public class Nota extends Simbolo {
 	
@@ -107,22 +107,6 @@ public class Nota extends Simbolo {
 	}
 	
 	public static void main( String[] args ) {
-		System.out.println( Nota.fromString( "DO♭5:1/32") );
-		
-		System.out.println( Nota.fromString( "DO5:1/32") );
-		System.out.println( Nota.fromString( "DO♭:1/32") );
-		System.out.println( Nota.fromString( "DO♭5") );
-		
-		System.out.println( Nota.fromString( "DO:1/32") );
-		System.out.println( Nota.fromString( "DO5") );
-		
-		System.out.println( Nota.fromString( "DO:1/32") );
-		System.out.println( Nota.fromString( "DO♭") );
-		
-		System.out.println( Nota.fromString( "DO5") );
-		System.out.println( Nota.fromString( "DO♭") );
-		
-		System.out.println( Nota.fromString( "DO") );
-	}
+		}
 	
 }

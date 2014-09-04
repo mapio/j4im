@@ -1,4 +1,4 @@
-package it.unimi.di.infomus.labprog.notazione;
+package it.unimi.di.j4im.notazione;
 
 public enum Alterazione {
 	

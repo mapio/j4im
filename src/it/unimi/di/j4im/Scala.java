@@ -1,10 +1,10 @@
-package it.unimi.di.infomus.labprog.esempi;
+package it.unimi.di.j4im;
 
 import java.io.IOException;
 
-import it.unimi.di.infomus.labprog.notazione.Altezza;
-import it.unimi.di.infomus.labprog.notazione.Nota;
-import it.unimi.di.infomus.labprog.riproduzione.Sintetizzatore;
+import it.unimi.di.j4im.notazione.Altezza;
+import it.unimi.di.j4im.notazione.Nota;
+import it.unimi.di.j4im.riproduzione.Sintetizzatore;
 
 import javax.sound.midi.MidiUnavailableException;
 

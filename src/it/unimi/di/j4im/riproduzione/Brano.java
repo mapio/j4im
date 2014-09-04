@@ -1,8 +1,8 @@
-package it.unimi.di.infomus.labprog.riproduzione;
+package it.unimi.di.j4im.riproduzione;
 
-import it.unimi.di.infomus.labprog.notazione.Durata;
-import it.unimi.di.infomus.labprog.notazione.Nota;
-import it.unimi.di.infomus.labprog.notazione.Pausa;
+import it.unimi.di.j4im.notazione.Durata;
+import it.unimi.di.j4im.notazione.Nota;
+import it.unimi.di.j4im.notazione.Pausa;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiEvent;
