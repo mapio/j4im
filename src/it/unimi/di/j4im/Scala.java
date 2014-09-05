@@ -1,10 +1,11 @@
 package it.unimi.di.j4im;
 
-import java.io.IOException;
-
 import it.unimi.di.j4im.notazione.Altezza;
 import it.unimi.di.j4im.notazione.Nota;
 import it.unimi.di.j4im.riproduzione.Sintetizzatore;
+import it.unimi.di.j4im.riproduzione.Strumento;
+
+import java.io.IOException;
 
 import javax.sound.midi.MidiUnavailableException;
 
@@ -12,21 +13,23 @@ public class Scala {
 	
 	public static void main( String[] args ) throws MidiUnavailableException, IOException {
 	
-		Sintetizzatore s = new Sintetizzatore( "Piano" );
-
+		Sintetizzatore.accendi();
+		
+		Strumento piano = new Strumento( "Piano" );
 		for ( Altezza altezza : Altezza.values() ) {
 			Nota nota = new Nota( altezza );
 			System.out.println( nota );
-			s.suona( nota );
+			nota.suona( piano );
 		}
 
-		for ( int i = 60; i < 72; i++ ) {
-			Nota nota = Nota.fromPitch( i );
+		Strumento chitarra = new Strumento( "Guitar" );
+		for ( int pitch = 60; pitch < 72; pitch++ ) {
+			Nota nota = new Nota( pitch );
 			System.out.println( nota );
-			s.suona( nota );
+			nota.suona( chitarra );
 		}
 
-		s.close();
+		Sintetizzatore.spegni();
 	}
-
+		
 }

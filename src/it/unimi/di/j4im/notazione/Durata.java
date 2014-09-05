@@ -16,16 +16,24 @@ public enum Durata {
 		this.denominatore = denominatore;
 	}
 	
-	public int denominatore() {
-		return denominatore;
-	}
-
 	public static Durata fromString( final String str ) {
 		for ( Durata d : Durata.values() )
 			if ( str.equals( d.toString() ) ) return d;
 		throw new IllegalArgumentException( "Impossibile determinare la durata di " + str );
 	}
+
+	public int denominatore() {
+		return denominatore;
+	}
+
+	public int ms( final int bpm ) {
+		return (int)( 1000 * ( 60.0 / bpm ) * ( 4.0 / denominatore ) );
+	}
 	
+	public int ticks( final double RESOLUTION ) {
+		return (int)( 4 * RESOLUTION / denominatore );
+	}
+
 	public String toString() {
 		return "1/" + denominatore();
 	}

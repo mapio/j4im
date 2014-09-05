@@ -1,8 +1,11 @@
 package it.unimi.di.j4im.notazione;
 
+import it.unimi.di.j4im.riproduzione.Strumento;
+
 public class Nota extends Simbolo {
 	
 	final static int OTTAVA_DEFAULT = 4;
+	
 	final Altezza altezza;
 	final Alterazione alterazione;
 	final int ottava;
@@ -26,43 +29,67 @@ public class Nota extends Simbolo {
 		this( altezza, OTTAVA_DEFAULT );
 	}
 	
-	public static Nota fromPitch( final int pitch, final Durata durata ) {
-		Altezza altezza = null;
-		Alterazione alterazione = Alterazione.NULLA;
+	public Nota( final String nota ) {
+		super( nota );
+		altezza = Altezza.fromString( nota );
+		String resto = nota.substring( altezza.toString().length() );
+		alterazione = Alterazione.fromString( resto );
+		resto = resto.substring( alterazione.toString().length() );
+		if ( resto.length() == 0 ) {
+			ottava = OTTAVA_DEFAULT;
+		} else {
+			final int posDuepunti = resto.indexOf( ":" );
+			if ( posDuepunti == -1 )
+				ottava = Integer.parseInt( resto ); // resto != ""
+			else if ( posDuepunti > 0 )
+				ottava = Integer.parseInt( resto.substring( 0, posDuepunti ) );
+			else 
+				ottava = OTTAVA_DEFAULT;
+		}
+	}
+
+	public Nota( final int pitch, final Durata durata ) {
+		super( durata );
 		switch ( pitch % 12 ) {
 			case 0:
-				altezza = Altezza.DO; 
+				altezza = Altezza.DO;
+				alterazione = Alterazione.NULLA;
 				break;
 			case 1:
 				altezza = Altezza.DO; 
 				alterazione = Alterazione.DIESIS;
 				break;
 			case 2:
-				altezza = Altezza.RE; 
+				altezza = Altezza.RE;
+				alterazione = Alterazione.NULLA;
 				break;
 			case 3:
 				altezza = Altezza.RE; 
 				alterazione = Alterazione.DIESIS;
 				break;
 			case 4:
-				altezza = Altezza.MI; 
+				altezza = Altezza.MI;
+				alterazione = Alterazione.NULLA;
 				break;
 			case 5:
-				altezza = Altezza.FA; 
+				altezza = Altezza.FA;
+				alterazione = Alterazione.NULLA;
 				break;
 			case 6:
-				altezza = Altezza.FA; 
+				altezza = Altezza.FA;
 				alterazione = Alterazione.DIESIS;
 				break;
 			case 7:
-				altezza = Altezza.SOL; 
+				altezza = Altezza.SOL;
+				alterazione = Alterazione.NULLA;
 				break;
 			case 8:
 				altezza = Altezza.SOL; 
 				alterazione = Alterazione.DIESIS;
 				break;
 			case 9:
-				altezza = Altezza.LA; 
+				altezza = Altezza.LA;
+				alterazione = Alterazione.NULLA;
 				break;
 			case 10:
 				altezza = Altezza.LA; 
@@ -70,32 +97,17 @@ public class Nota extends Simbolo {
 				break;
 			case 11:
 				altezza = Altezza.SI; 
-				break;				
+				alterazione = Alterazione.NULLA;
+				break;
+			default:
+				altezza = null; 
+				alterazione = null;
 		}
-		return new Nota( altezza, alterazione, pitch / 12 - 1, durata );
+		ottava = pitch / 12 - 1;
 	}
 
-	public static Nota fromPitch( final int pitch ) {
-		return fromPitch( pitch, Simbolo.DURATA_DEFAULT );
-	}
-	
-	public static Nota fromString( final String nota ) {
-		Altezza altezza = Altezza.fromString( nota );
-		String resto = nota.substring( altezza.toString().length() );
-		Alterazione alterazione = Alterazione.fromString( resto );
-		resto = resto.substring( alterazione.toString().length() );
-		if ( resto.length() == 0 ) return new Nota( altezza, alterazione );
-		int posDuepunti = resto.indexOf( ":" );
-		int ottava = OTTAVA_DEFAULT;
-		Durata durata = Simbolo.DURATA_DEFAULT;
-		if ( posDuepunti == -1 )
-			ottava = Integer.parseInt( resto ); // resto != ""
-		else {
-			if ( posDuepunti > 0 )
-				ottava = Integer.parseInt( resto.substring( 0, posDuepunti ) );
-			durata = Durata.fromString( resto.substring( posDuepunti + 1 ) );
-		}
-		return new Nota( altezza, alterazione, ottava, durata );
+	public Nota( final int pitch ) {
+		this( pitch, Simbolo.DURATA_DEFAULT );
 	}
 	
 	public int pitch() {
@@ -105,8 +117,15 @@ public class Nota extends Simbolo {
 	public String toString() {
 		return altezza.toString() + alterazione.toString() + ( ottava == 4 ? "" : "" + ottava ) + ( durata == Durata.SEMIMINIMA ? "" : ":" + durata );
 	}
-	
-	public static void main( String[] args ) {
-		}
+
+	@Override
+	public void suona( final Strumento strumento ) {
+		strumento.suona( this );
+	}
+
+	@Override
+	public void suona( final Strumento strumento, final int intesita ) {
+		strumento.suona( this, intesita );
+	}
 	
 }
