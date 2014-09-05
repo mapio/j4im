@@ -1,7 +1,5 @@
 package it.unimi.di.j4im.riproduzione;
 
-import java.io.IOException;
-
 import javax.sound.midi.Instrument;
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
@@ -14,7 +12,7 @@ public class Sintetizzatore {
 	public static final int DEFAULT_INTENSITA = 64;
 	public static final int DEFAULT_BPM = 120;
 	
-	protected static Sintetizzatore INSTANCE = null;
+	private static Sintetizzatore INSTANCE = null;
 		
 	private final Synthesizer synth;
 	private final Sequencer sequencer;
@@ -58,11 +56,6 @@ public class Sintetizzatore {
 		
 	}
 	
-	private void close() {
-		synth.close();
-		sequencer.close();
-	}
-
 	/* metodi di pacchetto */
 
 	static Sequencer sequencer() {
@@ -77,13 +70,9 @@ public class Sintetizzatore {
 	
 	/* metodi pubblici  */
 	
-	public static void accendi( final int bpm ) throws MidiUnavailableException {
-		if ( INSTANCE != null ) throw new IllegalStateException( "Il sitetizzatore è già stato acceso" );
-		INSTANCE = new Sintetizzatore( bpm );
-	}
-
 	public static void accendi() throws MidiUnavailableException {
-		accendi( Sintetizzatore.DEFAULT_BPM );
+		if ( INSTANCE != null ) throw new IllegalStateException( "Il sitetizzatore è già stato acceso" );
+		INSTANCE = new Sintetizzatore( DEFAULT_BPM );
 	}
 
 	public static int bpm() {
@@ -93,11 +82,14 @@ public class Sintetizzatore {
 	
 	public static void bpm( final int bpm ) {
 		if ( INSTANCE == null ) throw new IllegalStateException( "Non è stato acceso il sitetizzatore" );
+		if ( bpm < 0 || bpm > 960 ) throw new IllegalArgumentException( "I BPM devono essere compresi tra 1 e 960" );
 		INSTANCE.bpm = bpm;
 	}
 
-	public static void spegni() throws IOException {
-		if ( INSTANCE != null ) INSTANCE.close();
+	public static void spegni() {
+		if ( INSTANCE == null ) throw new IllegalStateException( "Non è stato acceso il sitetizzatore" );
+		INSTANCE.synth.close();
+		INSTANCE.sequencer.close();
 		INSTANCE = null;
 	}
 	

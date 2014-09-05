@@ -23,8 +23,7 @@ public enum Altezza {
 	 *          restituisce l'altezza corrispondente.
 	 * @throws IllegalArgumentException se la stringa non inizia 
 	 *         con un nome di nota.
-	 */
-		
+	 */		
 	public static Altezza fromString( final String str ) {
 		for ( Altezza altezza : Altezza.values() ) 
 			if ( str.startsWith( altezza.toString() ) ) return altezza;

@@ -61,8 +61,8 @@ public class Brano {
 
 	}
 	
-	public static final double RESOLUTION = 960.0;
-	public static final int END_OF_TRACK_MESSAGE = 0x2F;
+	private static final double RESOLUTION = 960.0;
+	private static final int END_OF_TRACK_MESSAGE = 0x2F;
 
 	private final Sequence sequence;
 	
