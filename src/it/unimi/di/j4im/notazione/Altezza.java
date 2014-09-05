@@ -15,6 +15,15 @@ public enum Altezza {
 	Altezza( final int semitoni ) {
 		this.semitoni = semitoni;
 	}
+
+	/** Restituisce l'altezza con cui inizia una stringa data.
+	 * 
+	 * @param str la stringa al cui inizio si trova l'altezza.
+	 * @return  Se la stringa inizia per uno dei nomi di nota, 
+	 *          restituisce l'altezza corrispondente.
+	 * @throws IllegalArgumentException se la stringa non inizia 
+	 *         con un nome di nota.
+	 */
 		
 	public static Altezza fromString( final String str ) {
 		for ( Altezza altezza : Altezza.values() ) 

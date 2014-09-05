@@ -16,6 +16,15 @@ public enum Durata {
 		this.denominatore = denominatore;
 	}
 	
+	/** Restituisce la durata con cui inizia una stringa data.
+	 * 
+	 * @param str la stringa al cui inizio si trova la durata.
+	 * @return  Se la stringa inizia per una delle possibili durate 
+	 * 		    (1/1, 1/2, 1/4, 1/8, 1/16, 1/32, 1/64)
+	 *          restituisce la durata corrispondente.
+	 * @throws IllegalArgumentException se la stringa non inizia 
+	 *         con una durata valida.
+	 */		
 	public static Durata fromString( final String str ) {
 		for ( Durata d : Durata.values() )
 			if ( str.equals( d.toString() ) ) return d;
