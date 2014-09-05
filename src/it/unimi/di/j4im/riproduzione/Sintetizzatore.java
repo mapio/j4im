@@ -34,7 +34,7 @@ public class Sintetizzatore {
 					this.inst = inst; 
 					this.n = canaliAllocati++;
 					this.mc.programChange( inst.getPatch().getProgram() );
-					break;
+					return;
 				}
 			throw new IllegalArgumentException( "Il sintetizzatore non è in grado di riprodurre lo strumento " + nome );
 		}		
