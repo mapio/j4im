@@ -1,6 +1,9 @@
 package it.unimi.di.j4im.esempi;
 
 import it.unimi.di.j4im.notazione.Durata;
+import it.unimi.di.j4im.notazione.Nota;
+import it.unimi.di.j4im.notazione.Pausa;
+import it.unimi.di.j4im.notazione.Simbolo;
 import it.unimi.di.j4im.riproduzione.Brano;
 import it.unimi.di.j4im.riproduzione.Brano.Parte;
 import it.unimi.di.j4im.riproduzione.Sintetizzatore;
@@ -13,27 +16,23 @@ import javax.sound.midi.MidiUnavailableException;
 
 public class FraMartino {
 
-	/*
-	public static void suona( final Sintetizzatore synth, final String brano ) {
-		for ( String s: brano.split( "," ) )
-			if ( s.charAt( 0 ) == '_' ) {
-				Pausa pausa = Pausa.fromString( s );
-				System.out.println( pausa );
-				synth.suona( pausa );
-			} else {
-				Nota nota = Nota.fromString( s );
-				System.out.println( nota );
-				synth.suona( nota );
-			}		
+	
+	public static void suona( final String brano ) {
+		final Strumento flauto = new Strumento( "Flute" );
+		Simbolo sim;
+		for ( String s: brano.split( "," ) ) {
+			sim = s.charAt( 0 ) == '_' ? new Pausa( s ) : new Nota( s ); 
+			System.out.println( sim );
+			sim.suona( flauto );
+		}		
 	}
 
-	public static void suonaBrano( final Sintetizzatore synth, final String brano ) throws InvalidMidiDataException, InterruptedException {
+	public static void suonaBrano( final String brano ) throws InvalidMidiDataException, InterruptedException {
 		Brano b = new Brano();
-		Parte parte = b.parte( 0 );
+		Parte parte = b.parte( new Strumento( "Piano" ) );
 		parte.fromString( brano );
-		synth.riproduci( b );		
+		b.riproduci();		
 	}
-	 */
 	
 	public static void canone( final String brano ) throws InvalidMidiDataException, InterruptedException {
 		Brano b = new Brano();
@@ -59,9 +58,9 @@ public class FraMartino {
 			"RE,SOL3,DO:1/2," +
 			"RE,SOL3,DO:1/2";
 		
-		// suona( synth, fraMartino );
+		suona( fraMartino );
 		canone( fraMartino );
-		// suonaBrano( synth, fraMartino );
+		suonaBrano( fraMartino );
 		
 		Sintetizzatore.spegni();
 	}
