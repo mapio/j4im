@@ -64,7 +64,7 @@ public class Brano {
 	public static final double RESOLUTION = 960.0;
 	public static final int END_OF_TRACK_MESSAGE = 0x2F;
 
-	final Sequence sequence;
+	private final Sequence sequence;
 	
 	public Brano() throws InvalidMidiDataException {
 		sequence = new Sequence( Sequence.PPQ, (int)RESOLUTION );

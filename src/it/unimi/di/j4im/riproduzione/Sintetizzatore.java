@@ -55,6 +55,7 @@ public class Sintetizzatore {
 	
 		canali = synth.getChannels();
 		canaliAllocati = 0;
+		
 	}
 	
 	private void close() {
@@ -69,7 +70,7 @@ public class Sintetizzatore {
 		return INSTANCE.sequencer;
 	}
 	
-	static StrumentoImpl strumento( final String nome ) {
+	static StrumentoImpl strumentoImpl( final String nome ) {
 		if ( INSTANCE == null ) throw new IllegalStateException( "Non è stato acceso il sitetizzatore" );
 		return INSTANCE.new StrumentoImpl( nome );
 	}

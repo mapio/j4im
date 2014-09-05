@@ -9,7 +9,7 @@ public class Strumento {
 	private final StrumentoImpl si;
 	
 	public Strumento( final String nome ) {
-		this.si = Sintetizzatore.strumento( nome );
+		this.si = Sintetizzatore.strumentoImpl( nome );
 	}
 	
 	public void suona( final Nota nota, final int intensita ) {
