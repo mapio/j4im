@@ -1,4 +1,4 @@
-package it.unimi.di.j4im;
+package it.unimi.di.j4im.esempi;
 
 import it.unimi.di.j4im.notazione.Altezza;
 import it.unimi.di.j4im.notazione.Nota;

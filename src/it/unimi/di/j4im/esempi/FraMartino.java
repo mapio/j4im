@@ -1,4 +1,4 @@
-package it.unimi.di.j4im;
+package it.unimi.di.j4im.esempi;
 
 import it.unimi.di.j4im.notazione.Durata;
 import it.unimi.di.j4im.riproduzione.Brano;
