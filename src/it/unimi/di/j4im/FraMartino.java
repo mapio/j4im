@@ -1,8 +1,6 @@
 package it.unimi.di.j4im;
 
 import it.unimi.di.j4im.notazione.Durata;
-import it.unimi.di.j4im.notazione.Nota;
-import it.unimi.di.j4im.notazione.Pausa;
 import it.unimi.di.j4im.riproduzione.Brano;
 import it.unimi.di.j4im.riproduzione.Brano.Parte;
 import it.unimi.di.j4im.riproduzione.Sintetizzatore;
@@ -37,14 +35,14 @@ public class FraMartino {
 	}
 	 */
 	
-	public static void canone( final Sintetizzatore synth, final String brano ) throws InvalidMidiDataException, InterruptedException {
+	public static void canone( final String brano ) throws InvalidMidiDataException, InterruptedException {
 		Brano b = new Brano();
 		Parte parte = b.parte( new Strumento( "Piano" ) );
 		parte.fromString( brano );
 		parte = b.parte( new Strumento( "Guitar" ) );
 		parte.fromString( brano );
 		parte.trasla( Durata.SEMIBREVE );
-		synth.riproduci( b );		
+		b.riproduci();		
 	}
 	
 	public static void main( String[] args ) throws MidiUnavailableException, InvalidMidiDataException, IOException, InterruptedException {
@@ -62,7 +60,7 @@ public class FraMartino {
 			"RE,SOL3,DO:1/2";
 		
 		// suona( synth, fraMartino );
-		canone( synth, fraMartino );
+		canone( fraMartino );
 		// suonaBrano( synth, fraMartino );
 		
 		Sintetizzatore.spegni();

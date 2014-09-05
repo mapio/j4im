@@ -7,22 +7,16 @@ import it.unimi.di.j4im.riproduzione.Sintetizzatore.StrumentoImpl;
 public class Strumento {
 	
 	private final StrumentoImpl si;
-	private int bpm;
-	
-	public Strumento( final int bpm, final String nome ) {
-		this.bpm = bpm;
-		this.si = Sintetizzatore.strumento( nome );
-	}
 	
 	public Strumento( final String nome ) {
-		this( Sintetizzatore.DEFAULT_BPM, nome );
+		this.si = Sintetizzatore.strumento( nome );
 	}
 	
 	public void suona( final Nota nota, final int intensita ) {
 		final int pitch = nota.pitch();
 		si.mc.noteOn( pitch, intensita );
 		try {
-			Thread.sleep( nota.durata().ms( bpm ) );
+			Thread.sleep( nota.durata().ms( Sintetizzatore.bpm() ) );
 		} catch ( InterruptedException swallow ) {}
 		si.mc.noteOff( pitch );
 	}
@@ -33,7 +27,7 @@ public class Strumento {
 
 	public void suona( final Pausa pausa ) {
 		try {
-			Thread.sleep( pausa.durata().ms( bpm ) );
+			Thread.sleep( pausa.durata().ms( Sintetizzatore.bpm() ) );
 		} catch ( InterruptedException swallow ) {}
 	}
 	

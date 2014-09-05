@@ -1,12 +1,8 @@
 package it.unimi.di.j4im.riproduzione;
 
 import java.io.IOException;
-import java.util.concurrent.CountDownLatch;
 
 import javax.sound.midi.Instrument;
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MetaEventListener;
-import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
@@ -17,7 +13,6 @@ public class Sintetizzatore {
 
 	public static final int DEFAULT_INTENSITA = 64;
 	public static final int DEFAULT_BPM = 120;
-	public static final int END_OF_TRACK_MESSAGE = 0x2F;
 	
 	protected static Sintetizzatore INSTANCE = null;
 		
@@ -25,20 +20,31 @@ public class Sintetizzatore {
 	private final Sequencer sequencer;
 	private final MidiChannel[] canali;
 	private int canaliAllocati;
-
-	static class StrumentoImpl {
+	private int bpm;
+	
+	class StrumentoImpl {
 		final MidiChannel mc;
 		final Instrument inst;
 		final int n;
-		StrumentoImpl( final MidiChannel mc, final Instrument inst, final int n ) {
-			this.mc = mc;
-			this.inst = inst;
-			this.n = n;
-			this.mc.programChange( inst.getPatch().getProgram() );
+		StrumentoImpl( final String nome ) {			
+			if ( canaliAllocati >= canali.length ) throw new IllegalStateException( "Il sintetizzatore non supporta più di " + canali.length + " srumenti" );
+			for ( Instrument inst : synth.getLoadedInstruments() )
+				if ( inst.getName().contains( nome ) ) {
+					this.mc = canali[ canaliAllocati ];
+					this.inst = inst; 
+					this.n = canaliAllocati++;
+					this.mc.programChange( inst.getPatch().getProgram() );
+					break;
+				}
+			throw new IllegalArgumentException( "Il sintetizzatore non è in grado di riprodurre lo strumento " + nome );
 		}		
 	} 
 	
-	private Sintetizzatore() throws MidiUnavailableException {
+	private Sintetizzatore( final int bpm ) throws MidiUnavailableException {
+		
+		if ( bpm < 0 || bpm > 960 ) throw new IllegalArgumentException( "I BPM devono essere compresi tra 1 e 960" );
+		this.bpm = bpm;
+
 		synth = MidiSystem.getSynthesizer();
 		if ( ! synth.isOpen() ) synth.open();
 
@@ -50,53 +56,45 @@ public class Sintetizzatore {
 		canali = synth.getChannels();
 		canaliAllocati = 0;
 	}
-
-	private StrumentoImpl strumentoImpl( final String nome ) {
-		if ( canaliAllocati >= canali.length ) throw new IllegalStateException( "Il sintetizzatore non supporta più di " + canali.length + " srumenti" );
-		for ( Instrument inst : synth.getLoadedInstruments() )
-			if ( inst.getName().contains( nome ) ) {
-				canaliAllocati++;
-				return new StrumentoImpl( canali[ canaliAllocati - 1 ], inst, canaliAllocati - 1 );
-			}
-		throw new IllegalArgumentException( "Il sintetizzatore non è in grado di riprodurre lo strumento " + nome );
-	}
 	
 	private void close() {
 		synth.close();
 		sequencer.close();
 	}
 
-	public void riproduci( final int bpm, final Brano brano ) throws InvalidMidiDataException, InterruptedException  {
-		sequencer.setTempoInBPM( bpm );
-		final CountDownLatch cdl = new CountDownLatch( 1 );
-		MetaEventListener mel = new MetaEventListener() {
-			public void meta( MetaMessage meta ) {
-				if ( meta.getType() == END_OF_TRACK_MESSAGE )
-					sequencer.stop();
-					cdl.countDown();
-			}
-		};
-		sequencer.addMetaEventListener( mel );
-		sequencer.setSequence( brano.seq );
-		sequencer.start();
-		cdl.await();
-		sequencer.stop();
-		sequencer.removeMetaEventListener( mel );
+	/* metodi di pacchetto */
+
+	static Sequencer sequencer() {
+		if ( INSTANCE == null ) throw new IllegalStateException( "Non è stato acceso il sitetizzatore" );
+		return INSTANCE.sequencer;
+	}
+	
+	static StrumentoImpl strumento( final String nome ) {
+		if ( INSTANCE == null ) throw new IllegalStateException( "Non è stato acceso il sitetizzatore" );
+		return INSTANCE.new StrumentoImpl( nome );
+	}
+	
+	/* metodi pubblici  */
+	
+	public static void accendi( final int bpm ) throws MidiUnavailableException {
+		if ( INSTANCE != null ) throw new IllegalStateException( "Il sitetizzatore è già stato acceso" );
+		INSTANCE = new Sintetizzatore( bpm );
 	}
 
-	
-	/* metodi "esterni" */
-	
 	public static void accendi() throws MidiUnavailableException {
-		if ( INSTANCE != null ) throw new IllegalStateException( "Il sitetizzatore è già stato acceso" );
-		INSTANCE = new Sintetizzatore();
+		accendi( Sintetizzatore.DEFAULT_BPM );
 	}
-	
-	protected static StrumentoImpl strumento( final String nome ) {
+
+	public static int bpm() {
 		if ( INSTANCE == null ) throw new IllegalStateException( "Non è stato acceso il sitetizzatore" );
-		return INSTANCE.strumentoImpl( nome );
+		return INSTANCE.bpm;
 	}
 	
+	public static void bpm( final int bpm ) {
+		if ( INSTANCE == null ) throw new IllegalStateException( "Non è stato acceso il sitetizzatore" );
+		INSTANCE.bpm = bpm;
+	}
+
 	public static void spegni() throws IOException {
 		if ( INSTANCE != null ) INSTANCE.close();
 		INSTANCE = null;

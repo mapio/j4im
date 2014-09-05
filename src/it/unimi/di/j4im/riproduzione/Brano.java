@@ -1,12 +1,17 @@
 package it.unimi.di.j4im.riproduzione;
 
+import java.util.concurrent.CountDownLatch;
+
 import it.unimi.di.j4im.notazione.Durata;
 import it.unimi.di.j4im.notazione.Nota;
 import it.unimi.di.j4im.notazione.Pausa;
 
 import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MetaEventListener;
+import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.Sequence;
+import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 
@@ -15,7 +20,7 @@ public class Brano {
 	public class Parte {
 
 		final Strumento strumento;
-		final Track track =  seq.createTrack();
+		final Track track =  sequence.createTrack();
 		long tick = 0;
 		
 		public Parte( final Strumento strumento ) {
@@ -39,7 +44,7 @@ public class Brano {
 
 		public void trasla( final Durata durata ) {
 			final int numEventi = track.size();
-			final int tick = (int)( 4 * RESOLUTION / durata.denominatore()); 
+			final int tick = durata.ticks( RESOLUTION ); 
 			for ( int i = 0; i < numEventi; i++ ) {
 				final MidiEvent e = track.get( i );
 				e.setTick( e.getTick() + tick );
@@ -56,19 +61,36 @@ public class Brano {
 
 	}
 	
-	final static double RESOLUTION = 960.0;
-	final Sequence seq;
+	public static final double RESOLUTION = 960.0;
+	public static final int END_OF_TRACK_MESSAGE = 0x2F;
+
+	final Sequence sequence;
 	
 	public Brano() throws InvalidMidiDataException {
-		seq = new Sequence( Sequence.PPQ, (int)RESOLUTION );
+		sequence = new Sequence( Sequence.PPQ, (int)RESOLUTION );
 	}
 
 	public Parte parte( final Strumento strumento ) {
 		return new Parte( strumento );
 	}
 	
-	public void riproduci() {
-		
+	public void riproduci() throws InvalidMidiDataException, InterruptedException  {
+		final Sequencer sequencer = Sintetizzatore.sequencer();
+		sequencer.setTempoInBPM( Sintetizzatore.bpm() );
+		final CountDownLatch cdl = new CountDownLatch( 1 );
+		MetaEventListener mel = new MetaEventListener() {
+			public void meta( MetaMessage meta ) {
+				if ( meta.getType() == END_OF_TRACK_MESSAGE )
+					sequencer.stop();
+					cdl.countDown();
+			}
+		};
+		sequencer.addMetaEventListener( mel );
+		sequencer.setSequence( sequence );
+		sequencer.start();
+		cdl.await();
+		sequencer.stop();
+		sequencer.removeMetaEventListener( mel );
 	}
 	
 }
