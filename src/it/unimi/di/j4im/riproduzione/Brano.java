@@ -1,17 +1,12 @@
 package it.unimi.di.j4im.riproduzione;
 
-import java.util.concurrent.CountDownLatch;
-
 import it.unimi.di.j4im.notazione.Durata;
 import it.unimi.di.j4im.notazione.Nota;
 import it.unimi.di.j4im.notazione.Pausa;
 
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MetaEventListener;
-import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.Sequence;
-import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 
@@ -19,19 +14,30 @@ public class Brano {
 
 	public class Parte {
 
-		final Strumento strumento;
-		final Track track =  sequence.createTrack();
-		long tick = 0;
+		private final int canale;
+		private final Track track;
+		private long ticks;
 		
-		public Parte( final Strumento strumento ) {
-			this.strumento = strumento;
+		Parte( final Strumento strumento ) {
+			this.canale = strumento.canale;
+			track = sequence.createTrack();
+			ticks = 0;
+		}
+		
+		Parte( final Strumento strumento, final String parte ) throws InvalidMidiDataException {
+			this( strumento );
+			for ( String s : parte.split( "," ) )
+				if ( s.charAt( 0 ) == '_' ) 
+					accoda( new Pausa( s ) );
+				else 
+					accoda( new Nota( s ) );
 		}
 		
 		public void accoda( final Nota nota, final int intensita ) throws InvalidMidiDataException {
 			final int pitch = nota.pitch();
-			track.add( new MidiEvent( new ShortMessage( ShortMessage.NOTE_ON, strumento.canale(), pitch, intensita ), tick ) );
-			tick += nota.durata().ticks( RESOLUTION );
-			track.add( new MidiEvent( new ShortMessage( ShortMessage.NOTE_OFF, strumento.canale(), pitch, 0 ), tick ) );
+			track.add( new MidiEvent( new ShortMessage( ShortMessage.NOTE_ON, canale, pitch, intensita ), ticks ) );
+			ticks += nota.durata().ticks( RESOLUTION );
+			track.add( new MidiEvent( new ShortMessage( ShortMessage.NOTE_OFF, canale, pitch, 0 ), ticks ) );
 		}
 		
 		public void accoda( final Nota nota ) throws InvalidMidiDataException {
@@ -39,32 +45,23 @@ public class Brano {
 		}
 
 		public void accoda( final Pausa pausa ) {
-			tick += pausa.durata().ticks( RESOLUTION );
+			ticks += pausa.durata().ticks( RESOLUTION );
 		}
 
 		public void trasla( final Durata durata ) {
 			final int numEventi = track.size();
-			final int tick = durata.ticks( RESOLUTION ); 
+			final int ticks = durata.ticks( RESOLUTION ); 
 			for ( int i = 0; i < numEventi; i++ ) {
 				final MidiEvent e = track.get( i );
-				e.setTick( e.getTick() + tick );
+				e.setTick( e.getTick() + ticks );
 			}
 		}
 		
-		public void fromString( final String str ) throws InvalidMidiDataException {			
-			for ( String s : str.split( "," ) )
-				if ( s.charAt( 0 ) == '_' ) 
-					this.accoda( new Pausa( s ) );
-				else 
-					this.accoda( new Nota( s ) );
-		}
-
 	}
 	
-	private static final double RESOLUTION = 960.0;
-	private static final int END_OF_TRACK_MESSAGE = 0x2F;
+	public static final double RESOLUTION = 960.0;
 
-	private final Sequence sequence;
+	final Sequence sequence;
 	
 	public Brano() throws InvalidMidiDataException {
 		sequence = new Sequence( Sequence.PPQ, (int)RESOLUTION );
@@ -73,24 +70,13 @@ public class Brano {
 	public Parte parte( final Strumento strumento ) {
 		return new Parte( strumento );
 	}
+
+	public Parte parte( final Strumento strumento, final String parte ) throws InvalidMidiDataException {
+		return new Parte( strumento, parte );
+	}
 	
 	public void riproduci() throws InvalidMidiDataException, InterruptedException  {
-		final Sequencer sequencer = Sintetizzatore.sequencer();
-		sequencer.setTempoInBPM( Sintetizzatore.bpm() );
-		final CountDownLatch cdl = new CountDownLatch( 1 );
-		MetaEventListener mel = new MetaEventListener() {
-			public void meta( MetaMessage meta ) {
-				if ( meta.getType() == END_OF_TRACK_MESSAGE )
-					sequencer.stop();
-					cdl.countDown();
-			}
-		};
-		sequencer.addMetaEventListener( mel );
-		sequencer.setSequence( sequence );
-		sequencer.start();
-		cdl.await();
-		sequencer.stop();
-		sequencer.removeMetaEventListener( mel );
+		Sintetizzatore.riproduci( this );
 	}
 	
 }

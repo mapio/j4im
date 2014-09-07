@@ -15,32 +15,28 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
 public class FraMartino {
-
 	
-	public static void suona( final String brano ) {
+	public static void suona( final String parte ) {
 		final Strumento flauto = new Strumento( "Flute" );
 		Simbolo sim;
-		for ( String s: brano.split( "," ) ) {
+		for ( String s: parte.split( "," ) ) {
 			sim = s.charAt( 0 ) == '_' ? new Pausa( s ) : new Nota( s ); 
 			System.out.println( sim );
 			sim.suona( flauto );
 		}		
 	}
 
-	public static void suonaBrano( final String brano ) throws InvalidMidiDataException, InterruptedException {
+	public static void suonaParte( final String parte ) throws InvalidMidiDataException, InterruptedException {
 		Brano b = new Brano();
-		Parte parte = b.parte( new Strumento( "Piano" ) );
-		parte.fromString( brano );
+		b.parte( new Strumento( "Piano" ), parte );
 		b.riproduci();		
 	}
 	
-	public static void canone( final String brano ) throws InvalidMidiDataException, InterruptedException {
+	public static void canone( final String parte ) throws InvalidMidiDataException, InterruptedException {
 		Brano b = new Brano();
-		Parte parte = b.parte( new Strumento( "Piano" ) );
-		parte.fromString( brano );
-		parte = b.parte( new Strumento( "Guitar" ) );
-		parte.fromString( brano );
-		parte.trasla( Durata.SEMIBREVE );
+		b.parte( new Strumento( "Piano" ), parte );
+		Parte p = b.parte( new Strumento( "Guitar" ), parte );
+		p.trasla( Durata.SEMIBREVE );
 		b.riproduci();		
 	}
 	
@@ -60,7 +56,7 @@ public class FraMartino {
 		
 		suona( fraMartino );
 		canone( fraMartino );
-		suonaBrano( fraMartino );
+		suonaParte( fraMartino );
 		
 		Sintetizzatore.spegni();
 	}
