@@ -32,7 +32,7 @@
 			destdir="${docs}"
 			version="true"
 			windowtitle="J4IM"
-			locale="it"
+			locale="it_IT"
 		>
 			<doctitle>J4IM</doctitle>
 			<bottom>Copyright 2014, Massimo Santini</bottom>

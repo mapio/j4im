@@ -1,5 +1,6 @@
 package it.unimi.di.j4im.notazione;
 
+/** Questa classe rappresenta la durata di una nota, o pausa. */
 public enum Durata {
 	
 	SEMIBREVE( 1 ), 
@@ -10,6 +11,7 @@ public enum Durata {
 	BISCROMA( 32 ), 
 	SEMIBISCROMA( 64 );
 	
+	/** La durata della nota come frazione della misura. */
 	final int denominatore;
 	
 	Durata( final int denominatore ) {
@@ -35,12 +37,22 @@ public enum Durata {
 		return denominatore;
 	}
 
+	/** Restituisce la durata in millisecondi, dato il numero di quarti al minuto. 
+	 * 
+	 * @param bpm il numero di quarti al minuto.
+	 * @return la durata in millisecondi.
+	 */
 	public int ms( final int bpm ) {
 		return (int)( 1000 * ( 60.0 / bpm ) * ( 4.0 / denominatore ) );
 	}
 	
-	public int ticks( final double RESOLUTION ) {
-		return (int)( 4 * RESOLUTION / denominatore );
+	/** Resituisce la durata in ticks, data la risoluzione.
+	 * 
+	 * @param resolution la risoluzione.
+	 * @return la durata in ticks.
+	 */
+	public int ticks( final double resolution ) {
+		return (int)( 4 * resolution / denominatore );
 	}
 
 	public String toString() {

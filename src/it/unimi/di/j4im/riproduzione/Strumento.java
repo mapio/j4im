@@ -22,7 +22,7 @@ public class Strumento {
 	}
 
 	public void suona( final Nota nota ) {
-		suona( nota, Sintetizzatore.DEFAULT_INTENSITA );
+		suona( nota, Sintetizzatore.INTENSITA_DEFAULT );
 	}
 
 	public void suona( final Pausa pausa ) {

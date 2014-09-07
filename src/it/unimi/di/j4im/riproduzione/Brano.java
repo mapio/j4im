@@ -35,7 +35,7 @@ public class Brano {
 		}
 		
 		public void accoda( final Nota nota ) throws InvalidMidiDataException {
-			accoda( nota, Sintetizzatore.DEFAULT_INTENSITA );
+			accoda( nota, Sintetizzatore.INTENSITA_DEFAULT );
 		}
 
 		public void accoda( final Pausa pausa ) {

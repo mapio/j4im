@@ -2,6 +2,7 @@ package it.unimi.di.j4im.notazione;
 
 import it.unimi.di.j4im.riproduzione.Strumento;
 
+/** Questa classe rappresenta una nota. */
 public class Nota extends Simbolo {
 	
 	final static int OTTAVA_DEFAULT = 4;

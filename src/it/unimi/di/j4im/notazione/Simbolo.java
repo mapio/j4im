@@ -2,10 +2,12 @@ package it.unimi.di.j4im.notazione;
 
 import it.unimi.di.j4im.riproduzione.Strumento;
 
+/** Questa è la superclasse dei simboli della notazione musicale. */
 public abstract class Simbolo {
-	
-	final Durata durata;
+
 	final static Durata DURATA_DEFAULT = Durata.SEMIMINIMA;
+
+	final Durata durata;
 
 	public Simbolo( final Durata durata ) {
 		this.durata = durata;

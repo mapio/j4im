@@ -1,5 +1,6 @@
 package it.unimi.di.j4im.notazione;
 
+/** Questa classe rappresenta l'altezza di una nota. */
 public enum Altezza {
 	
 	DO( 0 ), 
@@ -10,6 +11,7 @@ public enum Altezza {
 	LA( 9 ), 
 	SI( 11 );
 	
+	/** La distanza in semitoni dall'inizio dell'ottava. */
 	final int semitoni;
 	
 	Altezza( final int semitoni ) {
