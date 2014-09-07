@@ -10,7 +10,7 @@ import javax.sound.midi.Synthesizer;
 public class Sintetizzatore {
 
 	public static final int INTENSITA_DEFAULT = 64;
-	public static final int BPM_DEFAULT = 120;
+	public static final int DEFAULT_BPM = 120;
 	
 	private static Sintetizzatore INSTANCE = null;
 		
@@ -72,7 +72,7 @@ public class Sintetizzatore {
 	
 	public static void accendi() throws MidiUnavailableException {
 		if ( INSTANCE != null ) throw new IllegalStateException( "Il sitetizzatore è già stato acceso" );
-		INSTANCE = new Sintetizzatore( BPM_DEFAULT );
+		INSTANCE = new Sintetizzatore( DEFAULT_BPM );
 	}
 
 	public static int bpm() {
