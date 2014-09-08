@@ -39,11 +39,22 @@ public class Sintetizzatore {
 		
 			canali = synth.getChannels();
 			canaliAssegnati = 0;
+			
+			Runtime.getRuntime().addShutdownHook( new Thread() {
+				public void run() {
+					synth.close();
+					sequencer.close();
+					System.err.println( "fine" );
+				}
+			} );
+			
 		} catch ( MidiUnavailableException e ) {
 			throw new RuntimeException( e );
 		}		
 	}
-			
+
+	private Sintetizzatore() {} // per impedire la costruzione di una istanza
+	
 	public static void accendi() throws MidiUnavailableException {}
 
 	public static int bpm() {
@@ -98,8 +109,8 @@ public class Sintetizzatore {
 	}
 	
 	public static void spegni() {
-		synth.close();
 		sequencer.close();
+		synth.close();
 	}
 	
 }

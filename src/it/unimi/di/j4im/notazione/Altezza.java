@@ -21,7 +21,7 @@ public enum Altezza {
 	/** Restituisce l'altezza con cui inizia una stringa data.
 	 * 
 	 * @param str la stringa al cui inizio si trova l'altezza.
-	 * @return  Se la stringa inizia per uno dei nomi di nota, 
+	 * @return  Se la stringa inizia per uno dei nomi di nota (DO, RE…), 
 	 *          restituisce l'altezza corrispondente.
 	 * @throws IllegalArgumentException se la stringa non inizia 
 	 *         con un nome di nota.

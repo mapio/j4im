@@ -30,6 +30,7 @@ public class Scala {
 		}
 
 		Sintetizzatore.spegni();
+
 	}
 		
 }

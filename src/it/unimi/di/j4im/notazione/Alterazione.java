@@ -21,7 +21,7 @@ public enum Alterazione {
 	/** Restituisce l'alterazione con cui inizia una stringa data.
 	 * 
 	 * @param str la stringa al cui inizio si trova l'alterazione.
-	 * @return  Se la stringa inizia per diesis, o bemolle, viene restituita
+	 * @return  Se la stringa inizia per ♯ (o <samp>#</samp>), o ♭, viene restituita
 	 *          l'alterazione corrispondente, altrimenti viene restituita
 	 *          l'alterazione nulla. 
 	 */
@@ -29,7 +29,7 @@ public enum Alterazione {
 		Alterazione alterazione;
 		if ( str.startsWith( BEMOLLE.rapp ) )
 			alterazione = BEMOLLE;
-		else if ( str.startsWith( DIESIS.rapp ) )
+		else if ( str.startsWith( DIESIS.rapp ) || str.startsWith( "#") )
 			alterazione = DIESIS;
 		else alterazione = NULLA;
 		return alterazione;
