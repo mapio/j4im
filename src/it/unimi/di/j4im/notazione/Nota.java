@@ -12,6 +12,10 @@ import it.unimi.di.j4im.riproduzione.Strumento;
  * <samp>C</samp>, <samp>B</samp>…). In particolare, il <samp>DO</samp> centrale
  * è <samp>DO4</samp>, altrimenti detto, l'ottava centrale è la numero 4.
  * 
+ * @see Altezza
+ * @see Alterazione
+ * @see Durata
+ * 
  */
 public class Nota extends Simbolo {
 	
@@ -23,19 +27,21 @@ public class Nota extends Simbolo {
 
 	/** Costruisce una nota a partire dai parametri che la definiscono.
 	 * 
-	 * Si osservi che i parametri devono essere tali che la nota sia compresa nell'intervallo 
-	 * da <samp>D-1</samp> a <samp>SOL9</samp>, estremi inclusi.
+	 * <p>Si osservi che i parametri devono essere tali che la nota sia compresa nell'intervallo 
+	 * da <samp>D-1</samp> a <samp>SOL9</samp>, estremi inclusi.</p>
 	 * 
 	 * @param altezza l'altezza della nota.
 	 * @param alterazione l'alterazione della nota.
-	 * @param otttava l'ottava della nota.
+	 * @param ottava l'ottava della nota.
 	 * @param durata la durata della nota.
 	 * 
+	 * @throws IllegalArgumentException se la nota eccede l'intervallo da <samp>D-1</samp> a <samp>SOL9</samp>.
+	 *
 	 */
 	public Nota( final Altezza altezza, final Alterazione alterazione, final int ottava, final Durata durata ) {
 		super( durata );
 		final int pitch = 12 * ( ottava + 1 ) + altezza.semitoni + alterazione.semitoni; 
-		if ( pitch < 0 || pitch > 127  ) throw new IllegalArgumentException( "La nota eccede l'intervallo D0, SOL9" );
+		if ( pitch < 0 || pitch > 127  ) throw new IllegalArgumentException( "La nota eccede l'intervallo D-1, SOL9" );
 		this.altezza = altezza;
 		this.alterazione = alterazione;
 		this.ottava = ottava;
@@ -55,10 +61,14 @@ public class Nota extends Simbolo {
 	
 	/** Costruisce una nota a partire dalla sua rappresentazione testuale.
 	 * 
-	 * La nota dev'essere compresa nell'intervallo da <samp>D-1</samp> a <samp>SOL9</samp>, estremi inclusi.
+	 * <p>La rappresentazione testuale di una nota è data dalla rappresentazione testuale della sua altezza,
+	 * seguita eventualmetne dal numero di ottava (se assente, verrà intesa l'ottava {@link Nota#OTTAVA_DEFAULT }, seguita
+	 * eventualmente dal segno <samp>:</samp> e dalla rappresentazione testuale della durata (se assente,
+	 * verrà intesa la durata {@link Simbolo#DURATA_DEFAULT}.</p>
 	 * 
 	 * @param nota la rappresentazione testuale della nota.
-	 * 
+	 * @throws IllegalArgumentException se la nota eccede l'intervallo da <samp>D-1</samp> a <samp>SOL9</samp>, o se 
+	 *         la rappresentazione testuale della durata è di formato scorretto.
 	 */
 	public Nota( final String nota ) {
 		super( nota );
@@ -78,7 +88,7 @@ public class Nota extends Simbolo {
 				ottava = OTTAVA_DEFAULT;
 		}
 		final int pitch = 12 * ( ottava + 1 ) + altezza.semitoni + alterazione.semitoni; 
-		if ( pitch < 0 || pitch > 127  ) throw new IllegalArgumentException( "La nota eccede l'intervallo D0, SOL9" );
+		if ( pitch < 0 || pitch > 127  ) throw new IllegalArgumentException( "La nota eccede l'intervallo D-1, SOL9" );
 	}
 
 	/** Costruisce una nota a partire dal pitch e dalla durata.
@@ -88,11 +98,12 @@ public class Nota extends Simbolo {
 	 * corrisponde ad un pitch pari a 60). 
 	 * 
 	 * @param pitch il pitch della nota.
+	 * @param durata la durata della nota.
 	 * 
 	 */
 	public Nota( final int pitch, final Durata durata ) {
 		super( durata );
-		if ( pitch < 0 || pitch > 127  ) throw new IllegalArgumentException( "La nota eccede l'intervallo D0 … SOL9" );
+		if ( pitch < 0 || pitch > 127  ) throw new IllegalArgumentException( "La nota eccede l'intervallo D0-1, SOL9" );
 		switch ( pitch % 12 ) {
 			case 0:
 				altezza = Altezza.DO;
@@ -158,6 +169,7 @@ public class Nota extends Simbolo {
 		return 12 * ( ottava + 1 ) + altezza.semitoni + alterazione.semitoni;
 	} 
 		
+	@Override
 	public String toString() {
 		return altezza.toString() + alterazione.toString() + ( ottava == 4 ? "" : "" + ottava ) + ( durata == Durata.SEMIMINIMA ? "" : ":" + durata );
 	}

@@ -21,14 +21,13 @@ public enum Altezza {
 	/** Restituisce l'altezza con cui inizia una stringa data.
 	 * 
 	 * @param str la stringa al cui inizio si trova l'altezza.
-	 * @return  Se la stringa inizia per uno dei nomi di nota (DO, RE…), 
+	 * @return  Se la stringa inizia per uno dei nomi di nota (<samp>DO</samp>, <samp>RE</samp>…), 
 	 *          restituisce l'altezza corrispondente.
-	 * @throws IllegalArgumentException se la stringa non inizia 
-	 *         con un nome di nota.
+	 * @throws IllegalArgumentException se la stringa non inizia con un nome di nota.
 	 */		
 	public static Altezza fromString( final String str ) {
 		for ( Altezza altezza : Altezza.values() ) 
 			if ( str.startsWith( altezza.toString() ) ) return altezza;
-		throw new IllegalArgumentException( "Non ?? possibile dedurre l'altezza di " + str );
+		throw new IllegalArgumentException( "Non è possibile dedurre l'altezza di " + str );
 	}
 }
