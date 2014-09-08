@@ -5,14 +5,9 @@ import it.unimi.di.j4im.notazione.Nota;
 import it.unimi.di.j4im.notazione.Pausa;
 import it.unimi.di.j4im.notazione.Simbolo;
 import it.unimi.di.j4im.riproduzione.Brano;
-import it.unimi.di.j4im.riproduzione.Brano.Parte;
+import it.unimi.di.j4im.riproduzione.Parte;
 import it.unimi.di.j4im.riproduzione.Sintetizzatore;
 import it.unimi.di.j4im.riproduzione.Strumento;
-
-import java.io.IOException;
-
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiUnavailableException;
 
 public class FraMartino {
 	
@@ -22,17 +17,17 @@ public class FraMartino {
 		for ( String s: parte.split( "," ) ) {
 			sim = s.charAt( 0 ) == '_' ? new Pausa( s ) : new Nota( s ); 
 			System.out.println( sim );
-			sim.suona( flauto );
+			sim.suonaCon( flauto );
 		}		
 	}
 
-	public static void suonaParte( final String parte ) throws InvalidMidiDataException, InterruptedException {
+	public static void suonaParte( final String parte ) {
 		Brano b = new Brano();
 		b.parte( new Strumento( "Piano" ), parte );
 		b.riproduci();		
 	}
 	
-	public static void canone( final String parte ) throws InvalidMidiDataException, InterruptedException {
+	public static void canone( final String parte ) {
 		Brano b = new Brano();
 		b.parte( new Strumento( "Piano" ), parte );
 		Parte p = b.parte( new Strumento( "Guitar" ), parte );
@@ -40,7 +35,7 @@ public class FraMartino {
 		b.riproduci();		
 	}
 	
-	public static void main( String[] args ) throws MidiUnavailableException, InvalidMidiDataException, IOException, InterruptedException {
+	public static void main( String[] args ) {
 	
 		Sintetizzatore.accendi();
 		

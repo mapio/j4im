@@ -35,6 +35,7 @@ public enum Alterazione {
 		return alterazione;
 	}
 	
+	@Override
 	public String toString() {
 		return rapp;
 	}

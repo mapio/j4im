@@ -27,6 +27,9 @@
 
 	<target name="javadoc" description="generate javadoc">
 		<javadoc
+			encoding="UTF-8"
+			charset="UTF-8"
+			docencoding="UTF-8"
 			packagenames="it.*"
 			sourcepath="${src}"
 			destdir="${docs}"
@@ -34,6 +37,7 @@
 			windowtitle="J4IM"
 			locale="it_IT"
 		>
+			<link href="http://docs.oracle.com/javase/7/docs/api/"/>
 			<doctitle>J4IM</doctitle>
 			<bottom>Copyright 2014, Massimo Santini</bottom>
 		</javadoc>

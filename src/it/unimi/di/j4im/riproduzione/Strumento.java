@@ -10,6 +10,8 @@ import javax.sound.midi.MidiChannel;
  * <p>Gli strumenti musicali dipendono dal {@link Sintetizzatore}, per una discussione
  * dei dettagli implementativi si veda il metodo {@link Sintetizzatore#assegnaCanale(String)}.</p>
  * 
+ * @see Sintetizzatore
+ * 
  */ 
 public class Strumento {
 
@@ -21,6 +23,7 @@ public class Strumento {
 	
 	/** Costruisce uno strumento a partire da (parte del suo) nome.
 	 * 
+	 * <p>Si può ottenere un 
 	 * @param nome il nome.
 	 */
 	public Strumento( final String nome ) {
@@ -33,9 +36,12 @@ public class Strumento {
 	 * @param nota la nota.
 	 * @param intensita l'intensità (dev'essere un valore compreso tra 0 e 127).
 	 * 
+	 * @throws IllegalArgumentException se l'intensità eccede l'intervallo 0, 127.
+	 * 
 	 */
 	public void suona( final Nota nota, final int intensita ) {
 		final int pitch = nota.pitch();
+		if ( intensita < 0 || intensita > 127 ) throw new IllegalArgumentException( "L'intensità dev'essere compresa tra 0 e 127, estremi inclusi." );
 		Sintetizzatore.accendiNota( canale, pitch, intensita );
 		Sintetizzatore.attendi( nota.durata() );
 		Sintetizzatore.spegniNota( canale, pitch );

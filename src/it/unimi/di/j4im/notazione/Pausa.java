@@ -44,12 +44,12 @@ public class Pausa extends Simbolo {
 	}
 
 	@Override
-	public void suona( final Strumento strumento ) {
+	public void suonaCon( final Strumento strumento ) {
 		strumento.suona( this );
 	}
 
 	@Override
-	public void suona( final Strumento strumento, final int intesita ) {
+	public void suonaCon( final Strumento strumento, final int intesita ) {
 		strumento.suona( this );
 	}
 

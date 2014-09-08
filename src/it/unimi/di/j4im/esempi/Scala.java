@@ -5,13 +5,9 @@ import it.unimi.di.j4im.notazione.Nota;
 import it.unimi.di.j4im.riproduzione.Sintetizzatore;
 import it.unimi.di.j4im.riproduzione.Strumento;
 
-import java.io.IOException;
-
-import javax.sound.midi.MidiUnavailableException;
-
 public class Scala {
 	
-	public static void main( String[] args ) throws MidiUnavailableException, IOException {
+	public static void main( String[] args ) {
 	
 		Sintetizzatore.accendi();
 		
@@ -19,14 +15,14 @@ public class Scala {
 		for ( Altezza altezza : Altezza.values() ) {
 			Nota nota = new Nota( altezza );
 			System.out.println( nota );
-			nota.suona( piano );
+			nota.suonaCon( piano );
 		}
 
 		Strumento chitarra = new Strumento( "Guitar" );
 		for ( int pitch = 60; pitch < 72; pitch++ ) {
 			Nota nota = new Nota( pitch );
 			System.out.println( nota );
-			nota.suona( chitarra );
+			nota.suonaCon( chitarra );
 		}
 
 		Sintetizzatore.spegni();

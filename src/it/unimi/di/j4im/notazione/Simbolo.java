@@ -51,15 +51,17 @@ public abstract class Simbolo {
 		return durata;
 	}
 	
-	/** Suona la nota sullo strumento dato.	
+	/** Suona la nota con lo strumento dato.	
 	 * 
 	 * @param strumento lo strumento.
 	 * @param intesita l'intensità con cui suonare la nota (un valore compreso tra 0 e 127 estremi inclusi).
 	 * 
+	 * @throws IllegalArgumentException se l'intensità eccede l'intervallo 0, 127.
+	 * 
 	 */
-	public abstract void suona( final Strumento strumento, final int intesita );
+	public abstract void suonaCon( final Strumento strumento, final int intesita );
 	
-	public abstract void suona( final Strumento strumento );
+	public abstract void suonaCon( final Strumento strumento );
 	
 		
 }
