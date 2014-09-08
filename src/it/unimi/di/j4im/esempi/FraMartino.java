@@ -23,14 +23,15 @@ public class FraMartino {
 
 	public static void suonaParte( final String parte ) {
 		Brano b = new Brano();
-		b.parte( new Strumento( "Piano" ), parte );
+		new Parte( b, new Strumento( "Piano" ) ).accoda( parte );
 		b.riproduci();		
 	}
 	
 	public static void canone( final String parte ) {
 		Brano b = new Brano();
-		b.parte( new Strumento( "Piano" ), parte );
-		Parte p = b.parte( new Strumento( "Guitar" ), parte );
+		new Parte( b, new Strumento( "Piano" ) ).accoda( parte );
+		Parte p = new Parte( b, new Strumento( "Guitar" ) );
+		p.accoda( parte );
 		p.trasla( Durata.SEMIBREVE );
 		b.riproduci();		
 	}

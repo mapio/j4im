@@ -27,6 +27,7 @@ import javax.sound.midi.Synthesizer;
  * che è sensato invocare direttamente sono:</p>
  * <ul>
  * <li> {@link #accendi()} all'inizio dell'uso delle risorse musicali, </li>
+ * <li> {@link #strumenti()} per conoscere l'elenco di strumenti disponibili, </li>
  * <li> {@link #bpm(int)} e {@link #bpm()} per impostare e conosere il numero di battute al minuto (che regolano la durata effettiva delle note e pause riprodotte), </li> 
  * <li> {@link #spegni()} da invocare al termine dell'uso delle risorse musicali; <strong>attenzione</strong>: la mancata invocazione di quetso metodo <em>impedisce la terminazione del programma</em>!.</li>
  * </ul>
@@ -137,6 +138,14 @@ public class Sintetizzatore {
 		sequencer.setTempoInBPM( bpm );
 	}
 
+	public static String[] strumenti() {
+		final Instrument[] insts = synth.getAvailableInstruments();
+		final String[] strumenti = new String[ insts.length ];
+		for ( int i = 0; i < insts.length; i++ )
+			strumenti[ i ] = insts[ i ].toString();
+		return strumenti;
+	}
+	
 	/** Assegna lo strumento dato ad uno dei "canali" del sintetizzatore, restituendone l'indice.
 	 * 
 	 * @param nomeStrumento il nome dello strumento.
