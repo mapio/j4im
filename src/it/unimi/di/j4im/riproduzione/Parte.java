@@ -3,6 +3,7 @@ package it.unimi.di.j4im.riproduzione;
 import it.unimi.di.j4im.notazione.Durata;
 import it.unimi.di.j4im.notazione.Nota;
 import it.unimi.di.j4im.notazione.Pausa;
+import it.unimi.di.j4im.notazione.Simbolo;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiEvent;
@@ -72,7 +73,7 @@ public class Parte {
 	 * rappresentazioni testuali di {@link Simbolo} separate da <samo>,<samp>. </p>
 	 * 
 	 * @param parte la rappresentazione testuale della parte.
-	 * @trhows IllegalArgumentException se la rappresentazione testuale non rispetta il formato consentito.
+	 * @throws IllegalArgumentException se la rappresentazione testuale non rispetta il formato consentito.
 	 * 
 	 */
 	public void accoda( final String parte ) {
