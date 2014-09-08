@@ -1,6 +1,5 @@
 package it.unimi.di.j4im.riproduzione;
 
-import it.unimi.di.j4im.notazione.Durata;
 import it.unimi.di.j4im.notazione.Nota;
 import it.unimi.di.j4im.notazione.Pausa;
 import it.unimi.di.j4im.notazione.Simbolo;
@@ -67,30 +66,17 @@ public class Parte {
 		ticks += pausa.durata().ticks( Brano.RESOLUTION );
 	}
 
-	/** Accoda una parte data la sua rappresentazione testuale. 
+	/** Accoda un elenco di {@link Simbolo} alla parte. 
 	 *
-	 * <p> La rappresentazione testuale di una parte è data da una sequenza di 
-	 * rappresentazioni testuali di {@link Simbolo} separate da <samo>,<samp>. </p>
-	 * 
-	 * @param parte la rappresentazione testuale della parte.
-	 * @throws IllegalArgumentException se la rappresentazione testuale non rispetta il formato consentito.
+	 * @param simboli la rappresentazione testuale della parte.
 	 * 
 	 */
-	public void accoda( final String parte ) {
-		for ( String s : parte.split( "," ) )
-			if ( s.charAt( 0 ) == '_' ) 
-				accoda( new Pausa( s ) );
+	public void accoda( final Simbolo[] simboli ) {
+		for ( Simbolo s : simboli )
+			if ( s instanceof Pausa ) 
+				accoda( (Pausa)s );
 			else 
-				accoda( new Nota( s ) );
-	}
-
-	public void trasla( final Durata durata ) {
-		final int numEventi = track.size();
-		final int ticks = durata.ticks( Brano.RESOLUTION ); 
-		for ( int i = 0; i < numEventi; i++ ) {
-			final MidiEvent e = track.get( i );
-			e.setTick( e.getTick() + ticks );
-		}
+				accoda( (Nota)s );
 	}
 	
 }

@@ -1,7 +1,6 @@
 package it.unimi.di.j4im.esempi;
 
 import it.unimi.di.j4im.notazione.Durata;
-import it.unimi.di.j4im.notazione.Nota;
 import it.unimi.di.j4im.notazione.Pausa;
 import it.unimi.di.j4im.notazione.Simbolo;
 import it.unimi.di.j4im.riproduzione.Brano;
@@ -11,28 +10,24 @@ import it.unimi.di.j4im.riproduzione.Strumento;
 
 public class FraMartino {
 	
-	public static void suona( final String parte ) {
+	public static void suona( final Simbolo[] simboli ) {
 		final Strumento flauto = new Strumento( "Flute" );
-		Simbolo sim;
-		for ( String s: parte.split( "," ) ) {
-			sim = s.charAt( 0 ) == '_' ? new Pausa( s ) : new Nota( s ); 
-			System.out.println( sim );
-			sim.suonaCon( flauto );
+		for ( Simbolo s : simboli ) {
+			System.out.println( s );
+			s.suonaCon( flauto );
 		}		
 	}
-
-	public static void suonaParte( final String parte ) {
-		Brano b = new Brano();
-		new Parte( b, new Strumento( "Piano" ) ).accoda( parte );
-		b.riproduci();		
-	}
 	
-	public static void canone( final String parte ) {
+	public static void canone( final Simbolo[] simboli ) {
 		Brano b = new Brano();
-		new Parte( b, new Strumento( "Piano" ) ).accoda( parte );
-		Parte p = new Parte( b, new Strumento( "Guitar" ) );
-		p.accoda( parte );
-		p.trasla( Durata.SEMIBREVE );
+		
+		Parte p0 = new Parte( b, new Strumento( "Piano" ) );
+		p0.accoda( simboli );
+		
+		Parte p1 = new Parte( b, new Strumento( "Guitar" ) );
+		p1.accoda( new Pausa( Durata.SEMIBREVE ) );
+		p1.accoda( simboli );
+		
 		b.riproduci();		
 	}
 	
@@ -40,7 +35,7 @@ public class FraMartino {
 	
 		Sintetizzatore.accendi();
 		
-		String fraMartino = 
+		Simbolo[] fraMartino = Simbolo.simboli( 			
 			"DO,RE,MI,DO," +
 			"DO,RE,MI,DO," +
 			"MI,FA,SOL:1/2," +
@@ -48,11 +43,11 @@ public class FraMartino {
 			"SOL:1/8,LA:1/8,SOL:1/8,FA:1/8,MI,DO," +
 			"SOL:1/8,LA:1/8,SOL:1/8,FA:1/8,MI,DO," +
 			"RE,SOL3,DO:1/2," +
-			"RE,SOL3,DO:1/2";
+			"RE,SOL3,DO:1/2" 
+		);
 		
 		suona( fraMartino );
 		canone( fraMartino );
-		suonaParte( fraMartino );
 		
 		Sintetizzatore.spegni();
 	}

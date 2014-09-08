@@ -63,5 +63,21 @@ public abstract class Simbolo {
 	
 	public abstract void suonaCon( final Strumento strumento );
 	
-		
+	/** Restituice un array di simboli ottenuto a partire dalla loro rappresentazione testuale. 
+	 *
+	 * @param str un elenco di simboli separati da <samp>,</samp>.
+	 * @throws IllegalArgumentException se la rappresentazione testuale dei simboli rispetta il formato consentito.
+	 * 
+	 */
+	public static Simbolo[] simboli( final String str ) {
+		final String[] strs = str.split( "," );
+		final Simbolo[] simboli = new Simbolo[ strs.length ];
+		for ( int i = 0; i < simboli.length; i++ )
+			if ( strs[ i ].charAt( 0 ) == '_' ) 
+				simboli[ i ] = new Pausa( strs[ i ] );
+			else 
+				simboli[ i ] = new Nota( strs[ i ] );
+		return simboli;
+	}
+	
 }
