@@ -1,6 +1,7 @@
 package it.unimi.di.j4im.esempi;
 
 import it.unimi.di.j4im.notazione.Durata;
+import it.unimi.di.j4im.notazione.Nota;
 import it.unimi.di.j4im.notazione.Pausa;
 import it.unimi.di.j4im.notazione.Simbolo;
 import it.unimi.di.j4im.riproduzione.Brano;
@@ -25,6 +26,15 @@ public class FraMartino {
 		p0.accoda( simboli );
 		
 		Parte p1 = new Parte( b, new Strumento( "Guitar" ) );
+		
+		// trasposizione di una ottava 
+		for ( int i = 0; i < simboli.length; i++ )
+			if ( simboli[ i ] instanceof Nota ) {
+				final Nota n = (Nota)simboli[ i ];
+				simboli[ i ] = new Nota( n.pitch() + 12, n.durata() );
+			}
+
+		// traslazione di una misura
 		p1.accoda( new Pausa( Durata.SEMIBREVE ) );
 		p1.accoda( simboli );
 		
@@ -46,7 +56,7 @@ public class FraMartino {
 			"RE,SOL3,DO:1/2" 
 		);
 		
-		suona( fraMartino );
+		//suona( fraMartino );
 		canone( fraMartino );
 		
 		Sintetizzatore.spegni();
