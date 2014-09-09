@@ -31,6 +31,11 @@ public class Strumento {
 		this.nome = nome;
 	}
 	
+	Strumento( final int canale, final String nome ) {
+		this.canale = canale;
+		this.nome = nome;
+	}
+	
 	/** Inizia a suonare la nota assegnata.
 	 * 
 	 * @param nota la nota.

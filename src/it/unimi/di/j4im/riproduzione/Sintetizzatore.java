@@ -101,7 +101,7 @@ public class Sintetizzatore {
 
 	private Sintetizzatore() {} // per impedire la costruzione di una istanza
 	
-	static void riproduci( Sequence sequence ) {
+	static void riproduci( final Sequence sequence, final int loops ) {
 		final CountDownLatch cdl = new CountDownLatch( 1 );
 		MetaEventListener mel = new MetaEventListener() {
 			public void meta( MetaMessage meta ) {
@@ -110,20 +110,28 @@ public class Sintetizzatore {
 					cdl.countDown();
 			}
 		};
+		if ( loops <= 0 )
+			sequencer.setLoopCount( Sequencer.LOOP_CONTINUOUSLY );
+		else 
+			sequencer.setLoopCount( loops );
 		sequencer.addMetaEventListener( mel );
 		try {
 			sequencer.setSequence( sequence );
 		} catch ( InvalidMidiDataException e ) {
 			throw new RuntimeException( e ); // questo non dovrebbe mai accadere
 		}
+		sequencer.setTickPosition( 0 );
 		sequencer.start();
 		try {
 			cdl.await();
 		} catch ( InterruptedException ignora ) {} // in caso di interruzione, si procede a liberare le risorse
-		sequencer.stop();
 		sequencer.removeMetaEventListener( mel );
 	}
 
+	static void riproduci( final Sequence sequence ) {
+		riproduci( sequence, 1 );
+	}
+	
 	/* metodi pubblici */
 	
 	public static void accendi() {}
@@ -154,7 +162,7 @@ public class Sintetizzatore {
 	public static int assegnaCanale( final String nomeStrumento ) {
 		if ( canaliAssegnati >= canali.length ) throw new IllegalStateException( "Il sintetizzatore non supporta più di " + canali.length + " srumenti." );
 		for ( Instrument inst : synth.getLoadedInstruments() )
-			if ( inst.getName().contains( nomeStrumento ) ) {
+			if ( inst.toString().contains( nomeStrumento ) ) {
 				canali[ canaliAssegnati ].programChange( inst.getPatch().getProgram() );
 				return canaliAssegnati++;
 			}
@@ -182,6 +190,11 @@ public class Sintetizzatore {
 	public static void spegni() {
 		sequencer.close();
 		synth.close();
+	}
+	
+	public static void main( String[] args ) {
+		for ( String s : strumenti() )
+			System.out.println( s );
 	}
 	
 }
