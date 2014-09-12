@@ -1,4 +1,4 @@
-<project name="j4im" default="dist" basedir=".">
+<project name="j4im" default="compile" basedir=".">
 
 	<!--
 	Copyright 2014 Massimo Santini
@@ -22,9 +22,13 @@
 	<property name="src" location="src"/>
 	<property name="test" location="test"/>
 	<property name="dist" location="dist"/>
+	<property name="lib" location="${dist}/lib"/>
 	<property name="junit" location="${dist}/junit"/>
 	<property name="build" location="${dist}/build"/>
 	<property name="docs" location="${dist}/docs"/>
+	<property name="release" location="${dist}/release"/>
+
+	<property name="version" value="0.2-alpha"/>
 
 	<path id="classpath">
 		<fileset dir="${dist}/lib" includes="**/*.jar"/>
@@ -38,7 +42,8 @@
 		<tstamp/>
 		<mkdir dir="${build}"/>
 		<mkdir dir="${junit}"/>
-		<mkdir dir="${dist}/lib"/>
+		<mkdir dir="${release}"/>
+		<mkdir dir="${lib}"/>
 	</target>
 
 	<target name="compile" depends="init" description="compile the source">
@@ -70,9 +75,11 @@
 		/>
 	</target>
 
-	<target name="dist" depends="compile" description="generate the distribution">
-		<mkdir dir="${dist}/lib"/>
-		<jar jarfile="${dist}/lib/j4im-${DSTAMP}.jar" basedir="${build}"/>
+	<target name="release" depends="compile,javadoc" description="generate the release binaries">
+		<jar jarfile="${release}/j4im-${version}.jar" basedir="${build}"/>
+		<zip destfile="${release}/j4im-${version}-javadoc.zip">
+			<zipfileset dir="${docs}" prefix="j4im-${version}-javadoc"/>
+		</zip>
 	</target>
 
 	<target name="test" depends="compile-test" description="run tests">
