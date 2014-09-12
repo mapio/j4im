@@ -1,6 +1,8 @@
 Java 4 Informatica Musicale (j4im)
 ==================================
 
+![build status](https://travis-ci.org/mapio/j4im.svg?branch=master)
+
 Libreria di supporto all'insegnamento di
 [Programmazione](http://boldi.di.unimi.it/Corsi/Mus2014/) del corso di studi
 in [Informatica
@@ -16,5 +18,6 @@ scaricabili dal precedente link.
 Chiunque voglia contribuire allo sviluppo può *segnalare eventuali errori* e
 *formulare richieste* aprendo una
 [issue](https://github.com/mapio/j4im/issues). Gli sviluppatori initeressati
-possono fare una fork di questo repositoty: le richieste di pull saranno
-considerate con molto interesse!
+possono fare una [fork](https://github.com/mapio/j4im/fork) di questo
+repositoty: le richieste di [pull](https://github.com/mapio/j4im/pulls)
+saranno considerate con molto interesse!

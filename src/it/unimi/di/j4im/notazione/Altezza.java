@@ -20,7 +20,14 @@ package it.unimi.di.j4im.notazione;
  *
  */
 
-/** Questa classe rappresenta l'altezza di una nota. */
+/** Altezza di una nota. 
+ * 
+ * <p> 
+ * Per una discussione più completa delle altezze si veda la documentazione di {@link Nota}.
+ * </p>
+ * 
+ * @see Nota
+ */
 public enum Altezza {
 	
 	DO( 0 ), 

@@ -20,7 +20,7 @@ package it.unimi.di.j4im.notazione;
  *
  */
 
-/** Questa classe rappresenta una alterazione musicale. */
+/** Una alterazione musicale. */
 public enum Alterazione {
 	
 	BEMOLLE( "♭", -1 ), 

@@ -20,8 +20,6 @@ package it.unimi.di.j4im.esempi;
  *
  */
 
-import java.io.IOException;
-
 import it.unimi.di.j4im.notazione.Durata;
 import it.unimi.di.j4im.notazione.Nota;
 import it.unimi.di.j4im.notazione.Pausa;
@@ -31,37 +29,10 @@ import it.unimi.di.j4im.riproduzione.Parte;
 import it.unimi.di.j4im.riproduzione.Sintetizzatore;
 import it.unimi.di.j4im.riproduzione.Strumento;
 
-public class FraMartino {
-	
-	public static void suona( final Simbolo[] simboli ) {
-		final Strumento flauto = new Strumento( "Flute" );
-		for ( Simbolo s : simboli ) {
-			System.out.println( s );
-			s.suonaCon( flauto );
-		}		
-	}
-	
-	public static void canone( final Simbolo[] simboli ) {
-		Brano b = new Brano();
-		
-		Parte p0 = new Parte( b, new Strumento( "Piano" ) );
-		p0.accoda( simboli );
-		
-		Parte p1 = new Parte( b, new Strumento( "Guitar" ) );
-		
-		// trasposizione di una ottava 
-		for ( int i = 0; i < simboli.length; i++ )
-			if ( simboli[ i ] instanceof Nota ) {
-				final Nota n = (Nota)simboli[ i ];
-				simboli[ i ] = new Nota( n.pitch() + 12, n.durata() );
-			}
+import java.io.IOException;
 
-		// traslazione di una misura
-		p1.accoda( new Pausa( Durata.SEMIBREVE ) );
-		p1.accoda( simboli );
-		
-		b.riproduci();		
-	}
+/** Suona un canone ottenuto a partire da "Fra martino" per trasposizione e traslazione. */
+public class FraMartinoCanone {
 	
 	public static void main( String[] args ) throws IOException {
 	
@@ -77,18 +48,34 @@ public class FraMartino {
 			"RE,SOL3,DO:1/2," +
 			"RE,SOL3,DO:1/2" 
 		);
+			
+		Brano brano = new Brano();
 		
-		Brano b = new Brano();
-		Parte p = new Parte( b, new Strumento( "Piano" ) );
-		p.accoda( fraMartino );
-		b.scrivi( "framartino.mid" );
+		// parte originale
 		
+		Parte originale = new Parte( brano, new Strumento( "Piano" ) );
+		originale.accoda( fraMartino );
 		
-		//suona( fraMartino );
-		//canone( fraMartino );
+		// costruzione di un array di simboli traspossti di una ottava 
 		
+		Simbolo[] fraMartinoTraslatoTrasposto = new Simbolo[ fraMartino.length ];
+		for ( int i = 0; i < fraMartino.length; i++ )
+			if ( fraMartino[ i ] instanceof Nota ) {
+				final Nota n = (Nota)fraMartino[ i ];
+				fraMartinoTraslatoTrasposto[ i ] = new Nota( n.pitch() + 12, n.durata() );
+			}
+
+		// parte trasposta, con traslazione (in tempo) di una misura
+		
+		Parte traslataTrasposta = new Parte( brano, new Strumento( "Guitar" ) );
+		traslataTrasposta.accoda( new Pausa( Durata.SEMIBREVE ) );
+		traslataTrasposta.accoda( fraMartinoTraslatoTrasposto );
+		
+		// riroduzione del brano
+		
+		brano.riproduci();		
+
 		Sintetizzatore.spegni();
 	}
-	
-	
+
 }

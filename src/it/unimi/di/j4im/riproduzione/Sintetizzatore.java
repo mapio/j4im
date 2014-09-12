@@ -33,22 +33,23 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
+import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Synthesizer;
 
 /**
- * Questa classe fornisce una astrazione delle risorse musicali del sistema, in
+ * Risorsa musicale del sistema, in
  * grado di riprodurre note musicali con diversi timbri ed in modo polifonico.
  * 
  * <p>
  * L'uso diretto di questa classe richiede una certa comprensione del sietma <a
  * href="http://www.midi.org/">MIDI</a>, per un uso più elementare si consiglia
  * l'uso della classe {@link Strumento} e {@link Brano} (nonchè delle classi del
- * pacchetto {@link it.unimi.di.j4im.notazione}). Gli unici metodi di questa classe
- * che è sensato invocare direttamente sono:</p>
+ * pacchetto {@link it.unimi.di.j4im.notazione notazione}). Gli unici metodi di 
+ * questa classe che è sensato invocare direttamente sono:</p>
  * <ul>
  * <li> {@link #accendi()} all'inizio dell'uso delle risorse musicali, </li>
  * <li> {@link #strumenti()} per conoscere l'elenco di strumenti disponibili, </li>
- * <li> {@link #bpm(int)} e {@link #bpm()} per impostare e conosere il numero di battute al minuto (che regolano la durata effettiva delle note e pause riprodotte), </li> 
+ * <li> {@link #bpm(int)} e {@link #bpm()} per impostare e conosere il numero di quarti al minuto (che regolano la durata effettiva delle note e pause riprodotte), </li> 
  * <li> {@link #spegni()} da invocare al termine dell'uso delle risorse musicali; <strong>attenzione</strong>: la mancata invocazione di quetso metodo <em>impedisce la terminazione del programma</em>!.</li>
  * </ul>
  * 
@@ -84,7 +85,10 @@ import javax.sound.midi.Synthesizer;
  * metodo {@link #assegnaCanale(String)}, o dell'invocazione del costruttore
  * {@link Strumento#Strumento(String)}), l'invocazione del metodo
  * {@link #accendiNota(int, int, int)} avrà l'effetto di eseguire un
- * {@link MidiChannel#noteOn(int, int)} sul canale relativo.
+ * {@link MidiChannel#noteOn(int, int)} sul canale relativo. Similmente, 
+ * la trasformazione in {@link ShortMessage#NOTE_ON} e {@link ShortMessage#NOTE_ON}
+ * a cui vengono sottoposte le note all'accodamento in una {@link Parte} sarà
+ * fatta tenendo conto del canale associato allo strumento. 
  * </p>
  * 
  */

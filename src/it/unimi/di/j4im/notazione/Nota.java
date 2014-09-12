@@ -23,14 +23,14 @@ package it.unimi.di.j4im.notazione;
 import it.unimi.di.j4im.riproduzione.Strumento;
 
 /**
- * Questa classe rappresenta una nota.
+ * Una nota.
  * 
- * Si osservi che l'altezza "complessiva" (ossia altezza ed ottava) viene qui
+ * <p>Si osservi che l'altezza "complessiva" (ossia altezza ed ottava) viene qui
  * denotata secondo la <a href="http://en.wikipedia.org/wiki/Scientific_pitch_notation">notazione
  * scientifica</a>, (fatto salvo che sono usati nomi italiani di nota:
  * <samp>DO</samp>, <samp>RE</samp>… invece di quelli anglosassoni
  * <samp>C</samp>, <samp>B</samp>…). In particolare, il <samp>DO</samp> centrale
- * è <samp>DO4</samp>, altrimenti detto, l'ottava centrale è la numero 4.
+ * è <samp>DO4</samp>, altrimenti detto, l'ottava centrale è la numero 4.</p>
  * 
  * @see Altezza
  * @see Alterazione
@@ -184,7 +184,10 @@ public class Nota extends Simbolo {
 		this( pitch, Simbolo.DURATA_DEFAULT );
 	}
 
-	/** Restituisce il pitch della nota. */
+	/** Restituisce il pitch della nota.
+	 * 
+	 * @return Il pitch della nota.
+	 */
 	public int pitch() {
 		return 12 * ( ottava + 1 ) + altezza.semitoni + alterazione.semitoni;
 	} 

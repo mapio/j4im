@@ -24,12 +24,30 @@ import it.unimi.di.j4im.notazione.Nota;
 import it.unimi.di.j4im.notazione.Pausa;
 
 import javax.sound.midi.MidiChannel;
+import javax.sound.midi.ShortMessage;
 
-/** Questa classe rappresenta uno strumento musicale.
+/** Uno strumento musicale.
  * 
  * <p>Gli strumenti musicali dipendono dal {@link Sintetizzatore}, per una discussione
  * dei dettagli implementativi si veda il metodo {@link Sintetizzatore#assegnaCanale(String)}.</p>
  * 
+ * 
+ * <h3>Dettagli implementativi</h3>
+ * 
+ * <p>L'implemetazione di uno strumento si basa sull'accoppiamento di un <em>programma</em> e di un 
+ * <em>canale</em> nel senso attribuito a tali temrini dallo standard <a href="http://www.midi.org/">MIDI</a>).
+ * </p>
+ * 
+ * <p>
+ * Più in dettaglio, il costruttore {@link #Strumento(String)} invoca il metodo 
+ * {@link Sintetizzatore#assegnaCanale(String)} (che effettua un {@link MidiChannel#programChange(int)}
+ * sul canale assegnato prima di restituirlo); in seguito le note suonate su tale canale attraverso 
+ * {@link Sintetizzatore#accendiNota(int, int, int)} o accodate al brano e quindi trasformate in messaggi
+ * {@link ShortMessage#NOTE_ON} e {@link ShortMessage#NOTE_ON} per quel canale, saranno riprodotte 
+ * con lo strumento assegnato.
+ * </p>
+ * 
+ *
  * @see Sintetizzatore
  * 
  */ 

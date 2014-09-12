@@ -20,33 +20,38 @@ package it.unimi.di.j4im.esempi;
  *
  */
 
-import it.unimi.di.j4im.notazione.Altezza;
-import it.unimi.di.j4im.notazione.Nota;
+import it.unimi.di.j4im.notazione.Simbolo;
 import it.unimi.di.j4im.riproduzione.Sintetizzatore;
 import it.unimi.di.j4im.riproduzione.Strumento;
 
-public class Scala {
+import java.io.IOException;
+
+/** Suona "Fra martino" (nota per nota) usando direttamente uno {@link Strumento strumento}. */
+public class FraMartinoStrumento {
 	
-	public static void main( String[] args ) {
+	public static void main( String[] args ) throws IOException {
 	
 		Sintetizzatore.accendi();
 		
-		Strumento piano = new Strumento( "Piano" );
-		for ( Altezza altezza : Altezza.values() ) {
-			Nota nota = new Nota( altezza );
-			System.out.println( nota );
-			nota.suonaCon( piano );
-		}
-
-		Strumento chitarra = new Strumento( "Guitar" );
-		for ( int pitch = 60; pitch < 72; pitch++ ) {
-			Nota nota = new Nota( pitch );
-			System.out.println( nota );
-			nota.suonaCon( chitarra );
-		}
+		Simbolo[] fraMartino = Simbolo.simboli( 			
+			"DO,RE,MI,DO," +
+			"DO,RE,MI,DO," +
+			"MI,FA,SOL:1/2," +
+			"MI,FA,SOL:1/2," +
+			"SOL:1/8,LA:1/8,SOL:1/8,FA:1/8,MI,DO," +
+			"SOL:1/8,LA:1/8,SOL:1/8,FA:1/8,MI,DO," +
+			"RE,SOL3,DO:1/2," +
+			"RE,SOL3,DO:1/2" 
+		);
+		
+		final Strumento flauto = new Strumento( "Flute" );
+		
+		for ( Simbolo s : fraMartino ) {
+			System.out.println( s );
+			s.suonaCon( flauto );
+		}		
 
 		Sintetizzatore.spegni();
-
 	}
 		
 }

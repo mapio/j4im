@@ -1,4 +1,4 @@
-package it.unimi.di.j4im.riproduzione;
+package it.unimi.di.j4im.esempi;
 
 /*
  * Copyright 2014 Massimo Santini
@@ -20,30 +20,26 @@ package it.unimi.di.j4im.riproduzione;
  *
  */
 
-public class Batteria extends Strumento {
+import it.unimi.di.j4im.notazione.Nota;
+import it.unimi.di.j4im.riproduzione.Sintetizzatore;
+import it.unimi.di.j4im.riproduzione.Strumento;
 
-	public enum Pezzo {
-	     
-		KICK( 36 ),
-		SNARE( 38 ),
-	    CLAP( 39 ),
-	    CLOSED_HIHAT( 42 ),
-	    PEDAL_HIHAT( 44 ),
-	    LO_TOM( 45 ),
-	    HI_TOM( 50 ),
-	    CRASH( 49 ),
-	    RIDE( 53 );
-		
-		public final int pitch;
-		
-		Pezzo( final int pitch ) {
-			this.pitch = pitch;
+/** Suona una scala (dodici semitoni in sequenza), costruendo le note in base al pitch. */
+public class ScalaPitch {
+	
+	public static void main( String[] args ) {
+	
+		Sintetizzatore.accendi();
+
+		Strumento chitarra = new Strumento( "Guitar" );
+		for ( int pitch = 60; pitch < 72; pitch++ ) {
+			Nota nota = new Nota( pitch );
+			System.out.println( nota );
+			nota.suonaCon( chitarra );
 		}
 
-	}
-	
-	public Batteria() {
-		super( 9, "Drumkit" );
-	}
+		Sintetizzatore.spegni();
 
+	}
+		
 }

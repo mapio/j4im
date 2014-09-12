@@ -104,6 +104,7 @@
 			version="true"
 			windowtitle="J4IM"
 			locale="it_IT"
+			overview="${src}/overview.html"
 		>
 			<link href="http://docs.oracle.com/javase/7/docs/api/"/>
 			<doctitle>J4IM</doctitle>

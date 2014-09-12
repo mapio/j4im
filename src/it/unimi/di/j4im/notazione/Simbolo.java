@@ -22,7 +22,11 @@ package it.unimi.di.j4im.notazione;
 
 import it.unimi.di.j4im.riproduzione.Strumento;
 
-/** Questa è la superclasse dei simboli della notazione musicale. */
+/** Superclasse (astratta) dei simboli della notazione musicale. 
+ * 
+ * @see Durata
+ *
+ */
 public abstract class Simbolo {
 
 	/** La durata di "default" del simbolo, pari ad una semiminima (1/4 di misura). */
@@ -64,7 +68,7 @@ public abstract class Simbolo {
 	
 	/** Restituisce la durata del simbolo.
 	 * 
-	 * @return la durata.
+	 * @return La durata.
 	 * 
 	 */
 	public Durata durata() {
@@ -86,6 +90,7 @@ public abstract class Simbolo {
 	/** Restituice un array di simboli ottenuto a partire dalla loro rappresentazione testuale. 
 	 *
 	 * @param str un elenco di simboli separati da <samp>,</samp>.
+	 * @return I vettore di simboli.
 	 * @throws IllegalArgumentException se la rappresentazione testuale dei simboli rispetta il formato consentito.
 	 * 
 	 */

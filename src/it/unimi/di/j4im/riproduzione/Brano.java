@@ -26,8 +26,32 @@ import java.io.IOException;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Sequence;
+import javax.sound.midi.Track;
 
-/** Questa classe rappresenta un brano musicale; ogni elemento di un brano è una {@link Parte}. */
+/**
+ * Un brano musicale.
+ * 
+ * <p>
+ * Un brano è una collezione di {@link Parte parti}, ciascuna delle quali costituisce
+ * una sequenza di note assegnate ad un certo {@link Strumento strumento}; un brano può essere
+ * riprodotto, col metodo {@link #riproduci(int)}, oppure letto o scritto su 
+ * un file (rispettivamente coi metodi {@link #leggi(String)} e {@link #scrivi(String)}.
+ * </p>
+ * 
+ * 
+ * <h3>Dettagli implementativi</h3>
+ * 
+ * <p>
+ * Questa classe si basa su una {@link Sequence}, una volta
+ * passata al costruttore di {@link Parte}, la parte utilizzerà
+ * il metodo {@link Sequence#createTrack()} per ottenere la
+ * {@link Track} di cui essa rappresenta una astrazione.
+ * </p>
+ * 
+ * @see Parte
+ * @see Strumento
+ * 
+ */
 public class Brano {
 
 	/** La risoluzione usata nella sequenza. */

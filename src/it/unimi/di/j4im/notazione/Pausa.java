@@ -22,7 +22,11 @@ package it.unimi.di.j4im.notazione;
 
 import it.unimi.di.j4im.riproduzione.Strumento;
 
-/** Questa classe rappresenta una pausa. */
+/** Una pausa. 
+ * 
+ * @see Durata
+ * 
+ */
 public class Pausa extends Simbolo {
 
 	/**

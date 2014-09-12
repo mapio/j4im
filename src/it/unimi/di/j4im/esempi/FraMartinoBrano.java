@@ -20,34 +20,39 @@ package it.unimi.di.j4im.esempi;
  *
  */
 
-import it.unimi.di.j4im.notazione.Nota;
-import it.unimi.di.j4im.riproduzione.Batteria;
-import it.unimi.di.j4im.riproduzione.Batteria.Pezzo;
+import it.unimi.di.j4im.notazione.Simbolo;
 import it.unimi.di.j4im.riproduzione.Brano;
 import it.unimi.di.j4im.riproduzione.Parte;
 import it.unimi.di.j4im.riproduzione.Sintetizzatore;
+import it.unimi.di.j4im.riproduzione.Strumento;
 
-public class Groove {
+import java.io.IOException;
 
-	public static void main( String[] args ) {
+/** Suona (e salva in un file) "Fra martino" costruendo un {@link Brano brano}. */
+public class FraMartinoBrano {
 		
+	public static void main( String[] args ) throws IOException {
+	
 		Sintetizzatore.accendi();
-		Sintetizzatore.bpm( 240 );
 		
-		Nota[] kh = new Nota[] { new Nota( Pezzo.KICK.pitch ), new Nota( Pezzo.CLOSED_HIHAT.pitch ) };
-		Nota[] h = new Nota[] { new Nota( Pezzo.CLOSED_HIHAT.pitch ) };
-		Nota[] ks = new Nota[] { new Nota( Pezzo.KICK.pitch ), new Nota( Pezzo.SNARE.pitch ) };
+		Simbolo[] fraMartino = Simbolo.simboli( 			
+			"DO,RE,MI,DO," +
+			"DO,RE,MI,DO," +
+			"MI,FA,SOL:1/2," +
+			"MI,FA,SOL:1/2," +
+			"SOL:1/8,LA:1/8,SOL:1/8,FA:1/8,MI,DO," +
+			"SOL:1/8,LA:1/8,SOL:1/8,FA:1/8,MI,DO," +
+			"RE,SOL3,DO:1/2," +
+			"RE,SOL3,DO:1/2" 
+		);
 		
 		Brano brano = new Brano();
-		Parte p = new Parte( brano, new Batteria() );
+		Parte parte = new Parte( brano, new Strumento( "Piano" ) );
+		parte.accoda( fraMartino );
 		
-		p.accodaAccordo( kh, 127 );
-		p.accodaAccordo( h, 80 );
-		p.accodaAccordo( ks, 80 );
-		p.accodaAccordo( h, 80 );		
-
-		brano.riproduci( -1 );
-
+		brano.scrivi( "framartino.mid" );
+		brano.riproduci();
+		
 		Sintetizzatore.spegni();
 	}
 	

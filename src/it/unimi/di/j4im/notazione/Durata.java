@@ -20,7 +20,7 @@ package it.unimi.di.j4im.notazione;
  *
  */
 
-/** Questa classe rappresenta la durata di una nota, o pausa. */
+/** Durata di una nota, o pausa. */
 public enum Durata {
 	
 	SEMIBREVE( 1 ), 
@@ -41,7 +41,7 @@ public enum Durata {
 	/** Restituisce la durata con cui inizia una stringa data.
 	 * 
 	 * @param str la stringa al cui inizio si trova la durata.
-	 * @return  la durata corrispondente se la stringa inizia per una delle possibili durate:
+	 * @return  Se la durata corrispondente se la stringa inizia per una delle possibili durate:
 	 * 		    <samp>1/1</samp>, <samp>1/2</samp>, <samp>1/4</samp>, <samp>1/8</samp>, <samp>1/16</samp>, <samp>1/32</samp>, <samp>1/64</samp>.
 	 * @throws IllegalArgumentException se la stringa non inizia con una durata valida.
 	 */		
@@ -53,7 +53,7 @@ public enum Durata {
 
 	/** Restituisce la durata (come frazione della misura).
 	 * 
-	 * @return il denominatore.
+	 * @return Il denominatore.
 	 */
 	public int denominatore() {
 		return denominatore;
@@ -62,7 +62,7 @@ public enum Durata {
 	/** Restituisce la durata in millisecondi, dato il numero di quarti al minuto. 
 	 * 
 	 * @param bpm il numero di quarti al minuto.
-	 * @return la durata in millisecondi.
+	 * @return La durata in millisecondi.
 	 */
 	public int ms( final int bpm ) {
 		return (int)( 1000 * ( 60.0 / bpm ) * ( 4.0 / denominatore ) );
@@ -71,12 +71,13 @@ public enum Durata {
 	/** Resituisce la durata in ticks, data la risoluzione.
 	 * 
 	 * @param resolution la risoluzione.
-	 * @return la durata in ticks.
+	 * @return La durata in ticks.
 	 */
 	public int ticks( final double resolution ) {
 		return (int)( 4 * resolution / denominatore );
 	}
 
+	@Override
 	public String toString() {
 		return "1/" + denominatore();
 	}
