@@ -54,7 +54,7 @@ public enum Altezza {
 	 */		
 	public static Altezza fromString( final String str ) {
 		for ( Altezza altezza : Altezza.values() ) 
-			if ( str.startsWith( altezza.toString() ) ) return altezza;
+			if ( str.equals( altezza.toString() ) ) return altezza;
 		throw new IllegalArgumentException( "Non è possibile dedurre l'altezza di " + str );
 	}
 }
