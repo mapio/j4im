@@ -115,7 +115,7 @@ public class Sintetizzatore {
 			if ( ! sequencer.isOpen() ) sequencer.open();
 
 			canali = synth.getChannels();
-			canaliAssegnati = 0;
+			canaliAssegnati = 1; // il piano è sempre assegnato
 			
 			// vanno chiusi tutti i transmitter per evitare "echi"
 			for ( Transmitter t : sequencer.getTransmitters() ) t.close();
