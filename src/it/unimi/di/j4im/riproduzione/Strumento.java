@@ -77,26 +77,13 @@ public class Strumento {
 	/** Inizia a suonare la nota assegnata.
 	 * 
 	 * @param nota la nota.
-	 * @param intensita l'intensità (dev'essere un valore compreso tra 0 e 127).
-	 * 
-	 * @throws IllegalArgumentException se l'intensità eccede l'intervallo 0, 127.
-	 * 
-	 */
-	public void suona( final Nota nota, final int intensita ) {
-		final int pitch = nota.pitch();
-		if ( intensita < 0 || intensita > 127 ) throw new IllegalArgumentException( "L'intensità dev'essere compresa tra 0 e 127, estremi inclusi." );
-		Sintetizzatore.accendiNota( canale, pitch, intensita );
-		Sintetizzatore.attendi( nota.durata() );
-		Sintetizzatore.spegniNota( canale, pitch );
-	}
-
-	/** Cessa di suonare la nota assegnata.
-	 * 
-	 * @param nota la nota.
 	 * 
 	 */
 	public void suona( final Nota nota ) {
-		suona( nota, Sintetizzatore.INTENSITA_DEFAULT );
+		final int pitch = nota.pitch();
+		Sintetizzatore.accendiNota( canale, pitch, nota.intensita() );
+		Sintetizzatore.attendi( nota.durata() );
+		Sintetizzatore.spegniNota( canale, pitch );
 	}
 
 	/** Attende un tempo pari alla durata della pausa assegnata.
