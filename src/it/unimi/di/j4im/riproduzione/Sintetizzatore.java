@@ -101,7 +101,7 @@ public class Sintetizzatore {
 	public static final int BPM_DEFAULT = 120;
 		
 	private static final Synthesizer synth;
-	protected static final Sequencer sequencer;
+	private static final Sequencer sequencer;
 	private static final MidiChannel[] canali;
 	private static int canaliAssegnati;
 	private static int bpm = BPM_DEFAULT;
@@ -128,9 +128,16 @@ public class Sintetizzatore {
 		}		
 	}
 
+	/* metodi di pacchetto, o privati */
+	
 	private Sintetizzatore() {} // per impedire la costruzione di una istanza
 	
-	static void riproduci( final Sequence sequence, final int loops ) {
+	/** Riroduce la sequenza il numero assegnato di volte.
+	 * 
+	 * @param sequenza la sequenza.
+	 * @param volte il numero di volte (se <= 0 sarà ripetuta all'infinito).
+	 */
+	static void riproduci( final Sequence sequenza, final int volte ) {
 		final CountDownLatch cdl = new CountDownLatch( 1 );
 		MetaEventListener mel = new MetaEventListener() {
 			public void meta( MetaMessage meta ) {
@@ -139,13 +146,13 @@ public class Sintetizzatore {
 					cdl.countDown();
 			}
 		};
-		if ( loops <= 0 )
+		if ( volte <= 0 )
 			sequencer.setLoopCount( Sequencer.LOOP_CONTINUOUSLY );
 		else 
-			sequencer.setLoopCount( loops );
+			sequencer.setLoopCount( volte );
 		sequencer.addMetaEventListener( mel );
 		try {
-			sequencer.setSequence( sequence );
+			sequencer.setSequence( sequenza );
 		} catch ( InvalidMidiDataException e ) {
 			throw new RuntimeException( e ); // questo non dovrebbe mai accadere
 		}
@@ -157,24 +164,43 @@ public class Sintetizzatore {
 		sequencer.removeMetaEventListener( mel );
 	}
 
-	static void riproduci( final Sequence sequence ) {
-		riproduci( sequence, 1 );
+	/** Riproduce la sequenza (una sola volta).
+	 * 
+	 * @param sequenza la sequenza.
+	 */
+	static void riproduci( final Sequence sequenza ) {
+		riproduci( sequenza, 1 );
 	}
 	
 	/* metodi pubblici */
 	
+	/** Accende il sintetizzatore predisponendo le risorse musicali del sistema. */
 	public static void accendi() {}
 
+	/** Restituisce il valore corrente di numero di quarti per minuto.
+	 * 
+	 * @return il numero di quarti per minuto.
+	 */
 	public static int bpm() {
 		return bpm;
 	}
 	
+	/** Imposta il valore corrente di numero di quarti per minuto.
+	 * 
+	 * @param bpm il numero di quarti per minuto.
+	 * @throw IllegalArgumentException se i bpm non sono nell'intervallo da 1 a 960 (estremi inclusi).
+	 *  
+	 */
 	public static void bpm( final int bpm ) {
 		if ( bpm < 0 || bpm > 960 ) throw new IllegalArgumentException( "I BPM devono essere compresi tra 1 e 960." );
 		Sintetizzatore.bpm = bpm;
 		sequencer.setTempoInBPM( bpm );
 	}
 
+	/** Restituisce l'elenco degli strumenti disponibili
+	 * 
+	 * @return L'elenco di strumenti.
+	 */
 	public static String[] strumenti() {
 		final Instrument[] insts = synth.getAvailableInstruments();
 		final String[] strumenti = new String[ insts.length ];
@@ -198,6 +224,13 @@ public class Sintetizzatore {
 		throw new IllegalArgumentException( "Il sintetizzatore non è in grado di riprodurre lo strumento " + nomeStrumento );
 	}
 	
+	/** Inizia a suonare una nota.
+	 * 
+	 * @param canale il canale (deve corrispondere ad uno dei valori restituiti da {@link #assegnaCanale(String)}).
+	 * @param pitch il pitch (dev'essere compreso tra 0 e 127 estremi inclusi).
+	 * @param intensita l'intensità (dev'essere compresa tra 0 e 127 estremi inclusi).
+	 * @throw IllegalArgumentException se uno degli argomenti ha un valore non consentito.
+	 */
 	public static void accendiNota( final int canale, final int pitch, final int intensita ) {
 		if ( canale < 0 || canale >= canaliAssegnati ) throw new IllegalArgumentException( "Il numero di canali dev'essere compreso tra 0 e " + ( canaliAssegnati - 1 ) + " estremi inclusi." );
 		if ( pitch < 0 || pitch > 127 ) throw new IllegalArgumentException( "Il pitch dev'essere compresa tra 0 e 127, estremi inclusi." );
@@ -205,27 +238,45 @@ public class Sintetizzatore {
 		canali[ canale ].noteOn( pitch, intensita );
 	}
 
+	/** Cessa di suonare una nota.
+	 * 
+	 * @param canale il canale (deve corrispondere ad uno dei valori restituiti da {@link #assegnaCanale(String)}).
+	 * @param pitch il pitch (dev'essere compreso tra 0 e 127 estremi inclusi).
+	 * @throw IllegalArgumentException se uno degli argomenti ha un valore non consentito.
+	 */
 	public static void spegniNota( final int canale, final int pitch ) {
 		if ( pitch < 0 || pitch > 127 ) throw new IllegalArgumentException( "Il pitch dev'essere compresa tra 0 e 127, estremi inclusi." );
 		canali[ canale ].noteOff( pitch );		
 	}
 	
+	/** Sospende l'esecuzione per la durata assegnata.
+	 * 
+	 * @param durata la durata.
+	 */
 	public static void attendi( final Durata durata ) {
 		try {
 			Thread.sleep( durata.ms( Sintetizzatore.bpm() ) );
 		} catch ( InterruptedException swallow ) {}
 	}
 		
+	/** Spegne il sintetizzatore.
+	 * 
+	 * <p>Si osserva che è <em>necessario</em> invocare questo metodo per consentire la termianzione del programma.</p>
+	 */
 	public static void spegni() {
 		sequencer.close();
 		synth.close();
 	}
-	
-		public static void main( String[] args ) {
-			Sintetizzatore.accendi();
-			for ( String s : strumenti() )
-				System.out.println( s );
-			Sintetizzatore.spegni();
-		}
+
+	/** Se eseguita, questa classe, emette sul flusso d'uscita l'elenco di strumenti disponibili.
+	 * 
+	 * @param args gli argomenti sulla linea di comando (sarnano ignorati).
+	 */
+	public static void main( String[] args ) {
+		Sintetizzatore.accendi();
+		for ( String s : strumenti() )
+			System.out.println( s );
+		Sintetizzatore.spegni();
+	}
 	
 }
