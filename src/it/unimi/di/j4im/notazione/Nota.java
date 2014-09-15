@@ -193,10 +193,10 @@ public class Nota extends Simbolo {
 	public final static int INTENSITA_DEFAULT = 64;
 	public final static int OTTAVA_DEFAULT = 4;
 
-	final Altezza altezza;
-	final Alterazione alterazione;
-	final int ottava;
-	final int intensita;
+	private final Altezza altezza;
+	private final Alterazione alterazione;
+	private final int ottava;
+	private final int intensita;
 
 	public static Costruttore costruttore() {
 		return new Costruttore();
