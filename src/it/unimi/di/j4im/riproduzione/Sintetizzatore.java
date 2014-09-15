@@ -35,6 +35,7 @@ import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Synthesizer;
+import javax.sound.midi.Transmitter;
 
 /**
  * Risorsa musicale del sistema, in
@@ -115,7 +116,13 @@ public class Sintetizzatore {
 
 			canali = synth.getChannels();
 			canaliAssegnati = 0;
-						
+			
+			// vanno chiusi tutti i transmitter per evitare "echi"
+			for ( Transmitter t : sequencer.getTransmitters() ) t.close();
+			
+			// va associato il sequencer al synt in modo che i program change sui channels siano rispettati
+			sequencer.getTransmitter().setReceiver( synth.getReceiver() );
+
 		} catch ( MidiUnavailableException e ) {
 			throw new RuntimeException( e ); // non dovrebbe mai accadere
 		}		
@@ -214,9 +221,11 @@ public class Sintetizzatore {
 		synth.close();
 	}
 	
-	public static void main( String[] args ) {
-		for ( String s : strumenti() )
-			System.out.println( s );
-	}
+		public static void main( String[] args ) {
+			Sintetizzatore.accendi();
+			for ( String s : strumenti() )
+				System.out.println( s );
+			Sintetizzatore.spegni();
+		}
 	
 }
