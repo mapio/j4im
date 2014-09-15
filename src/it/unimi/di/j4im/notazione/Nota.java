@@ -20,6 +20,9 @@ package it.unimi.di.j4im.notazione;
  *
  */
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import it.unimi.di.j4im.riproduzione.Strumento;
 
 /**
@@ -42,6 +45,151 @@ import it.unimi.di.j4im.riproduzione.Strumento;
  */
 public class Nota extends Simbolo {
 
+	public static class Costruttore {
+
+		private final static Pattern PATTERN = Pattern.compile( "^(?<altezza>DO|RE|MI|FA|SOL|LA|SI)(?<alterazione>(#|♭|♯))?(?<ottava>-?\\d+)?(?::(?<durata>\\d+/\\d+))?(?::(?<intensita>\\d+))?$" ); 
+
+		Altezza altezza = Altezza.DO;
+		Alterazione alterazione = Alterazione.NULLA;
+		Durata durata = Simbolo.DURATA_DEFAULT;
+		int ottava = Nota.OTTAVA_DEFAULT;
+		int intensita = Nota.INTENSITA_DEFAULT;
+		
+		private Costruttore() {}
+
+		public Costruttore nota( final Nota nota ) {
+			altezza = nota.altezza;
+			alterazione = nota.alterazione;
+			ottava = nota.ottava;
+			durata = nota.durata;
+			intensita = nota.intensita;
+			return this;
+		}
+		
+		public Costruttore altezza( final Altezza altezza ) {
+			this.altezza = altezza;
+			controllaPitch();
+			return this;
+		}
+
+		public Costruttore alterazione( final Alterazione alterazione ) {
+			this.alterazione = alterazione;
+			controllaPitch();
+			return this;
+		}
+
+		public Costruttore ottava( final int ottava ) {
+			this.ottava = ottava;
+			controllaPitch();
+			return this;
+		}
+
+		public Costruttore pitch( final int pitch ) {
+			alterazione = Alterazione.NULLA;
+			switch ( pitch % 12 ) {
+				case 0:
+					altezza = Altezza.DO;
+					break;
+				case 1:
+					altezza = Altezza.DO; 
+					alterazione = Alterazione.DIESIS;
+					break;
+				case 2:
+					altezza = Altezza.RE;
+					break;
+				case 3:
+					altezza = Altezza.RE; 
+					alterazione = Alterazione.DIESIS;
+					break;
+				case 4:
+					altezza = Altezza.MI;
+					break;
+				case 5:
+					altezza = Altezza.FA;
+					break;
+				case 6:
+					altezza = Altezza.FA;
+					alterazione = Alterazione.DIESIS;
+					break;
+				case 7:
+					altezza = Altezza.SOL;
+					break;
+				case 8:
+					altezza = Altezza.SOL; 
+					alterazione = Alterazione.DIESIS;
+					break;
+				case 9:
+					altezza = Altezza.LA;
+					break;
+				case 10:
+					altezza = Altezza.LA; 
+					alterazione = Alterazione.DIESIS;
+					break;
+				case 11:
+					altezza = Altezza.SI; 
+					break;
+			}
+			ottava = pitch / 12 - 1;
+			controllaPitch();
+			return this;
+		}
+		
+		public Costruttore durata( final Durata durata ) {
+			this.durata = durata;
+			return this;
+		}
+		
+		public Costruttore intensita( final int intensita ) {
+			if ( intensita < 0 || intensita > 127 ) throw new IllegalArgumentException( "L'intensità dev'essere compresa tra 0 e 127 (estremi inclusi)." );
+			this.intensita = intensita;
+			return this;
+		}
+			
+		public Costruttore string( final String nota ) {
+			Matcher m = PATTERN.matcher( nota );
+			if ( ! m.find() ) throw new IllegalArgumentException( "Impossibile comprendere la nota " + nota );
+			if ( m.group( "altezza" ) != null )
+				altezza = Altezza.fromString( m.group( "altezza" ) );
+			if ( m.group( "alterazione" ) != null )
+				alterazione = Alterazione.fromString( m.group( "alterazione" ) );
+			if ( m.group( "ottava" ) != null ) try {
+				ottava = Integer.parseInt( m.group( "ottava" ) );
+			} catch ( NumberFormatException e ) {
+				throw new IllegalArgumentException( "Impossibile determinare l'ottava di " + nota );
+			}
+			controllaPitch();
+			if ( m.group( "durata" ) != null )
+				durata = Durata.fromString( m.group( "durata" ) );
+			if ( m.group( "intensita" ) != null ) try {
+				intensita( Integer.parseInt( m.group( "intensita" ) ) );
+			} catch ( NumberFormatException e ) {
+				throw new IllegalArgumentException( "Impossibile determinare l'intensità di " + nota );
+			} 
+			return this;
+		}
+
+		public Nota costruisci() {
+			return new Nota( altezza, alterazione, ottava, durata, intensita );
+		}
+		
+		@Override
+		public String toString() {
+			return "CostruttoreNota<"+
+					altezza.toString() + 
+					alterazione.toString() + 
+					( ottava == Nota.OTTAVA_DEFAULT ? "" : "" + ottava ) + 
+					( durata == Simbolo.DURATA_DEFAULT ? "" : ":" + durata ) +
+					( intensita == Nota.INTENSITA_DEFAULT ? "" : ":" + intensita ) +">";
+			
+		}
+		
+		private void controllaPitch() {
+			final int pitch = 12 * ( ottava + 1 ) + altezza.semitoni + alterazione.semitoni; 
+			if ( pitch < 0 || pitch > 127  ) throw new IllegalArgumentException( "La nota eccede l'intervallo D-1, SOL9." );
+		}
+		
+	}
+
 	public final static int INTENSITA_DEFAULT = 64;
 	public final static int OTTAVA_DEFAULT = 4;
 
@@ -50,7 +198,11 @@ public class Nota extends Simbolo {
 	final int ottava;
 	final int intensita;
 
-	private Nota( final CostruttoreNota costruttore ) {
+	public static Costruttore costruttore() {
+		return new Costruttore();
+	}
+	
+	private Nota( final Costruttore costruttore ) {
 		super( costruttore.durata );
 		altezza = costruttore.altezza;
 		alterazione = costruttore.alterazione;
@@ -73,7 +225,7 @@ public class Nota extends Simbolo {
 	 *
 	 */
 	public Nota( final Altezza altezza, final Alterazione alterazione, final int ottava, final Durata durata, final int intensita ) {
-		this( CostruttoreNota.nuova()
+		this( costruttore()
 				.altezza( altezza )
 				.alterazione( alterazione )
 				.ottava( ottava )
@@ -87,7 +239,7 @@ public class Nota extends Simbolo {
 	 * @param altezza l'altezza della nota.
 	 */
 	public Nota( final Altezza altezza ) {
-		this( CostruttoreNota.nuova().altezza( altezza ) );
+		this( costruttore().altezza( altezza ) );
 	}
 
 	/** Costruisce una nota a partire dalla sua rappresentazione testuale.
@@ -103,7 +255,7 @@ public class Nota extends Simbolo {
 	 *         la rappresentazione testuale della durata è di formato scorretto.
 	 */
 	public Nota( final String nota ) {
-		this( CostruttoreNota.nuova().string( nota ) );
+		this( costruttore().string( nota ) );
 	}
 	
 	/** Costruisce una nota a partire dal pitch, durata ed intensitò.
@@ -118,7 +270,7 @@ public class Nota extends Simbolo {
 	 * 
 	 */
 	public Nota( final int pitch, final Durata durata, final int intensita ) {
-		this( CostruttoreNota.nuova().pitch( pitch ).durata( durata ).intensita( intensita ) );
+		this( costruttore().pitch( pitch ).durata( durata ).intensita( intensita ) );
 	}
 
 	/** Costruisce una nota dato il pitch (definendo gli altri parametri coi valori di default).
@@ -126,7 +278,7 @@ public class Nota extends Simbolo {
 	 * @param pitch il pitch della nota.
 	 */
 	public Nota( final int pitch ) {
-		this( CostruttoreNota.nuova().pitch( pitch ) );
+		this( costruttore().pitch( pitch ) );
 	}
 
 	/** Restituisce il pitch della nota.

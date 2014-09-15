@@ -20,7 +20,6 @@ package it.unimi.di.j4im.esempi;
  *
  */
 
-import it.unimi.di.j4im.notazione.CostruttoreNota;
 import it.unimi.di.j4im.notazione.Durata;
 import it.unimi.di.j4im.notazione.Nota;
 import it.unimi.di.j4im.notazione.Pausa;
@@ -64,7 +63,7 @@ public class FraMartinoCanone {
 			if ( fraMartino[ i ] instanceof Nota ) {
 				final Nota n = (Nota)fraMartino[ i ];
 				fraMartinoTraslatoTrasposto[ i ] = 
-					CostruttoreNota.nuova().nota( n ).pitch( n.pitch() + 12 ).costruisci();
+					Nota.costruttore().nota( n ).pitch( n.pitch() + 12 ).costruisci();
 			}
 
 		// parte trasposta, con traslazione (in tempo) di una misura
