@@ -20,22 +20,42 @@ package it.unimi.di.j4im.notazione;
  *
  */
 
-/** Durata di una nota, o pausa. */
-public enum Durata {
+/** Durata di una nota, o pausa (espressa come frazione della misura). */
+public class Durata {
 	
-	SEMIBREVE( 1 ), 
-	MINIMA( 2 ), 
-	SEMIMINIMA( 4 ), 
-	CROMA( 8 ), 
-	SEMICROMA( 16 ), 
-	BISCROMA( 32 ), 
-	SEMIBISCROMA( 64 );
+	public static final Durata SEMIBREVE = new Durata( 1 ); 
+	public static final Durata MINIMA = new Durata( 2 );
+	public static final Durata SEMIMINIMA = new Durata( 4 ); 
+	public static final Durata CROMA = new Durata( 8 );
+	public static final Durata SEMICROMA = new Durata( 16 ); 
+	public static final Durata BISCROMA = new Durata( 32 );
+	public static final Durata SEMIBISCROMA = new Durata( 64 );
 	
-	/** La durata della nota come frazione della misura. */
+	/** Il numeratore frazione. */
+	final int numeratore;
+	
+	/** Il denominatore della frazione. */
 	final int denominatore;
 	
-	Durata( final int denominatore ) {
+	/**
+	 * Costruisce una durata dati numeratore e denominatore (devono essere entrambe positivi).
+	 * 
+	 * @param numeratore il numeratore.
+	 * @param denominatore il denominatore.
+	 */
+	public Durata( final int numeratore, final int denominatore ) {
+		if ( numeratore < 0 || denominatore < 0 ) throw new IllegalArgumentException( "Non sono possibili durate negative." );
+		this.numeratore = numeratore;
 		this.denominatore = denominatore;
+	}
+	
+	/**
+	 * Costruisce una durata espressa come frazione dell'unità.
+	 * 
+	 * @param denominatore il denominatore.
+	 */
+	Durata( final int denominatore ) {
+		this( 1, denominatore );
 	}
 	
 	/** Restituisce la durata con cui inizia una stringa data.
@@ -46,9 +66,14 @@ public enum Durata {
 	 * @throws IllegalArgumentException se la stringa non inizia con una durata valida.
 	 */		
 	public static Durata fromString( final String str ) {
-		for ( Durata d : Durata.values() )
-			if ( str.equals( d.toString() ) ) return d;
-		throw new IllegalArgumentException( "Impossibile determinare la durata di " + str );
+		final int barra = str.indexOf( '/' );
+		try {
+			final int numeratore = Integer.parseInt( str.substring( 0, barra ) );
+			final int denominatore = Integer.parseInt( str.substring( barra + 1 ) );
+			return new Durata( numeratore, denominatore );
+		} catch ( NumberFormatException e ) {
+			throw new IllegalArgumentException( "Impossibile determinare la durata di " + str );
+		}
 	}
 
 	/** Restituisce la durata (come frazione della misura).
@@ -79,6 +104,6 @@ public enum Durata {
 
 	@Override
 	public String toString() {
-		return "1/" + denominatore();
+		return numeratore + "/" + denominatore;
 	}
 }

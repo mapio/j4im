@@ -112,9 +112,7 @@ public class Sintetizzatore {
 
 			sequencer =  MidiSystem.getSequencer();
 			if ( ! sequencer.isOpen() ) sequencer.open();
-		
-			sequencer.getTransmitter().setReceiver( synth.getReceiver() );
-		
+
 			canali = synth.getChannels();
 			canaliAssegnati = 0;
 						
