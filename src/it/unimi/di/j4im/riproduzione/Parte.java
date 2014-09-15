@@ -107,15 +107,12 @@ public class Parte {
 	/** Accoda la nota specificata alla parte.
 	 * 
 	 * @param nota la nota.
-	 * @param intensita l'intensità a cui sarà riprodotta la nota (dev'essere un valore compreso tra 0 e 127, estremi inclusi),
-	 * @throws IllegalArgumentException se l'intensità è fuori dall'intervallo consentito.
 	 * 
 	 */
-	public void accoda( final Nota nota, final int intensita ) {
-		if ( intensita < 0 || intensita > 127 ) throw new IllegalArgumentException( "L'intensità dev'essere compresa tra 0 e 127, estremi inclusi." );
+	public void accoda( final Nota nota ) {
 		final int pitch = nota.pitch();
 		try {
-			track.add( new MidiEvent( new ShortMessage( ShortMessage.NOTE_ON, canale, pitch, intensita ), ticks ) );
+			track.add( new MidiEvent( new ShortMessage( ShortMessage.NOTE_ON, canale, pitch, nota.intensita() ), ticks ) );
 			ticks += nota.durata().ticks( Brano.RESOLUTION );
 			track.add( new MidiEvent( new ShortMessage( ShortMessage.NOTE_OFF, canale, pitch, 0 ), ticks ) );
 		} catch ( InvalidMidiDataException e ) {
@@ -123,10 +120,6 @@ public class Parte {
 		}
 	}
 		
-	public void accoda( final Nota nota ) {
-		accoda( nota, Sintetizzatore.INTENSITA_DEFAULT );
-	}
-
 	/** Accoda la pausa specificata alla parte.
 	 * 
 	 * @param pausa la nota.
@@ -159,20 +152,19 @@ public class Parte {
 	 * </p> 
 	 * 
 	 * @param accordo il vettore di note che formano l'accordo.
-	 * @param intensita l'intensità con cui suonare l'accordo.
 	 * 
 	 */
-	public void accodaAccordo( final Nota[] accordo, final int intensita ) {
-		if ( intensita < 0 || intensita > 127 ) throw new IllegalArgumentException( "L'intensità dev'essere compresa tra 0 e 127, estremi inclusi." );
+	public void accodaAccordo( final Nota[] accordo ) {
 		final Nota[] note = Arrays.copyOf( accordo, accordo.length );
 		Arrays.sort( note, new Comparator<Nota>() {
 			public int compare( Nota p, Nota q ) {
-				return  q.durata().denominatore() - p.durata().denominatore(); 
+				if ( q.durata().piuBreve( p.durata() ) ) return -1;
+				else return 1;
 			}
 		} );
 		try {
 			for ( Nota n : note )
-				track.add( new MidiEvent( new ShortMessage( ShortMessage.NOTE_ON, canale, n.pitch(), intensita ), ticks ) );
+				track.add( new MidiEvent( new ShortMessage( ShortMessage.NOTE_ON, canale, n.pitch(), n.intensita() ), ticks ) );
 			for ( Nota n : note )
 				track.add( new MidiEvent( new ShortMessage( ShortMessage.NOTE_OFF, canale, n.pitch(), 0 ), ticks + n.durata().ticks( Brano.RESOLUTION ) ) );
 			ticks += note[ note.length - 1 ].durata().ticks( Brano.RESOLUTION );

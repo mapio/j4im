@@ -28,22 +28,33 @@ public class TestSimbolo {
 
 	@Test
 	public void testNotaFromString() {
+
+		// tolgo 0
+		assertEquals( "DO♭5:1/32:90", new Nota( "DO♭5:1/32:90" ).toString() );
+		
+		// tolgo 1
+		assertEquals( "DO5:1/32:90", new Nota( "DO5:1/32:90" ).toString() );
+		assertEquals( "DO♭:1/32:90", new Nota( "DO♭:1/32:90" ).toString() );
+		assertEquals( "DO♭5:90", new Nota( "DO♭5:90" ).toString() );
 		assertEquals( "DO♭5:1/32", new Nota( "DO♭5:1/32" ).toString() );
 		
-		assertEquals( "DO5:1/32",   new Nota( "DO5:1/32" ).toString() );
-		assertEquals( "DO♭:1/32",  new Nota( "DO♭:1/32" ).toString() );
-		assertEquals( "DO♭5",      new Nota( "DO♭5" ).toString() );
-		
-		assertEquals( "DO:1/32",    new Nota( "DO:1/32" ).toString() );
-		assertEquals( "DO5",        new Nota( "DO5" ).toString() );
-		
-		assertEquals( "DO:1/32",    new Nota( "DO:1/32" ).toString() );
-		assertEquals( "DO♭",       new Nota( "DO♭").toString() );
-		
-		assertEquals( "DO5",        new Nota( "DO5" ).toString() );
-		assertEquals( "DO♭",       new Nota( "DO♭").toString() );
-		
-		assertEquals( "DO",         new Nota( "DO" ).toString() );
+		// tolgo 2	
+		assertEquals( "DO:1/32:90", new Nota( "DO:1/32:90" ).toString() );
+		assertEquals( "DO5:90", new Nota( "DO5:90" ).toString() );
+		assertEquals( "DO5:1/32", new Nota( "DO5:1/32" ).toString() );
+		assertEquals( "DO♭:90", new Nota( "DO♭:90" ).toString() );
+		assertEquals( "DO♭:1/32", new Nota( "DO♭:1/32" ).toString() );
+		assertEquals( "DO♭5", new Nota( "DO♭5" ).toString() );
+
+		// tolgo 3
+		assertEquals( "DO:90", new Nota( "DO:90" ).toString() );
+		assertEquals( "DO5", new Nota( "DO5" ).toString() );
+		assertEquals( "DO:1/32", new Nota( "DO:1/32" ).toString() );
+		assertEquals( "DO♭", new Nota( "DO♭" ).toString() );
+
+		// tolgo 4
+		assertEquals( "DO♭5:1/32:90", new Nota( "DO♭5:1/32:90" ).toString() );
+
 	}
 
 	@Test

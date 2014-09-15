@@ -32,18 +32,31 @@ import it.unimi.di.j4im.riproduzione.Strumento;
  * <samp>C</samp>, <samp>B</samp>…). In particolare, il <samp>DO</samp> centrale
  * è <samp>DO4</samp>, altrimenti detto, l'ottava centrale è la numero 4.</p>
  * 
+ * <p>Le note sono <em>immutabili</em> ed gli attributi sono variabili <code>final</code>
+ * pubbliche (ed immutabili).</p>
+ * 
  * @see Altezza
  * @see Alterazione
  * @see Durata
  * 
  */
 public class Nota extends Simbolo {
-	
-	final static int OTTAVA_DEFAULT = 4;
-	
+
+	public final static int INTENSITA_DEFAULT = 64;
+	public final static int OTTAVA_DEFAULT = 4;
+
 	final Altezza altezza;
 	final Alterazione alterazione;
 	final int ottava;
+	final int intensita;
+
+	private Nota( final CostruttoreNota costruttore ) {
+		super( costruttore.durata );
+		altezza = costruttore.altezza;
+		alterazione = costruttore.alterazione;
+		ottava = costruttore.ottava;
+		intensita = costruttore.intensita;
+	}
 
 	/** Costruisce una nota a partire dai parametri che la definiscono.
 	 * 
@@ -54,34 +67,33 @@ public class Nota extends Simbolo {
 	 * @param alterazione l'alterazione della nota.
 	 * @param ottava l'ottava della nota.
 	 * @param durata la durata della nota.
+	 * @param intensita l'intensità della nota.
 	 * 
 	 * @throws IllegalArgumentException se la nota eccede l'intervallo da <samp>D-1</samp> a <samp>SOL9</samp>.
 	 *
 	 */
-	public Nota( final Altezza altezza, final Alterazione alterazione, final int ottava, final Durata durata ) {
-		super( durata );
-		final int pitch = 12 * ( ottava + 1 ) + altezza.semitoni + alterazione.semitoni; 
-		if ( pitch < 0 || pitch > 127  ) throw new IllegalArgumentException( "La nota eccede l'intervallo D-1, SOL9" );
-		this.altezza = altezza;
-		this.alterazione = alterazione;
-		this.ottava = ottava;
-	}
-	
-	public Nota( final Altezza altezza, final Alterazione alterazione ) {
-		this( altezza, alterazione, OTTAVA_DEFAULT, Simbolo.DURATA_DEFAULT );
-	}
-	
-	public Nota( final Altezza altezza, final int ottava ) {
-		this( altezza, Alterazione.NULLA, OTTAVA_DEFAULT, Simbolo.DURATA_DEFAULT );
+	public Nota( final Altezza altezza, final Alterazione alterazione, final int ottava, final Durata durata, final int intensita ) {
+		this( CostruttoreNota.nuova()
+				.altezza( altezza )
+				.alterazione( alterazione )
+				.ottava( ottava )
+				.durata( durata )
+				.intensita( intensita )
+		);
 	}
 
+	/** Costruisce una nota data l'altezza (definendo gli altri parametri coi valori di default).
+	 * 
+	 * @param altezza l'altezza della nota.
+	 */
 	public Nota( final Altezza altezza ) {
-		this( altezza, OTTAVA_DEFAULT );
+		this( CostruttoreNota.nuova().altezza( altezza ) );
 	}
-	
+
 	/** Costruisce una nota a partire dalla sua rappresentazione testuale.
 	 * 
-	 * <p>La rappresentazione testuale di una nota è data dalla rappresentazione testuale della sua altezza,
+	 * <p>La rappresentazione testuale di una nota è data dalla rappresentazione testuale della sua altezza, seguita
+	 * eventualemnte dalla rappresentazione testuale dell'alterazione,
 	 * seguita eventualmetne dal numero di ottava (se assente, verrà intesa l'ottava {@link Nota#OTTAVA_DEFAULT }, seguita
 	 * eventualmente dal segno <samp>:</samp> e dalla rappresentazione testuale della durata (se assente,
 	 * verrà intesa la durata {@link Simbolo#DURATA_DEFAULT}.</p>
@@ -91,27 +103,10 @@ public class Nota extends Simbolo {
 	 *         la rappresentazione testuale della durata è di formato scorretto.
 	 */
 	public Nota( final String nota ) {
-		super( nota );
-		altezza = Altezza.fromString( nota );
-		String resto = nota.substring( altezza.toString().length() );
-		alterazione = Alterazione.fromString( resto );
-		resto = resto.substring( alterazione.toString().length() );
-		if ( resto.length() == 0 ) {
-			ottava = OTTAVA_DEFAULT;
-		} else {
-			final int posDuepunti = resto.indexOf( ":" );
-			if ( posDuepunti == -1 )
-				ottava = Integer.parseInt( resto ); // resto != ""
-			else if ( posDuepunti > 0 )
-				ottava = Integer.parseInt( resto.substring( 0, posDuepunti ) );
-			else 
-				ottava = OTTAVA_DEFAULT;
-		}
-		final int pitch = 12 * ( ottava + 1 ) + altezza.semitoni + alterazione.semitoni; 
-		if ( pitch < 0 || pitch > 127  ) throw new IllegalArgumentException( "La nota eccede l'intervallo D-1, SOL9" );
+		this( CostruttoreNota.nuova().string( nota ) );
 	}
-
-	/** Costruisce una nota a partire dal pitch e dalla durata.
+	
+	/** Costruisce una nota a partire dal pitch, durata ed intensitò.
 	 * 
 	 * Si osservi che il pitch dev'essere compreso tra 0 (corrispondente a <samp>DO-1</samp>) e
 	 * 127 (corrispondente a <samp>SOL9</samp>), estremi inclusi (il DO centrale <samp>DO4</samp> 
@@ -119,69 +114,19 @@ public class Nota extends Simbolo {
 	 * 
 	 * @param pitch il pitch della nota.
 	 * @param durata la durata della nota.
+	 * @param intensita l'intensità della nota.
 	 * 
 	 */
-	public Nota( final int pitch, final Durata durata ) {
-		super( durata );
-		if ( pitch < 0 || pitch > 127  ) throw new IllegalArgumentException( "La nota eccede l'intervallo D0-1, SOL9" );
-		switch ( pitch % 12 ) {
-			case 0:
-				altezza = Altezza.DO;
-				alterazione = Alterazione.NULLA;
-				break;
-			case 1:
-				altezza = Altezza.DO; 
-				alterazione = Alterazione.DIESIS;
-				break;
-			case 2:
-				altezza = Altezza.RE;
-				alterazione = Alterazione.NULLA;
-				break;
-			case 3:
-				altezza = Altezza.RE; 
-				alterazione = Alterazione.DIESIS;
-				break;
-			case 4:
-				altezza = Altezza.MI;
-				alterazione = Alterazione.NULLA;
-				break;
-			case 5:
-				altezza = Altezza.FA;
-				alterazione = Alterazione.NULLA;
-				break;
-			case 6:
-				altezza = Altezza.FA;
-				alterazione = Alterazione.DIESIS;
-				break;
-			case 7:
-				altezza = Altezza.SOL;
-				alterazione = Alterazione.NULLA;
-				break;
-			case 8:
-				altezza = Altezza.SOL; 
-				alterazione = Alterazione.DIESIS;
-				break;
-			case 9:
-				altezza = Altezza.LA;
-				alterazione = Alterazione.NULLA;
-				break;
-			case 10:
-				altezza = Altezza.LA; 
-				alterazione = Alterazione.DIESIS;
-				break;
-			case 11:
-				altezza = Altezza.SI; 
-				alterazione = Alterazione.NULLA;
-				break;
-			default:
-				altezza = null; 
-				alterazione = null;
-		}
-		ottava = pitch / 12 - 1;
+	public Nota( final int pitch, final Durata durata, final int intensita ) {
+		this( CostruttoreNota.nuova().pitch( pitch ).durata( durata ).intensita( intensita ) );
 	}
 
+	/** Costruisce una nota dato il pitch (definendo gli altri parametri coi valori di default).
+	 * 
+	 * @param pitch il pitch della nota.
+	 */
 	public Nota( final int pitch ) {
-		this( pitch, Simbolo.DURATA_DEFAULT );
+		this( CostruttoreNota.nuova().pitch( pitch ) );
 	}
 
 	/** Restituisce il pitch della nota.
@@ -191,20 +136,28 @@ public class Nota extends Simbolo {
 	public int pitch() {
 		return 12 * ( ottava + 1 ) + altezza.semitoni + alterazione.semitoni;
 	} 
-		
+	
+	/** Resituisce l'intensità della nota
+	 * 
+	 * @return l'intensità.
+	 */
+	public int intensita() {
+		return intensita;
+	}
+	
 	@Override
 	public String toString() {
-		return altezza.toString() + alterazione.toString() + ( ottava == 4 ? "" : "" + ottava ) + ( durata == Durata.SEMIMINIMA ? "" : ":" + durata );
+		return 
+				altezza.toString() + 
+				alterazione.toString() + 
+				( ottava == OTTAVA_DEFAULT ? "" : "" + ottava ) + 
+				( durata == Simbolo.DURATA_DEFAULT ? "" : ":" + durata ) +
+				( intensita == INTENSITA_DEFAULT ? "" : ":" + intensita );
 	}
 
 	@Override
 	public void suonaCon( final Strumento strumento ) {
 		strumento.suona( this );
-	}
-
-	@Override
-	public void suonaCon( final Strumento strumento, final int intesita ) {
-		strumento.suona( this, intesita );
 	}
 	
 }

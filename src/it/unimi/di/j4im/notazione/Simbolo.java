@@ -22,6 +22,9 @@ package it.unimi.di.j4im.notazione;
 
 import it.unimi.di.j4im.riproduzione.Strumento;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /** Superclasse (astratta) dei simboli della notazione musicale. 
  * 
  * @see Durata
@@ -44,26 +47,20 @@ public abstract class Simbolo {
 		this.durata = durata;
 	}
 	
-	/** Costruisce un simbolo di durata pari a {@link #DURATA_DEFAULT}. */
-	public Simbolo() {
-		this( Durata.SEMIMINIMA );
-	}
 	
-	/** Costruisce un simbolo a partire dalla sua rappresentazione testuale.
+	/** Restituisce la durata di un simbolo ottenuta effettuando il parsing della 
+	 *  sua rappresentazione testuale col pattern dato. Se il parsing ha successo, 
+	 *  ma il gruppo 'durata' non ha match, viene restiutita la {@link #DURATA_DEFAULT}.
 	 * 
-	 * <p>Il simbolo comprende solo la durata, pertanto il costruttore si basa
-	 * sulla presenza di <samp>:</samp> seguito dalla rappresentazione testuale 
-	 * della durata, o assume la {@link #DURATA_DEFAULT}.
-	 * 
+	 * @param pattern il pattern da usare per il parsing (deve contenere un <em>named group</em> di nome <code>durata</code>).
 	 * @param simbolo la rappresentazione testuale.
-	 * 
+	 * @return la durata.
 	 */
-	protected Simbolo( final String simbolo ) {
-		final int posDuepunti = simbolo.indexOf( ":" );
-		if ( posDuepunti > 0 )
-			durata = Durata.fromString( simbolo.substring( posDuepunti + 1 ) );
-		else
-			durata = Simbolo.DURATA_DEFAULT;
+	static Durata fromString( final Pattern pattern, final String simbolo ) {
+		final Matcher m = pattern.matcher( simbolo );
+		if ( ! m.find() ) throw new IllegalArgumentException( "Impossibile determinare la durata di " + simbolo );
+		final String durata = m.group( "durata" );
+		return durata != null ? Durata.fromString( durata ) : DURATA_DEFAULT;
 	}
 	
 	/** Restituisce la durata del simbolo.
@@ -75,16 +72,11 @@ public abstract class Simbolo {
 		return durata;
 	}
 	
-	/** Suona la nota con lo strumento dato.	
+	/** Suona il simbolo con lo strumento dato.	
 	 * 
 	 * @param strumento lo strumento.
-	 * @param intesita l'intensità con cui suonare la nota (un valore compreso tra 0 e 127 estremi inclusi).
-	 * 
-	 * @throws IllegalArgumentException se l'intensità eccede l'intervallo 0, 127.
-	 * 
+	 *
 	 */
-	public abstract void suonaCon( final Strumento strumento, final int intesita );
-	
 	public abstract void suonaCon( final Strumento strumento );
 	
 	/** Restituice un array di simboli ottenuto a partire dalla loro rappresentazione testuale. 

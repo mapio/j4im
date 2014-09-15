@@ -31,11 +31,8 @@ public class Durata {
 	public static final Durata BISCROMA = new Durata( 32 );
 	public static final Durata SEMIBISCROMA = new Durata( 64 );
 	
-	/** Il numeratore frazione. */
-	final int numeratore;
-	
-	/** Il denominatore della frazione. */
-	final int denominatore;
+	private final int numeratore;
+	private final int denominatore;
 	
 	/**
 	 * Costruisce una durata dati numeratore e denominatore (devono essere entrambe positivi).
@@ -54,7 +51,7 @@ public class Durata {
 	 * 
 	 * @param denominatore il denominatore.
 	 */
-	Durata( final int denominatore ) {
+	public Durata( final int denominatore ) {
 		this( 1, denominatore );
 	}
 	
@@ -76,14 +73,6 @@ public class Durata {
 		}
 	}
 
-	/** Restituisce la durata (come frazione della misura).
-	 * 
-	 * @return Il denominatore.
-	 */
-	public int denominatore() {
-		return denominatore;
-	}
-
 	/** Restituisce la durata in millisecondi, dato il numero di quarti al minuto. 
 	 * 
 	 * @param bpm il numero di quarti al minuto.
@@ -102,6 +91,11 @@ public class Durata {
 		return (int)( 4 * resolution / denominatore );
 	}
 
+	public boolean piuBreve( final Durata altra ) {
+		if ( numeratore * altra.denominatore < altra.numeratore * denominatore ) return true;
+		else return false;
+	}
+	
 	@Override
 	public String toString() {
 		return numeratore + "/" + denominatore;
