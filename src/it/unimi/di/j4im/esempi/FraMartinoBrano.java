@@ -47,7 +47,7 @@ public class FraMartinoBrano {
 		);
 		
 		Brano brano = new Brano();
-		Parte parte = new Parte( brano, new Strumento( "Piano" ) );
+		Parte parte = new Parte( brano, new Strumento( "Guitar" ) );
 		parte.accoda( fraMartino );
 		
 		brano.scrivi( "framartino.mid" );
