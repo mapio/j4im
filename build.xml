@@ -114,6 +114,7 @@
 			overview="${src}/overview.html"
 		>
 			<link href="http://docs.oracle.com/javase/7/docs/api/"/>
+			<link offline="true" href="http://docs.oracle.com/javase/7/docs/api/" packagelistLoc="/Users/santini/Documents/LOG/docs/jdk1.7/api/"/>
 			<doctitle>J4IM</doctitle>
 			<bottom>Copyright 2014, Massimo Santini</bottom>
 		</javadoc>
