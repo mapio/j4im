@@ -188,7 +188,7 @@ public class Sintetizzatore {
 	/** Imposta il valore corrente di numero di quarti per minuto.
 	 * 
 	 * @param bpm il numero di quarti per minuto.
-	 * @throw IllegalArgumentException se i bpm non sono nell'intervallo da 1 a 960 (estremi inclusi).
+	 * @throws IllegalArgumentException se i bpm non sono nell'intervallo da 1 a 960 (estremi inclusi).
 	 *  
 	 */
 	public static void bpm( final int bpm ) {
@@ -229,7 +229,7 @@ public class Sintetizzatore {
 	 * @param canale il canale (deve corrispondere ad uno dei valori restituiti da {@link #assegnaCanale(String)}).
 	 * @param pitch il pitch (dev'essere compreso tra 0 e 127 estremi inclusi).
 	 * @param intensita l'intensità (dev'essere compresa tra 0 e 127 estremi inclusi).
-	 * @throw IllegalArgumentException se uno degli argomenti ha un valore non consentito.
+	 * @throws IllegalArgumentException se uno degli argomenti ha un valore non consentito.
 	 */
 	public static void accendiNota( final int canale, final int pitch, final int intensita ) {
 		if ( canale < 0 || canale >= canaliAssegnati ) throw new IllegalArgumentException( "Il numero di canali dev'essere compreso tra 0 e " + ( canaliAssegnati - 1 ) + " estremi inclusi." );
@@ -242,7 +242,7 @@ public class Sintetizzatore {
 	 * 
 	 * @param canale il canale (deve corrispondere ad uno dei valori restituiti da {@link #assegnaCanale(String)}).
 	 * @param pitch il pitch (dev'essere compreso tra 0 e 127 estremi inclusi).
-	 * @throw IllegalArgumentException se uno degli argomenti ha un valore non consentito.
+	 * @throws IllegalArgumentException se uno degli argomenti ha un valore non consentito.
 	 */
 	public static void spegniNota( final int canale, final int pitch ) {
 		if ( pitch < 0 || pitch > 127 ) throw new IllegalArgumentException( "Il pitch dev'essere compresa tra 0 e 127, estremi inclusi." );

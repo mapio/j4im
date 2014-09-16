@@ -63,7 +63,7 @@ public class FraMartinoCanone {
 			if ( fraMartino[ i ] instanceof Nota ) {
 				final Nota n = (Nota)fraMartino[ i ];
 				fraMartinoTraslatoTrasposto[ i ] = 
-					Nota.costruttore().nota( n ).pitch( n.pitch() + 12 ).costruisci();
+					Nota.fabbricatore().nota( n ).pitch( n.pitch() + 12 ).fabbrica();
 			}
 
 		// parte trasposta, con traslazione (in tempo) di una misura

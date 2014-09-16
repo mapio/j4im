@@ -53,7 +53,7 @@ import javax.sound.midi.Track;
  * 
  * <p>Per far si che un gruppo di note (quando il brano sarà riprodotto) suoni a partire 
  * dallo stesso istante (come in un accordo), esse vanno accodate usando metodo 
- * {@link #accodaAccordo(Nota[], int)}; il simbolo accodato alla parte dopo l'inivocazione 
+ * {@link #accodaAccordo(Nota[])}; il simbolo accodato alla parte dopo l'inivocazione 
  * di questo medoto (e quindi i successivi) suonerà (una volta che il brano sarà riprodotto)
  * dopo la nota di maggior durata presente nell'accordo.
  * </p>

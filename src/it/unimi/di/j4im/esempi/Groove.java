@@ -20,34 +20,35 @@ package it.unimi.di.j4im.esempi;
  *
  */
 
-import it.unimi.di.j4im.notazione.Nome;
 import it.unimi.di.j4im.notazione.Nota;
+import it.unimi.di.j4im.riproduzione.Batteria;
+import it.unimi.di.j4im.riproduzione.Brano;
+import it.unimi.di.j4im.riproduzione.Parte;
 import it.unimi.di.j4im.riproduzione.Sintetizzatore;
-import it.unimi.di.j4im.riproduzione.Strumento;
 
-/** Suona una scala (dal <samp>DO</samp> al <samp>SI</samp>, senza alterazioni), costruendo le note in base all'{@link Nome altezza}. */
-public class ScalaAltezza {
-	
+/** Riproduce un semplice 4/4 */
+public class Groove {
+
 	public static void main( String[] args ) {
-	
-		Sintetizzatore.accendi();
 		
-		Strumento piano = new Strumento( "Piano" );
-		for ( Nome altezza : Nome.values() ) {
-			Nota nota = new Nota( altezza );
-			System.out.println( nota );
-			nota.suonaCon( piano );
-		}
+		Sintetizzatore.accendi();
+		Sintetizzatore.bpm( 240 );
+		
+		Nota[] kh = new Nota[] { new Nota( Batteria.KICK ), new Nota( Batteria.CLOSED_HIHAT ) };
+		Nota[] h = new Nota[] { new Nota( Batteria.CLOSED_HIHAT ) };
+		Nota[] sh = new Nota[] { new Nota( Batteria.SNARE ), new Nota( Batteria.CLOSED_HIHAT ) };
+		
+		Brano brano = new Brano();
+		Parte p = new Parte( brano, new Batteria() );
+		
+		p.accodaAccordo( kh );
+		p.accodaAccordo( h );
+		p.accodaAccordo( sh );
+		p.accodaAccordo( h );		
 
-		Strumento chitarra = new Strumento( "Guitar" );
-		for ( int pitch = 60; pitch < 72; pitch++ ) {
-			Nota nota = new Nota( pitch );
-			System.out.println( nota );
-			nota.suonaCon( chitarra );
-		}
+		brano.riproduci( 4 );
 
 		Sintetizzatore.spegni();
-
 	}
-		
+	
 }
