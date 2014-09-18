@@ -9,11 +9,29 @@ in [Informatica
 musicale](http://www.ccdinf.unimi.it/it/corsiDiStudio/2015/F3Xof2/)
 dell'[Università degli Studi di Milano](http://www.unimi.it/).
 
+Come usare la libreria
+----------------------
+
 Gli studenti possono scaricare l'ultima versione dalla pagina delle
 [releases](https://github.com/mapio/j4im/releases) ed accedere alla
 [documentazione delle API](http://mapio.github.io/j4im) della libreria; si
 osserva che una copia della documentazione è presente anche nelle release
 scaricabili dal precedente link.
+
+Una volta scaricato il `.jar`, è possibile eseguire il codice d'esempio con
+
+	java -cp j4im-0.3-beta.jar it.unimi.di.j4im.esempi.Groove
+	java -cp j4im-0.3-beta.jar it.unimi.di.j4im.esempi.FraMartinoCanone
+
+o compilare una propria classe (supponendo si chiami `MiaClasse`) che faccia
+uso della libreria con
+
+	javac -cp j4im-0.3-beta.jar MiaClasse.java
+	java -cp j4im-0.3-beta.jar MiaClasse
+
+
+Contribuire
+-----------
 
 Chiunque voglia contribuire allo sviluppo può *segnalare eventuali errori* e
 *formulare richieste* aprendo una
