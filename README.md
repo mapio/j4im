@@ -30,8 +30,8 @@ uso della libreria con
 	java -cp j4im-0.3-beta.jar MiaClasse
 
 
-Contribuire
------------
+Come Contribuire
+----------------
 
 Chiunque voglia contribuire allo sviluppo può *segnalare eventuali errori* e
 *formulare richieste* aprendo una
