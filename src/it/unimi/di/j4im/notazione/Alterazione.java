@@ -38,14 +38,14 @@ public enum Alterazione {
 	 * Restituisce l'alterazione contenuta in una stringa data.
 	 * 
 	 * @param str la stringa in cui si trova l'alterazione.
-	 * @return Se la stringa è ♯ (o <samp>#</samp>), o ♭, viene restituita
+	 * @return Se la stringa è ♯ (o <samp>#</samp>), o ♭ (o <samp>b</samp>), viene restituita
 	 *         l'alterazione corrispondente, altrimenti se è vuota viene
 	 *         restituita l'alterazione nulla.
 	 * @throws IllegalArgumentException se la stringa è di formato errato.
 	 */
 	public static Alterazione fromString( final String str ) {
 		Alterazione alterazione;
-		if ( str.equals( BEMOLLE.rapp ) )
+		if ( str.equals( BEMOLLE.rapp ) || str.equals( "b" ) )
 			alterazione = BEMOLLE;
 		else if ( str.equals( DIESIS.rapp ) || str.equals( "#" ) )
 			alterazione = DIESIS;
