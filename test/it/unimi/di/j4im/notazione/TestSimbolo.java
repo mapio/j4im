@@ -20,7 +20,7 @@ package it.unimi.di.j4im.notazione;
  *
  */
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -69,6 +69,15 @@ public class TestSimbolo {
 		assertEquals( "DO", new Nota( 60 ).toString() );
 		assertEquals( 0, new Nota( "DO-1" ).pitch() );
 		assertEquals( 127, new Nota( "SOL9" ).pitch() );
+	}
+	
+	@Test
+	public void testFrequenza() {
+		for ( Nome nome: Nome.values() ) {
+			final Nota expexted =  new Nota( nome );
+			final Nota actual = Nota.fabbricatore().frequenza( expexted.frequenza() ).fabbrica();
+			assertEquals( expexted.pitch(), actual.pitch() );
+		}
 	}
 	
 	@Test( expected = IllegalArgumentException.class )

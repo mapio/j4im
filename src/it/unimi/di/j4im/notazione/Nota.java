@@ -219,6 +219,23 @@ public class Nota extends Simbolo {
 		}
 
 		/**
+		 * Imposta l'altezza della nota, data una frequenza (in Hz) nella scala ben temperata.
+		 * 
+		 * <p>
+		 * Questo metodo imposta l'altezza, l'alterazione e l'ottava della nota la cui frequenza
+		 * nella scala ben temperata è più vicina alla frequenza data. 
+		 * </p>
+		 * 
+		 * @param frequenza la frequenza.
+		 * @return Il fabbricatore.
+		 * @throws IllegalArgumentException se la frequenza porta ad una nota di altezaz non valida.
+		 */		
+		public Fabbricatore frequenza( final float frequenza ) {
+			return pitch( (int)Math.round( PITCH_LA +  
+				( Math.log( frequenza ) - Math.log(  FREQUENZA_LA ) ) / Math.log( RAPPORTO_DI_FREQUENZA ) ) );
+		}
+		
+		/**
 		 * Imposta la durata della nota.
 		 * 
 		 * @param durata la durata.
@@ -309,9 +326,18 @@ public class Nota extends Simbolo {
 
 	}
 
+	/** Il rapporto tra le frequenze di due semitoni successivi nella scala ben temperata. */
+	public final static double RAPPORTO_DI_FREQUENZA = Math.pow( 2.0, 1.0 / 12.0 );
+
+	/** La frequenza (in Hz) della nota <samp>LA</samp>. */
+	public final static int FREQUENZA_LA = 440;
+
+	/** Il pitch della nota <samp>LA</samp>. */
+	public final static int PITCH_LA = new Nota( "LA" ).pitch();
+
 	public final static int INTENSITA_DEFAULT = 64;
 	public final static int OTTAVA_DEFAULT = 4;
-
+	
 	private final Nome nome;
 	private final Alterazione alterazione;
 	private final int ottava;
@@ -440,6 +466,15 @@ public class Nota extends Simbolo {
 		return 12 * ( ottava + 1 ) + nome.semitoni + alterazione.semitoni;
 	}
 
+	/**
+	 * Restituisce la frequenza (in Hz) della nota.
+	 * 
+	 * @return la frequenza.
+	 */
+	public float frequenza() {
+		return (float)(FREQUENZA_LA * Math.pow( RAPPORTO_DI_FREQUENZA, pitch() - PITCH_LA ));
+	}
+	
 	/**
 	 * Resituisce l'intensità della nota
 	 * 
