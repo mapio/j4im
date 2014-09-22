@@ -218,6 +218,7 @@ public class Sintetizzatore {
 		if ( canaliAssegnati >= canali.length ) throw new IllegalStateException( "Il sintetizzatore non supporta più di " + canali.length + " srumenti." );
 		for ( Instrument inst : synth.getLoadedInstruments() )
 			if ( inst.toString().contains( nomeStrumento ) ) {
+				if ( canaliAssegnati == 9 ) canaliAssegnati++; // salta il canale preassegnato alla batteria
 				canali[ canaliAssegnati ].programChange( inst.getPatch().getProgram() );
 				return canaliAssegnati++;
 			}
@@ -232,7 +233,7 @@ public class Sintetizzatore {
 	 * @throws IllegalArgumentException se uno degli argomenti ha un valore non consentito.
 	 */
 	public static void accendiNota( final int canale, final int pitch, final int intensita ) {
-		if ( canale < 0 || canale >= canaliAssegnati ) throw new IllegalArgumentException( "Il numero di canali dev'essere compreso tra 0 e " + ( canaliAssegnati - 1 ) + " estremi inclusi." );
+		if ( canale != 9 && ( canale < 0 || canale >= canaliAssegnati ) ) throw new IllegalArgumentException( "Il numero di canali dev'essere compreso tra 0 e " + ( canaliAssegnati - 1 ) + " estremi inclusi." );
 		if ( pitch < 0 || pitch > 127 ) throw new IllegalArgumentException( "Il pitch dev'essere compresa tra 0 e 127, estremi inclusi." );
 		if ( intensita < 0 || intensita > 127 ) throw new IllegalArgumentException( "L'intensità dev'essere compresa tra 0 e 127, estremi inclusi." );
 		canali[ canale ].noteOn( pitch, intensita );
