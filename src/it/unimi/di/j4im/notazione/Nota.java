@@ -364,7 +364,7 @@ public class Nota extends Simbolo {
 	 * 
 	 * @param fabbricatore il fabbricatore.
 	 */
-	public Nota( final Fabbricatore fabbricatore ) {
+	private Nota( final Fabbricatore fabbricatore ) {
 		super( fabbricatore.durata );
 		nome = fabbricatore.nome;
 		alterazione = fabbricatore.alterazione;
