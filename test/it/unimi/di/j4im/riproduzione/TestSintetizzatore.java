@@ -9,27 +9,21 @@ import org.junit.Test;
 
 public class TestSintetizzatore {
 
-	private static boolean HAS_RESOURCES;
-
 	@BeforeClass
 	public static void runOnceBefore() {
-		try {
+		if ( System.getenv( "NOMIDI" ) == null )
 			Sintetizzatore.accendi();
-			HAS_RESOURCES = true;
-		} catch ( Exception e ) {
-			HAS_RESOURCES = false;
-		}
 	}
 
 	@AfterClass
 	public static void runOnceAfter() {
-		if ( HAS_RESOURCES )
+		if ( System.getenv( "NOMIDI" ) == null )
 			Sintetizzatore.spegni();
 	}
 
 	@Before
 	public void beforeMethod() {
-		org.junit.Assume.assumeTrue( HAS_RESOURCES );
+		org.junit.Assume.assumeTrue( "NO MIDI", System.getenv( "NOMIDI" ) == null );
 	}
 
 	@Test
