@@ -48,6 +48,7 @@
 
 	<target name="compile" depends="init" description="compile the source">
 		<javac
+			encoding="UTF-8"
 			includeantruntime="false"
 			srcdir="${src}"
 			destdir="${build}"
@@ -68,6 +69,7 @@
 
 	<target name="compile-test" depends="compile, getlibs" description="compile the tests">
 		<javac
+			encoding="UTF-8"
 			includeantruntime="false"
 			srcdir="${test}"
 			destdir="${build}"
