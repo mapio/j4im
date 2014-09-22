@@ -2,9 +2,6 @@ package it.unimi.di.j4im.riproduzione;
 
 import it.unimi.di.j4im.notazione.Nota;
 
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.MidiUnavailableException;
-
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -19,7 +16,7 @@ public class TestSintetizzatore {
 		try {
 			Sintetizzatore.accendi();
 			HAS_RESOURCES = true;
-		} catch ( RuntimeException e ) {
+		} catch ( Exception e ) {
 			HAS_RESOURCES = false;
 		}
 	}
