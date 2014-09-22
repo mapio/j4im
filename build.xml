@@ -92,7 +92,7 @@
 				<pathelement path="${dist}/lib/hamcrest.jar"/>
 			</classpath>
 
-			<formatter type="plain"/>
+			<formatter type="brief" usefile="false"/>
 
 			<batchtest fork="yes" todir="${junit}">
 				<fileset dir="${test}">

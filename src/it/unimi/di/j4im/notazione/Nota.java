@@ -219,22 +219,24 @@ public class Nota extends Simbolo {
 		}
 
 		/**
-		 * Imposta l'altezza della nota, data una frequenza (in Hz) nella scala ben temperata.
+		 * Imposta l'altezza della nota, data una frequenza (in Hz) nella scala
+		 * ben temperata.
 		 * 
 		 * <p>
-		 * Questo metodo imposta l'altezza, l'alterazione e l'ottava della nota la cui frequenza
-		 * nella scala ben temperata è più vicina alla frequenza data. 
+		 * Questo metodo imposta l'altezza, l'alterazione e l'ottava della nota
+		 * la cui frequenza nella scala ben temperata è più vicina alla
+		 * frequenza data.
 		 * </p>
 		 * 
 		 * @param frequenza la frequenza.
 		 * @return Il fabbricatore.
-		 * @throws IllegalArgumentException se la frequenza porta ad una nota di altezaz non valida.
-		 */		
+		 * @throws IllegalArgumentException se la frequenza porta ad una nota di
+		 *             altezaz non valida.
+		 */
 		public Fabbricatore frequenza( final float frequenza ) {
-			return pitch( (int)Math.round( PITCH_LA +  
-				( Math.log( frequenza ) - Math.log(  FREQUENZA_LA ) ) / Math.log( RAPPORTO_DI_FREQUENZA ) ) );
+			return pitch( (int)Math.round( PITCH_LA + ( Math.log( frequenza ) - Math.log( FREQUENZA_LA ) ) / Math.log( RAPPORTO_DI_FREQUENZA ) ) );
 		}
-		
+
 		/**
 		 * Imposta la durata della nota.
 		 * 
@@ -309,7 +311,7 @@ public class Nota extends Simbolo {
 
 		@Override
 		public String toString() {
-			return "CostruttoreNota<" + nome.toString() + alterazione.toString() + ( ottava == Nota.OTTAVA_DEFAULT ? "" : "" + ottava ) + ( durata == Simbolo.DURATA_DEFAULT ? "" : ":" + durata ) + ( intensita == Nota.INTENSITA_DEFAULT ? "" : ":" + intensita ) + ">";
+			return "Nota.Fabbricatore<" + nome.toString() + alterazione.toString() + ( ottava == Nota.OTTAVA_DEFAULT ? "" : "" + ottava ) + ( durata == Simbolo.DURATA_DEFAULT ? "" : ":" + durata ) + ( intensita == Nota.INTENSITA_DEFAULT ? "" : ":" + intensita ) + ">";
 
 		}
 
@@ -326,7 +328,10 @@ public class Nota extends Simbolo {
 
 	}
 
-	/** Il rapporto tra le frequenze di due semitoni successivi nella scala ben temperata. */
+	/**
+	 * Il rapporto tra le frequenze di due semitoni successivi nella scala ben
+	 * temperata.
+	 */
 	public final static double RAPPORTO_DI_FREQUENZA = Math.pow( 2.0, 1.0 / 12.0 );
 
 	/** La frequenza (in Hz) della nota <samp>LA</samp>. */
@@ -337,7 +342,7 @@ public class Nota extends Simbolo {
 
 	public final static int INTENSITA_DEFAULT = 64;
 	public final static int OTTAVA_DEFAULT = 4;
-	
+
 	private final Nome nome;
 	private final Alterazione alterazione;
 	private final int ottava;
@@ -430,7 +435,7 @@ public class Nota extends Simbolo {
 	}
 
 	/**
-	 * Costruisce una nota a partire dal pitch, durata ed intensitò.
+	 * Costruisce una nota a partire dal pitch, durata ed intensità.
 	 * 
 	 * <p>
 	 * Si osservi che il pitch dev'essere compreso tra 0 (corrispondente a
@@ -458,6 +463,33 @@ public class Nota extends Simbolo {
 	}
 
 	/**
+	 * Costruisce una nota a partire da una frequenza (in Hz), durata ed
+	 * intensità.
+	 * 
+	 * <p>
+	 * Costruisce la nota la cui frequenza nella scala ben temperata è più
+	 * vicina alla frequenza data.
+	 * </p>
+	 * 
+	 * @param frequenza la frequenza della nota.
+	 * @param durata la durata della nota.
+	 * @param intensita l'intensità della nota.
+	 */
+	public Nota( final float frequenza, final Durata durata, final int intensita ) {
+		this( fabbricatore().frequenza( frequenza ).durata( durata ).intensita( intensita ) );
+	}
+
+	/**
+	 * Costruisce una nota a partire da una frequenza (in HZ e definendo gli
+	 * altri parametri coi valori di default).
+	 * 
+	 * @param frequenza la frequenza della nota.
+	 */
+	public Nota( final float frequenza ) {
+		this( fabbricatore().frequenza( frequenza ) );
+	}
+
+	/**
 	 * Restituisce il pitch della nota.
 	 * 
 	 * @return Il pitch della nota.
@@ -472,9 +504,9 @@ public class Nota extends Simbolo {
 	 * @return la frequenza.
 	 */
 	public float frequenza() {
-		return (float)(FREQUENZA_LA * Math.pow( RAPPORTO_DI_FREQUENZA, pitch() - PITCH_LA ));
+		return (float)( FREQUENZA_LA * Math.pow( RAPPORTO_DI_FREQUENZA, pitch() - PITCH_LA ) );
 	}
-	
+
 	/**
 	 * Resituisce l'intensità della nota
 	 * 
