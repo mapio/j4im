@@ -317,7 +317,8 @@ public class Nota extends Simbolo {
 	private final int ottava;
 	private final int intensita;
 
-	/** Resituisce un fabbricatore.
+	/**
+	 * Resituisce un fabbricatore.
 	 * 
 	 * @return Un fabbricatore.
 	 * 
@@ -327,7 +328,8 @@ public class Nota extends Simbolo {
 		return new Fabbricatore();
 	}
 
-	/** Costruisce una nota dato un fabbricatore.
+	/**
+	 * Costruisce una nota dato un fabbricatore.
 	 * 
 	 * @param fabbricatore il fabbricatore.
 	 */
@@ -373,14 +375,22 @@ public class Nota extends Simbolo {
 	 * 
 	 * <p>
 	 * La rappresentazione testuale di una nota è data dalla rappresentazione
-	 * testuale della sua altezza, seguita eventualemnte dalla rappresentazione
-	 * testuale dell'alterazione, seguita eventualmetne dal numero di ottava (se
-	 * assente, verrà intesa l'ottava {@link Nota#OTTAVA_DEFAULT }, seguita
-	 * eventualmente dal segno <samp>:</samp> e dalla rappresentazione testuale
-	 * della durata (se assente, verrà intesa la durata
-	 * {@link Simbolo#DURATA_DEFAULT}), seguita in fine eventualmente dal segno
-	 * <samp>:</samp> e dalla rappresentazione testuale dell'intensità (se
+	 * testuale del suo {@link Nome#valueOf(String) nome}, seguita eventualmnte
+	 * dalla rappresentazione testuale dell'
+	 * {@link Alterazione#fromString(String) alterazione}, seguita eventualmetne
+	 * dal numero di ottava (se assente, verrà intesa l'ottava
+	 * {@link Nota#OTTAVA_DEFAULT}), seguita eventualmente dal segno
+	 * <samp>:</samp> e dalla rappresentazione testuale della
+	 * {@link Durata#fromString(String) durata} (se assente, verrà intesa la
+	 * durata {@link Simbolo#DURATA_DEFAULT}), seguita in fine eventualmente dal
+	 * segno <samp>:</samp> e dal numero corrispondente all'intensità (se
 	 * assente, verrà intesa l'intensità {@link #INTENSITA_DEFAULT}).
+	 * </p>
+	 * 
+	 * <p>
+	 * Ad esempio, il <samp>DO</samp> diesis un'ottava sopra la centrale con
+	 * durata di una semimininma ed intensità media ha rappresentazione
+	 * <samp>DO#5:1/4:64</samp>.
 	 * </p>
 	 * 
 	 * @param nota la rappresentazione testuale della nota.
