@@ -17,13 +17,11 @@ public class TestSintetizzatore {
 	@BeforeClass
 	public static void runOnceBefore() {
 		try {
-			MidiSystem.getSynthesizer();
+			Sintetizzatore.accendi();
 			HAS_RESOURCES = true;
-		} catch ( MidiUnavailableException e ) {
+		} catch ( RuntimeException e ) {
 			HAS_RESOURCES = false;
 		}
-		if ( HAS_RESOURCES )
-			Sintetizzatore.accendi();
 	}
 
 	@AfterClass
