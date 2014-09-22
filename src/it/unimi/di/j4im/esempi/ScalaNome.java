@@ -25,25 +25,18 @@ import it.unimi.di.j4im.notazione.Nota;
 import it.unimi.di.j4im.riproduzione.Sintetizzatore;
 import it.unimi.di.j4im.riproduzione.Strumento;
 
-/** Suona una scala (dal <samp>DO</samp> al <samp>SI</samp>, senza alterazioni), costruendo le note in base all'{@link Nome altezza}. */
-public class ScalaAltezza {
+/** Suona una scala (dal <samp>DO</samp> al <samp>SI</samp>, senza alterazioni), costruendo le note in base al {@link Nome nome}. */
+public class ScalaNome {
 	
 	public static void main( String[] args ) {
 	
 		Sintetizzatore.accendi();
 		
 		Strumento piano = new Strumento( "Piano" );
-		for ( Nome altezza : Nome.values() ) {
-			Nota nota = new Nota( altezza );
-			System.out.println( nota );
+		for ( Nome nome : Nome.values() ) {
+			Nota nota = new Nota( nome );
+			System.out.format( "%3s: %.3fHz\n", nota, nota.frequenza() );
 			nota.suonaCon( piano );
-		}
-
-		Strumento chitarra = new Strumento( "Guitar" );
-		for ( int pitch = 60; pitch < 72; pitch++ ) {
-			Nota nota = new Nota( pitch );
-			System.out.println( nota );
-			nota.suonaCon( chitarra );
 		}
 
 		Sintetizzatore.spegni();
