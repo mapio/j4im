@@ -149,7 +149,7 @@ public class Sintetizzatore {
 		if ( volte <= 0 )
 			sequencer.setLoopCount( Sequencer.LOOP_CONTINUOUSLY );
 		else 
-			sequencer.setLoopCount( volte );
+			sequencer.setLoopCount( volte - 1 );
 		sequencer.addMetaEventListener( mel );
 		try {
 			sequencer.setSequence( sequenza );
