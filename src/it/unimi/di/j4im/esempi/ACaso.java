@@ -37,7 +37,7 @@ public class ACaso {
 		int quante = random.nextInt( 100 );
 		for ( int i = 0; i < quante; i++ ) {
 			int pitch = random.nextInt( 127 );
-			int durata = 16 * ( 1 + random.nextInt( 4 ) );
+			int durata = 4 * ( 1 + random.nextInt( 4 ) );
 			Sintetizzatore.accendiNota( 0, pitch, 127 );
 			Sintetizzatore.attendi( new Durata( durata ) );
 			Sintetizzatore.spegniNota( 0, pitch );
