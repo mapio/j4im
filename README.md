@@ -4,9 +4,9 @@ Java 4 Informatica Musicale (j4im)
 ![build status](https://travis-ci.org/mapio/j4im.svg?branch=master)
 
 Libreria di supporto all'insegnamento di
-[Programmazione](http://boldi.di.unimi.it/Corsi/Mus20.5/) del corso di studi
+[Programmazione](http://boldi.di.unimi.it/Corsi/Mus20.4/) del corso di studi
 in [Informatica
-musicale](http://www.ccdinf.unimi.it/it/corsiDiStudio/2015/F3Xof2/)
+musicale](http://www.ccdinf.unimi.it/it/corsiDiStudio/20.4/F3Xof2/)
 dell'[Università degli Studi di Milano](http://www.unimi.it/).
 
 Come usare la libreria
@@ -20,14 +20,14 @@ scaricabili dal precedente link.
 
 Una volta scaricato il `.jar`, è possibile eseguire il codice d'esempio con
 
-	java -cp j4im-0.5-beta.jar it.unimi.di.j4im.esempi.Groove
-	java -cp j4im-0.5-beta.jar it.unimi.di.j4im.esempi.FraMartinoCanone
+	java -cp j4im-0.4-beta.jar it.unimi.di.j4im.esempi.Groove
+	java -cp j4im-0.4-beta.jar it.unimi.di.j4im.esempi.FraMartinoCanone
 
 o compilare una propria classe (supponendo si chiami `MiaClasse`) che faccia
 uso della libreria con
 
-	javac -cp j4im-0.5-beta.jar MiaClasse.java
-	java -cp j4im-0.5-beta.jar MiaClasse
+	javac -cp j4im-0.4-beta.jar MiaClasse.java
+	java -cp j4im-0.4-beta.jar MiaClasse
 
 
 Come contribuire

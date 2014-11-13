@@ -28,7 +28,7 @@
 	<property name="docs" location="${dist}/docs"/>
 	<property name="release" location="${dist}/release"/>
 
-	<property name="version" value="0.5-beta"/>
+	<property name="version" value="0.4-beta"/>
 
 	<path id="classpath">
 		<fileset dir="${dist}/lib" includes="**/*.jar"/>
