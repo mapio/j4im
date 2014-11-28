@@ -25,15 +25,25 @@ public class Batteria extends Strumento {
 
 	// I pezzi della batteria 
 	
-	public final static int KICK = 36;
-	public final static int SNARE = 38;
-	public final static int CLAP = 39;
-	public final static int CLOSED_HIHAT = 42;
-	public final static int PEDAL_HIHAT = 44;
-	public final static int LO_TOM = 45;
-	public final static int HI_TOM = 50;
-	public final static int CRASH = 49;
-	public final static int RIDE = 53;
+	    public final static int KICK = 35;
+	    public final static int KICK_2 = 36;
+	    public final static int SIDE_STICK = 37;
+	    public final static int SNARE = 38;
+	    public final static int SNARE_2 = 40;
+	    public final static int CLAP = 39;
+	    public final static int CLOSED_HIHAT = 42;
+	    public final static int PEDAL_HIHAT = 44;
+	    public final static int OPEN_HIHAT = 46;
+	    public final static int LO_TOM = 43;
+	    public final static int MID_TOM = 47;
+	    public final static int HI_TOM = 50;
+	    public final static int CRASH_1 = 49;
+	    public final static int CRASH_2 = 57;
+	    public final static int RIDE = 53;
+	    public final static int SPLASH_CYM = 55;
+	    public final static int CHINESE_CYM = 52;
+	    public final static int COWBELL = 56;
+	    public final static int CLAVES = 75;
 	
 	/** Costruisce lo strumento "batteria". */
 	public Batteria() {
