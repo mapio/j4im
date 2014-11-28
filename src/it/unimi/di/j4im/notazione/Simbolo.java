@@ -72,7 +72,7 @@ public abstract class Simbolo {
 	 *             simboli rispetta il formato consentito.
 	 */
 	public static Simbolo[] simboli( final String str ) {
-		final String[] strs = str.split( "," );
+		final String[] strs = str.split( "\\s*,\\s*" );
 		final Simbolo[] simboli = new Simbolo[ strs.length ];
 		for (int i = 0; i < simboli.length; i++)
 			if ( strs[ i ].charAt( 0 ) == '_' )

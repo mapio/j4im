@@ -20,6 +20,7 @@ package it.unimi.di.j4im.notazione;
  *
  */
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -80,6 +81,18 @@ public class TestSimbolo {
 		}
 	}
 	
+	@Test
+	public void testSimboli() {
+		Simbolo[] actual = Simbolo.simboli(  "DO, RE,MI , FA" );
+		Simbolo[] expected = new Simbolo[] {
+				new Nota( "DO" ),
+				new Nota( "RE" ),
+				new Nota( "MI" ),
+				new Nota( "FA" ),
+		};
+		assertArrayEquals( expected, actual);
+	}
+
 	@Test( expected = IllegalArgumentException.class )
 	public void testRanges() {
 		new Nota( "SOL#9" );
