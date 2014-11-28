@@ -1,17 +1,2 @@
 language: java
-env:
-  global:
-    - NOMIDI=1
-    - VERSION=0.4.2-beta
-before_deploy: ant releases
-deploy:
-  provider: releases
-  skip_cleanup: true
-  api_key:
-    secure: dY682PZZ0RT4lJoPFMWxDLo8CZssSRdQjvJOh49scp4SN2qv7qy73XLO7OJnJ+MAqr5T9anB/HUeDcrHU6SFpOxMqIz80Y/tWnaV+jPWm+tYuY7Bvy2fpZZsaplQiSQ6dcZ/B1c8w6Jlh7YXXyzHWU6ZE5+f65hwRz5QvCS/SeE=
-  file:
-    - dist/release/j4im-${VERSION}.jar
-    - dist/release/j4im-${VERSION}-javadoc.zip
-  on:
-    tags: true
-    all_branches: true
+env: NOMIDI=1
