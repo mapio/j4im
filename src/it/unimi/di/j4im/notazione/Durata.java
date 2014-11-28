@@ -112,6 +112,16 @@ public class Durata {
 	}
 
 	@Override
+	public boolean equals( Object other ) {
+		if ( this == other )
+			return true;
+		if ( !( other instanceof Durata ) )
+			return false;
+		final Durata that = (Durata)other;
+		return this.numeratore == that.numeratore && this.denominatore == that.denominatore;
+	}
+
+	@Override
 	public String toString() {
 		return numeratore + "/" + denominatore;
 	}

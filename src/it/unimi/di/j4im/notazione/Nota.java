@@ -517,6 +517,16 @@ public class Nota extends Simbolo {
 	}
 
 	@Override
+	public boolean equals( Object other ) {
+		if ( this == other )
+			return true;
+		if ( !( other instanceof Nota ) )
+			return false;
+		final Nota that = (Nota)other;
+		return this.nome == that.nome && this.alterazione == that.alterazione && this.ottava == that.ottava && this.intensita == that.intensita;
+	}
+
+	@Override
 	public String toString() {
 		return nome.toString() + alterazione.toString() + ( ottava == OTTAVA_DEFAULT ? "" : "" + ottava ) + ( durata == Simbolo.DURATA_DEFAULT ? "" : ":" + durata ) + ( intensita == INTENSITA_DEFAULT ? "" : ":" + intensita );
 	}
