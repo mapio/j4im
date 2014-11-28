@@ -93,7 +93,7 @@ public class Nota extends Simbolo {
 	 */
 	public static class Fabbricatore {
 
-		private final static Pattern PATTERN = Pattern.compile( "^(?<altezza>DO|RE|MI|FA|SOL|LA|SI)(?<alterazione>(#|♭|♯))?(?<ottava>-?\\d+)?(?::(?<durata>\\d+/\\d+))?(?::(?<intensita>\\d+))?$" );
+		private final static Pattern PATTERN = Pattern.compile( "^(?<altezza>DO|RE|MI|FA|SOL|LA|SI)(?<alterazione>(#|♭|♯|b))?(?<ottava>-?\\d+)?(?::(?<durata>\\d+/\\d+))?(?::(?<intensita>\\d+))?$" );
 
 		Nome nome = Nome.DO;
 		Alterazione alterazione = Alterazione.NULLA;
