@@ -37,7 +37,7 @@ public class Batteria extends Strumento {
 	    public final static int LO_TOM = 43;
 	    public final static int MID_TOM = 47;
 	    public final static int HI_TOM = 50;
-	    public final static int CRASH_1 = 49;
+	    public final static int CRASH = 49;
 	    public final static int CRASH_2 = 57;
 	    public final static int RIDE = 53;
 	    public final static int SPLASH_CYM = 55;
