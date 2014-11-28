@@ -3,6 +3,7 @@ env:
   global:
     - NOMIDI=1
     - VERSION=0.4.2-beta
+before_deploy: ant releases
 deploy:
   provider: releases
   skip_cleanup: true
@@ -11,3 +12,6 @@ deploy:
   file:
     - dist/release/j4im-${VERSION}.jar
     - dist/release/j4im-${VERSION}-javadoc.zip
+  on:
+    tags: true
+    all_branches: true
