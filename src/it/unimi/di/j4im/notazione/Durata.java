@@ -104,6 +104,24 @@ public class Durata {
 		return (int)( 4 * resolution / denominatore );
 	}
 
+	/**
+	 * Restituisce il numeratore della durata. 
+	 * 
+	 * @return il numeratore.
+	 */
+	public int numeratore() {
+		return numeratore;
+	}
+	
+	/**
+	 * Restituisce il denominatore della durata. 
+	 * 
+	 * @return il denominatore.
+	 */
+	public int denominatore() {
+		return denominatore;
+	}
+	
 	public boolean piuBreve( final Durata altra ) {
 		if ( numeratore * altra.denominatore < altra.numeratore * denominatore )
 			return true;
