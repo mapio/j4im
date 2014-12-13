@@ -38,16 +38,14 @@ public class Durata {
 	 * 
 	 * @param numeratore il numeratore.
 	 * @param denominatore il denominatore.
-	 * @throws IllegalArgumentException se numerotaore, o denominatore sono
+	 * @throws IllegalArgumentException se numeratore, o denominatore sono
 	 *             negativi, o nulli.
 	 */
 	public Durata( final int numeratore, final int denominatore ) {
-		int x = numeratore;
-		int y = denominatore;
 		if ( numeratore <= 0 || denominatore <= 0 )
 			throw new IllegalArgumentException( "Non sono possibili durate non positive, o il denominatore nullo." );
-		this.numeratore=x/Durata.mcd(x, y);
-		this.denominatore=y/Durata.mcd(x, y);
+		this.numeratore/=Durata.mcd(numeratore, denominatore);
+		this.denominatore/=Durata.mcd(numeratore, denominatore);
 	}
 
 	/**
@@ -61,19 +59,17 @@ public class Durata {
 	
 	/**
 	 * Utilizzato dal costruttore: restituisce il massimo comun divisore tra numeratore e denominatore, oppure -1 in caso di errori.
-	 * @param x Il numeratore.
-	 * @param y Il denominatore.
- 	 * @return Il massimo comun divisore tra numeratore e denominatore, -1 in caso di errori.
+	 * @param a Il numeratore.
+	 * @param b Il denominatore.
+ 	 * @return Il massimo comun divisore tra numeratore e denominatore.
 	 */
-	public static int mcd (int x, int y){
-		if(x<0)
-			x*=-1;
-		if(y<0)
-			y*=-1;
-		for(int i=Math.min(x, y); i>0; i--)
-			if(x%i==0 && y%i==0)
-				return i;
-		return -1;
+	public static int mcd( int a, int b ) {
+		while ( b != 0 ) {
+			int r = a % b;
+			a = b;
+			b = r;
+	        }
+		return a;
 	}
 
 	/**
