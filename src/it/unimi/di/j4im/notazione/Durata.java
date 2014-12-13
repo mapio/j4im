@@ -34,7 +34,7 @@ public class Durata {
 
 	/**
 	 * Costruisce una durata dati numeratore e denominatore (devono essere
-	 * entrambe positivi).
+	 * entrambe positivi) e semplifica la frazione corrispondente.
 	 * 
 	 * @param numeratore il numeratore.
 	 * @param denominatore il denominatore.
@@ -42,10 +42,12 @@ public class Durata {
 	 *             negativi, o nulli.
 	 */
 	public Durata( final int numeratore, final int denominatore ) {
+		int x = numeratore;
+		int y = denominatore;
 		if ( numeratore <= 0 || denominatore <= 0 )
 			throw new IllegalArgumentException( "Non sono possibili durate non positive, o il denominatore nullo." );
-		this.numeratore = numeratore;
-		this.denominatore = denominatore;
+		this.numeratore=x/Durata.mcd(x, y);
+		this.denominatore=y/Durata.mcd(x, y);
 	}
 
 	/**
@@ -55,6 +57,23 @@ public class Durata {
 	 */
 	public Durata( final int denominatore ) {
 		this( 1, denominatore );
+	}
+	
+	/**
+	 * Utilizzato dal costruttore: restituisce il massimo comun divisore tra numeratore e denominatore, oppure -1 in caso di errori.
+	 * @param x Il numeratore.
+	 * @param y Il denominatore.
+ 	 * @return Il massimo comun divisore tra numeratore e denominatore, -1 in caso di errori.
+	 */
+	public static int mcd (int x, int y){
+		if(x<0)
+			x*=-1;
+		if(y<0)
+			y*=-1;
+		for(int i=Math.min(x, y); i>0; i--)
+			if(x%i==0 && y%i==0)
+				return i;
+		return -1;
 	}
 
 	/**
@@ -103,6 +122,42 @@ public class Durata {
 	public int ticks( final double resolution ) {
 		return (int)( 4 * resolution / denominatore );
 	}
+	
+	/**
+	 * Restituisce una durata dalla somma tra questa durata e la durata argomento dell'invocazione.
+	 * @param altra La durata da sommare.
+	 * @return La somma.
+	 */
+	public Durata piu (Durata altra){
+		return new Durata(numeratore*altra.denominatore+denominatore*altra.numeratore, denominatore*altra.denominatore);
+	}
+	
+	/**
+	 * Restituisce una durata dal modulo della differenza tra questa durata e la durata argomento dell'invocazione.
+	 * @param altra La durata da sottrarre.
+	 * @return Il modulo della differenza.
+	 */	
+	public Durata meno (Durata altra){
+		return new Durata(numeratore*altra.denominatore-denominatore*altra.numeratore, denominatore*altra.denominatore);
+	}
+	
+	/**
+	 * Restituisce una durata dal prodotto tra questa durata e l'intero argomento dell'invocazione.
+	 * @param x L'intero per cui moltiplicare.
+	 * @return Il prodotto.
+	 */
+	public Durata per (int x){
+		return new Durata(numeratore*x, denominatore);
+	}
+	
+	/**
+	 * Restituisce una durata dal quoziente tra questa durata e l'intero argomento dell'invocazione.
+	 * @param x L'intero per cui dividere.
+	 * @return Il quoziente.
+	 */
+	public Durata diviso (int x){
+		return new Durata(numeratore, denominatore*x);
+	}
 
 	/**
 	 * Restituisce il numeratore della durata. 
@@ -122,12 +177,43 @@ public class Durata {
 		return denominatore;
 	}
 	
+	/**
+	 * Confronta questa durata con la durata argomento dell'invocazione e restituisce :true: se la durata che esegue il metodo è più breve della durata specificata come argomento, :false: altrimenti.
+	 * @param altra La durata da confrontare.
+	 * @return :true: solo se la durata che esegue il metodo e' più breve della durata specificata come argomento, :false: altrimenti.
+	 */
 	public boolean piuBreve( final Durata altra ) {
 		if ( numeratore * altra.denominatore < altra.numeratore * denominatore )
 			return true;
 		else
 			return false;
 	}
+	
+	/**
+	 * Confronta questa durata con la durata argomento dell'invocazione e restituisce :true: se la durata che esegue il metodo è più lunga della durata specificata come argomento, :false: altrimenti.
+	 * @param altra La durata da confrontare.
+	 * @return :true: solo se la durata che esegue il metodo e' più lunga della durata specificata come argomento, :false: altrimenti.
+	 */
+	public boolean piuLunga( final Durata altra ) {
+		if ( numeratore * altra.denominatore > altra.numeratore * denominatore )
+			return true;
+		else
+			return false;
+	}
+	
+	/**
+	 * Confronta questa durata con la durata argomento dell'invocazione e restituisce -1, zero, o 1 a seconda che la durata che esegue il metodo sia più breve, uguale o più lunga
+	 * della durata specificata come argomento.
+	 * @param altra La durata da confrontare.
+	 * @return -1, zero, o 1 a seconda che la durata che esegue il metodo sia più breve, uguale o più lunga di quella specificata come argomento.
+	 */
+	public int compareTo (Durata altra){
+		if (this.piuLunga(altra))
+			return 1;
+		if (this.piuBreve(altra))
+			return -1;
+		return 0;
+	} 
 
 	@Override
 	public boolean equals( Object other ) {
