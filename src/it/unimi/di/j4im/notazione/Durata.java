@@ -174,39 +174,15 @@ public class Durata {
 	}
 	
 	/**
-	 * Confronta questa durata con la durata argomento dell'invocazione e restituisce :true: se la durata che esegue il metodo è più breve della durata specificata come argomento, :false: altrimenti.
-	 * @param altra La durata da confrontare.
-	 * @return :true: solo se la durata che esegue il metodo e' più breve della durata specificata come argomento, :false: altrimenti.
-	 */
-	public boolean piuBreve( final Durata altra ) {
-		if ( numeratore * altra.denominatore < altra.numeratore * denominatore )
-			return true;
-		else
-			return false;
-	}
-	
-	/**
-	 * Confronta questa durata con la durata argomento dell'invocazione e restituisce :true: se la durata che esegue il metodo è più lunga della durata specificata come argomento, :false: altrimenti.
-	 * @param altra La durata da confrontare.
-	 * @return :true: solo se la durata che esegue il metodo e' più lunga della durata specificata come argomento, :false: altrimenti.
-	 */
-	public boolean piuLunga( final Durata altra ) {
-		if ( numeratore * altra.denominatore > altra.numeratore * denominatore )
-			return true;
-		else
-			return false;
-	}
-	
-	/**
 	 * Confronta questa durata con la durata argomento dell'invocazione e restituisce -1, zero, o 1 a seconda che la durata che esegue il metodo sia più breve, uguale o più lunga
 	 * della durata specificata come argomento.
 	 * @param altra La durata da confrontare.
 	 * @return -1, zero, o 1 a seconda che la durata che esegue il metodo sia più breve, uguale o più lunga di quella specificata come argomento.
 	 */
 	public int compareTo (Durata altra){
-		if (this.piuLunga(altra))
+		if (numeratore * altra.denominatore > altra.numeratore * denominatore)
 			return 1;
-		if (this.piuBreve(altra))
+		if (numeratore * altra.denominatore < altra.numeratore * denominatore)
 			return -1;
 		return 0;
 	} 
