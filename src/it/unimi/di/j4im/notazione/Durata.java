@@ -174,10 +174,12 @@ public class Durata implements Comparable <Durata>{
 	}
 	
 	/**
-	 * Confronta questa durata con la durata argomento dell'invocazione e restituisce -1, zero, o 1 a seconda che la durata che esegue il metodo sia più breve, uguale o più lunga
-	 * della durata specificata come argomento.
+	 * Confronta questa durata con la durata argomento dell'invocazione e restituisce un valore minore di zero,
+	 * zero, o un valore maggiore di zero a seconda che la durata che esegue il metodo sia 
+	 * più breve, uguale o più lunga della durata specificata come argomento.
 	 * @param altra La durata da confrontare.
-	 * @return -1, zero, o 1 a seconda che la durata che esegue il metodo sia più breve, uguale o più lunga di quella specificata come argomento.
+	 * @return un valore maggiore di zero , zero, o un valore minore di zero a seconda che la durata 
+	 * che esegue il metodo sia più breve, uguale o più lunga di quella specificata come argomento.
 	 */
 	public int compareTo (Durata altra){
 		return numeratore * altra.denominatore - altra.numeratore * denominatore;
