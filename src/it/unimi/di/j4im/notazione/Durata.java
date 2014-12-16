@@ -19,7 +19,7 @@ package it.unimi.di.j4im.notazione;
  */
 
 /** Durata di una simbolo musicale (espressa come frazione della misura). */
-public class Durata {
+public class Durata implements Comparable <Durata>{
 
 	public static final Durata SEMIBREVE = new Durata( 1 );
 	public static final Durata MINIMA = new Durata( 2 );
@@ -180,11 +180,7 @@ public class Durata {
 	 * @return -1, zero, o 1 a seconda che la durata che esegue il metodo sia più breve, uguale o più lunga di quella specificata come argomento.
 	 */
 	public int compareTo (Durata altra){
-		if (numeratore * altra.denominatore > altra.numeratore * denominatore)
-			return 1;
-		if (numeratore * altra.denominatore < altra.numeratore * denominatore)
-			return -1;
-		return 0;
+		return numeratore * altra.denominatore - altra.numeratore * denominatore;
 	} 
 
 	@Override
@@ -195,6 +191,11 @@ public class Durata {
 			return false;
 		final Durata that = (Durata)other;
 		return this.numeratore == that.numeratore && this.denominatore == that.denominatore;
+	}
+	
+	@Override
+	public int hashCode(){
+		return numeratore * denominatore;
 	}
 
 	@Override
