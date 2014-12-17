@@ -39,3 +39,6 @@ Chiunque voglia contribuire allo sviluppo può *segnalare eventuali errori* e
 possono fare una [fork](https://github.com/mapio/j4im/fork) di questo
 repositoty: le richieste di [pull](https://github.com/mapio/j4im/pulls)
 saranno considerate con molto interesse!
+
+![Analytics](https://ga-beacon.appspot.com/UA-377250-20/j4im?pixel)
+
