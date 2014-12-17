@@ -57,12 +57,14 @@ this( 1, denominatore );
 * @return Il massimo comun divisore tra numeratore e denominatore.
 */
 public static int mcd( int a, int b ) {
-while ( b != 0 ) {
-int r = a % b;
-a = b;
-b = r;
-}
-return a;
+if(x<0)
+x*=-1;
+if(y<0)
+y*=-1;
+for(int i=Math.min(x, y); i>0; i--)
+if(x%i==0 && y%i==0)
+return i;
+return -1;
 }
 /**
 * Restituisce la durata contenuta in una stringa data.
