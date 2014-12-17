@@ -41,11 +41,15 @@ public class Durata implements Comparable <Durata>{
 	 * @throws IllegalArgumentException se numeratore, o denominatore sono
 	 *             negativi, o nulli.
 	 */
-	public Durata( final int numeratore, final int denominatore ) {
+	 public Durata( final int numeratore, final int denominatore ) {
+	 	int x = numeratore;
+		int y = denominatore;
 		if ( numeratore <= 0 || denominatore <= 0 )
 			throw new IllegalArgumentException( "Non sono possibili durate non positive, o il denominatore nullo." );
-		this.numeratore/=Durata.mcd(numeratore, denominatore);
-		this.denominatore/=Durata.mcd(numeratore, denominatore);
+		this.numeratore = numeratore;
+		this.denominatore = denominatore;
+		this.numeratore=x/Durata.mcd(x, y);
+		this.denominatore=y/Durata.mcd(x, y);
 	}
 
 	/**
