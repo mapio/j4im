@@ -115,6 +115,7 @@
 			locale="it_IT"
 			overview="${src}/overview.html"
 		>
+			<footer><![CDATA[<img src='https://ga-beacon.appspot.com/UA-377250-20/j4im-api?pixel' />]]></footer>
 			<link href="http://docs.oracle.com/javase/7/docs/api/"/>
 			<link offline="true" href="http://docs.oracle.com/javase/7/docs/api/" packagelistLoc="/Users/santini/Documents/LOG/docs/jdk1.7/api/"/>
 			<doctitle>J4IM</doctitle>
