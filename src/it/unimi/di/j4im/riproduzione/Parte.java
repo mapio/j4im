@@ -156,12 +156,7 @@ public class Parte {
 	 */
 	public void accodaAccordo( final Nota[] accordo ) {
 		final Nota[] note = Arrays.copyOf( accordo, accordo.length );
-		Arrays.sort( note, new Comparator<Nota>() {
-			public int compare( Nota p, Nota q ) {
-				if ( q.durata().piuBreve( p.durata() ) ) return -1;
-				else return 1;
-			}
-		} );
+		Arrays.sort( note );
 		try {
 			for ( Nota n : note )
 				track.add( new MidiEvent( new ShortMessage( ShortMessage.NOTE_ON, canale, n.pitch(), n.intensita() ), ticks ) );
