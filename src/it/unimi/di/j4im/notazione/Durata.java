@@ -58,12 +58,14 @@ public class Durata implements Comparable <Durata>{
 	}
 	
 	/**
-	 * Utilizzato dal costruttore: restituisce il massimo comun divisore tra numeratore e denominatore, oppure -1 in caso di errori.
-	 * @param a Il numeratore.
-	 * @param b Il denominatore.
- 	 * @return Il massimo comun divisore tra numeratore e denominatore.
+	 * Utilizzato dal costruttore: restituisce il massimo comun divisore tra due numeri.
+	 * Assume che entrambe i numeri siano positivi (non effettua controlli in merito).
+	 * 
+	 * @param a primo numero.
+	 * @param b secondo numero.
+ 	 * @return il massimo comun divisore.
 	 */
-	public static int mcd( int a, int b ) {
+	private static int mcd( int a, int b ) {
 		while ( b != 0 ) {
 			int r = a % b;
 			a = b;
