@@ -19,7 +19,7 @@ package it.unimi.di.j4im.notazione;
  */
 
 /** Durata di una simbolo musicale (espressa come frazione della misura). */
-public class Durata {
+public class Durata implements Comparable <Durata>{
 
 	public static final Durata SEMIBREVE = new Durata( 1 );
 	public static final Durata MINIMA = new Durata( 2 );
@@ -34,18 +34,18 @@ public class Durata {
 
 	/**
 	 * Costruisce una durata dati numeratore e denominatore (devono essere
-	 * entrambe positivi).
+	 * entrambe positivi) e semplifica la frazione corrispondente.
 	 * 
 	 * @param numeratore il numeratore.
 	 * @param denominatore il denominatore.
-	 * @throws IllegalArgumentException se numerotaore, o denominatore sono
+	 * @throws IllegalArgumentException se numeratore, o denominatore sono
 	 *             negativi, o nulli.
 	 */
 	public Durata( final int numeratore, final int denominatore ) {
 		if ( numeratore <= 0 || denominatore <= 0 )
 			throw new IllegalArgumentException( "Non sono possibili durate non positive, o il denominatore nullo." );
-		this.numeratore = numeratore;
-		this.denominatore = denominatore;
+		this.numeratore = numeratore / Durata.mcd(numeratore, denominatore);
+		this.denominatore = denominatore / Durata.mcd(numeratore, denominatore);
 	}
 
 	/**
@@ -55,6 +55,21 @@ public class Durata {
 	 */
 	public Durata( final int denominatore ) {
 		this( 1, denominatore );
+	}
+	
+	/**
+	 * Utilizzato dal costruttore: restituisce il massimo comun divisore tra numeratore e denominatore, oppure -1 in caso di errori.
+	 * @param a Il numeratore.
+	 * @param b Il denominatore.
+ 	 * @return Il massimo comun divisore tra numeratore e denominatore.
+	 */
+	public static int mcd( int a, int b ) {
+		while ( b != 0 ) {
+			int r = a % b;
+			a = b;
+			b = r;
+	        }
+		return a;
 	}
 
 	/**
@@ -103,6 +118,51 @@ public class Durata {
 	public int ticks( final double resolution ) {
 		return (int)( 4 * resolution / denominatore );
 	}
+	
+	/**
+	 * Restituisce la durata corrispondente alla somma tra questa e la durata data.
+	 * 
+	 * @param altra la durata da sommare.
+	 * @return la somma.
+	 */
+	public Durata piu( Durata altra ) {
+		return new Durata( numeratore * altra.denominatore + denominatore * altra.numeratore, denominatore * altra.denominatore );
+	}
+	
+	/**
+	 * Restituisce la durata corrispondente alla sottrazione tra questa e la durata data.
+	 * 
+	 * @param altra la durata da sottrarre.
+	 * @return la differenza.
+	 * @throws IllegalArgumentException se la sottrazione risulta in una durata negativa.
+	 */	
+	public Durata meno( Durata altra ) {
+		return new Durata( numeratore * altra.denominatore - denominatore * altra.numeratore, denominatore * altra.denominatore );
+	}
+	
+	/**
+	 * Restituisce la durata data dal prodotto tra questa ed un intero dato.
+	 * 
+	 * @param x l'intero per cui moltiplicare.
+	 * @return il prodotto.
+	 * @throws IllegalArgumentException se l'argomento è negativo, o nullo.
+	 */
+	public Durata per( int x ) {
+		if ( x <= 0 ) throw new IllegalArgumentException( "Non si può moltiplicare una durata per una grandezza negativa, o nulla." );
+		return new Durata( numeratore * x, denominatore );
+	}
+	
+	/**
+	 * Restituisce la durata data dal rapporto tra questa ed un intero dato.
+	 * 
+	 * @param x l'intero per cui dividere.
+	 * @return il rapporto.
+	 * @throws IllegalArgumentException se l'argomento è negativo, o nullo.
+	 */
+	public Durata diviso( int x ) {
+		if ( x <= 0 ) throw new IllegalArgumentException( "Non si può dividere una durata per una grandezza negativa, o nulla." );
+		return new Durata( numeratore, denominatore * x );
+	}
 
 	/**
 	 * Restituisce il numeratore della durata. 
@@ -122,12 +182,10 @@ public class Durata {
 		return denominatore;
 	}
 	
-	public boolean piuBreve( final Durata altra ) {
-		if ( numeratore * altra.denominatore < altra.numeratore * denominatore )
-			return true;
-		else
-			return false;
-	}
+	@Override
+	public int compareTo( Durata altra ) {
+		return numeratore * altra.denominatore - altra.numeratore * denominatore < 0 ? -1 : 1 ;
+	} 
 
 	@Override
 	public boolean equals( Object other ) {
@@ -137,6 +195,11 @@ public class Durata {
 			return false;
 		final Durata that = (Durata)other;
 		return this.numeratore == that.numeratore && this.denominatore == that.denominatore;
+	}
+	
+	@Override
+	public int hashCode(){
+		return ( numeratore << 16 ) | denominatore;
 	}
 
 	@Override
