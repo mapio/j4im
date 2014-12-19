@@ -25,7 +25,6 @@ import it.unimi.di.j4im.notazione.Pausa;
 import it.unimi.di.j4im.notazione.Simbolo;
 
 import java.util.Arrays;
-import java.util.Comparator;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiEvent;

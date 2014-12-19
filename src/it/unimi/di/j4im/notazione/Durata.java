@@ -58,23 +58,6 @@ public class Durata implements Comparable <Durata>{
 	}
 	
 	/**
-	 * Utilizzato dal costruttore: restituisce il massimo comun divisore tra due numeri.
-	 * Assume che entrambe i numeri siano positivi (non effettua controlli in merito).
-	 * 
-	 * @param a primo numero.
-	 * @param b secondo numero.
- 	 * @return il massimo comun divisore.
-	 */
-	private static int mcd( int a, int b ) {
-		while ( b != 0 ) {
-			int r = a % b;
-			a = b;
-			b = r;
-	        }
-		return a;
-	}
-
-	/**
 	 * Restituisce la durata contenuta in una stringa data.
 	 * 
 	 * <p>
@@ -127,7 +110,7 @@ public class Durata implements Comparable <Durata>{
 	 * @param altra la durata da sommare.
 	 * @return la somma.
 	 */
-	public Durata piu( Durata altra ) {
+	public Durata piu( final Durata altra ) {
 		return new Durata( numeratore * altra.denominatore + denominatore * altra.numeratore, denominatore * altra.denominatore );
 	}
 	
@@ -138,7 +121,7 @@ public class Durata implements Comparable <Durata>{
 	 * @return la differenza.
 	 * @throws IllegalArgumentException se la sottrazione risulta in una durata negativa.
 	 */	
-	public Durata meno( Durata altra ) {
+	public Durata meno( final Durata altra ) {
 		return new Durata( numeratore * altra.denominatore - denominatore * altra.numeratore, denominatore * altra.denominatore );
 	}
 	
@@ -149,7 +132,7 @@ public class Durata implements Comparable <Durata>{
 	 * @return il prodotto.
 	 * @throws IllegalArgumentException se l'argomento è negativo, o nullo.
 	 */
-	public Durata per( int x ) {
+	public Durata per( final int x ) {
 		if ( x <= 0 ) throw new IllegalArgumentException( "Non si può moltiplicare una durata per una grandezza negativa, o nulla." );
 		return new Durata( numeratore * x, denominatore );
 	}
@@ -161,7 +144,7 @@ public class Durata implements Comparable <Durata>{
 	 * @return il rapporto.
 	 * @throws IllegalArgumentException se l'argomento è negativo, o nullo.
 	 */
-	public Durata diviso( int x ) {
+	public Durata diviso( final int x ) {
 		if ( x <= 0 ) throw new IllegalArgumentException( "Non si può dividere una durata per una grandezza negativa, o nulla." );
 		return new Durata( numeratore, denominatore * x );
 	}
@@ -185,12 +168,12 @@ public class Durata implements Comparable <Durata>{
 	}
 	
 	@Override
-	public int compareTo( Durata altra ) {
+	public int compareTo( final Durata altra ) {
 		return numeratore * altra.denominatore - altra.numeratore * denominatore < 0 ? -1 : 1 ;
 	} 
 
 	@Override
-	public boolean equals( Object other ) {
+	public boolean equals( final Object other ) {
 		if ( this == other )
 			return true;
 		if ( !( other instanceof Durata ) )
@@ -200,7 +183,7 @@ public class Durata implements Comparable <Durata>{
 	}
 	
 	@Override
-	public int hashCode(){
+	public int hashCode() {
 		return ( numeratore << 16 ) | denominatore;
 	}
 
@@ -208,4 +191,22 @@ public class Durata implements Comparable <Durata>{
 	public String toString() {
 		return numeratore + "/" + denominatore;
 	}
+	
+	/**
+	 * Restituisce il massimo comun divisore tra due numeri.
+	 * Assume che entrambe i numeri siano positivi (non effettua controlli in merito).
+	 * 
+	 * @param a primo numero.
+	 * @param b secondo numero.
+ 	 * @return il massimo comun divisore.
+	 */
+	private static int mcd( int a, int b ) {
+		while ( b != 0 ) {
+			int r = a % b;
+			a = b;
+			b = r;
+	        }
+		return a;
+	}
+
 }

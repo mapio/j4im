@@ -517,7 +517,7 @@ public class Nota extends Simbolo {
 	}
 
 	@Override
-	public boolean equals( Object other ) {
+	public boolean equals( final Object other ) {
 		if ( this == other )
 			return true;
 		if ( !( other instanceof Nota ) )
