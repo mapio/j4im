@@ -2,18 +2,18 @@ package it.unimi.di.j4im.notazione;
 
 /*
  * Copyright 2014 Massimo Santini
- * 
+ *
  * This file is part of j4im.
- * 
+ *
  * j4im is free software: you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * j4im is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * j4im. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -35,7 +35,7 @@ public class Durata implements Comparable <Durata>{
 	/**
 	 * Costruisce una durata dati numeratore e denominatore (devono essere
 	 * entrambe positivi) e semplifica la frazione corrispondente.
-	 * 
+	 *
 	 * @param numeratore il numeratore.
 	 * @param denominatore il denominatore.
 	 * @throws IllegalArgumentException se numeratore, o denominatore sono
@@ -50,21 +50,21 @@ public class Durata implements Comparable <Durata>{
 
 	/**
 	 * Costruisce una durata espressa come frazione dell'unità.
-	 * 
+	 *
 	 * @param denominatore il denominatore.
 	 */
 	public Durata( final int denominatore ) {
 		this( 1, denominatore );
 	}
-	
+
 	/**
 	 * Restituisce la durata contenuta in una stringa data.
-	 * 
+	 *
 	 * <p>
 	 * La stringa deve avere formato dato da due numeri separati da
 	 * <samp>/</samp>.
 	 * </p>
-	 * 
+	 *
 	 * @param str la stringa in cui si trova la durata.
 	 * @return la durata.
 	 * @throws IllegalArgumentException se la stringa non contiene una durata
@@ -86,7 +86,7 @@ public class Durata implements Comparable <Durata>{
 	/**
 	 * Restituisce la durata in millisecondi, dato il numero di quarti al
 	 * minuto.
-	 * 
+	 *
 	 * @param bpm il numero di quarti al minuto.
 	 * @return La durata in millisecondi.
 	 */
@@ -96,38 +96,38 @@ public class Durata implements Comparable <Durata>{
 
 	/**
 	 * Resituisce la durata in ticks, data la risoluzione.
-	 * 
+	 *
 	 * @param resolution la risoluzione.
 	 * @return La durata in ticks.
 	 */
 	public int ticks( final double resolution ) {
 		return (int)( 4 * resolution / denominatore );
 	}
-	
+
 	/**
 	 * Restituisce la durata corrispondente alla somma tra questa e la durata data.
-	 * 
+	 *
 	 * @param altra la durata da sommare.
 	 * @return la somma.
 	 */
 	public Durata piu( final Durata altra ) {
 		return new Durata( numeratore * altra.denominatore + denominatore * altra.numeratore, denominatore * altra.denominatore );
 	}
-	
+
 	/**
 	 * Restituisce la durata corrispondente alla sottrazione tra questa e la durata data.
-	 * 
+	 *
 	 * @param altra la durata da sottrarre.
 	 * @return la differenza.
 	 * @throws IllegalArgumentException se la sottrazione risulta in una durata negativa.
-	 */	
+	 */
 	public Durata meno( final Durata altra ) {
 		return new Durata( numeratore * altra.denominatore - denominatore * altra.numeratore, denominatore * altra.denominatore );
 	}
-	
+
 	/**
 	 * Restituisce la durata data dal prodotto tra questa ed un intero dato.
-	 * 
+	 *
 	 * @param x l'intero per cui moltiplicare.
 	 * @return il prodotto.
 	 * @throws IllegalArgumentException se l'argomento è negativo, o nullo.
@@ -136,10 +136,10 @@ public class Durata implements Comparable <Durata>{
 		if ( x <= 0 ) throw new IllegalArgumentException( "Non si può moltiplicare una durata per una grandezza negativa, o nulla." );
 		return new Durata( numeratore * x, denominatore );
 	}
-	
+
 	/**
 	 * Restituisce la durata data dal rapporto tra questa ed un intero dato.
-	 * 
+	 *
 	 * @param x l'intero per cui dividere.
 	 * @return il rapporto.
 	 * @throws IllegalArgumentException se l'argomento è negativo, o nullo.
@@ -150,27 +150,27 @@ public class Durata implements Comparable <Durata>{
 	}
 
 	/**
-	 * Restituisce il numeratore della durata. 
-	 * 
+	 * Restituisce il numeratore della durata.
+	 *
 	 * @return il numeratore.
 	 */
 	public int numeratore() {
 		return numeratore;
 	}
-	
+
 	/**
-	 * Restituisce il denominatore della durata. 
-	 * 
+	 * Restituisce il denominatore della durata.
+	 *
 	 * @return il denominatore.
 	 */
 	public int denominatore() {
 		return denominatore;
 	}
-	
+
 	@Override
 	public int compareTo( final Durata altra ) {
-		return numeratore * altra.denominatore - altra.numeratore * denominatore < 0 ? -1 : 1 ;
-	} 
+		return numeratore * altra.denominatore < altra.numeratore * denominatore ? -1 : 1 ;
+	}
 
 	@Override
 	public boolean equals( final Object other ) {
@@ -181,7 +181,7 @@ public class Durata implements Comparable <Durata>{
 		final Durata that = (Durata)other;
 		return this.numeratore == that.numeratore && this.denominatore == that.denominatore;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return ( numeratore << 16 ) | denominatore;
@@ -191,11 +191,11 @@ public class Durata implements Comparable <Durata>{
 	public String toString() {
 		return numeratore + "/" + denominatore;
 	}
-	
+
 	/**
 	 * Restituisce il massimo comun divisore tra due numeri.
 	 * Assume che entrambe i numeri siano positivi (non effettua controlli in merito).
-	 * 
+	 *
 	 * @param a primo numero.
 	 * @param b secondo numero.
  	 * @return il massimo comun divisore.
