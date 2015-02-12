@@ -93,6 +93,7 @@
 			</classpath>
 
 			<formatter type="brief" usefile="false"/>
+			<formatter type="xml"/>
 
 			<batchtest fork="yes" todir="${junit}">
 				<fileset dir="${test}">
