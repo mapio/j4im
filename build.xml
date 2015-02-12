@@ -104,6 +104,7 @@
 
 	<target name="javadoc" description="generate javadoc">
 		<javadoc
+			additionalparam="-Xdoclint:all,-html"
 			encoding="UTF-8"
 			charset="UTF-8"
 			docencoding="UTF-8"
