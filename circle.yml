@@ -6,5 +6,5 @@ test:
   override:
     - ant test
   post:
-    - mkdir $CIRCLE_TEST_REPORTS
+    - mkdir -p $CIRCLE_TEST_REPORTS
     - cp ./dist/junit/* $CIRCLE_TEST_REPORTS
