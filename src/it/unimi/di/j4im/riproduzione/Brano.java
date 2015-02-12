@@ -2,7 +2,7 @@ package it.unimi.di.j4im.riproduzione;
 
 /*
  * Copyright 2014 Massimo Santini
- * 
+ *
  * This file is part of j4im.
  *
  * j4im is free software: you can redistribute it and/or modify
@@ -30,27 +30,27 @@ import javax.sound.midi.Track;
 
 /**
  * Un brano musicale.
- * 
+ *
  * <p>
  * Un brano è una collezione di {@link Parte parti}, ciascuna delle quali costituisce
  * una sequenza di note assegnate ad un certo {@link Strumento strumento}; un brano può essere
- * riprodotto, col metodo {@link #riproduci(int)}, oppure letto o scritto su 
+ * riprodotto, col metodo {@link #riproduci(int)}, oppure letto o scritto su
  * un file (rispettivamente coi metodi {@link #leggi(String)} e {@link #scrivi(String)}.
  * </p>
- * 
- * 
+ *
+ *
  * <h3>Dettagli implementativi</h3>
- * 
+ *
  * <p>
  * Questa classe si basa su una {@link Sequence}, una volta
  * passata al costruttore di {@link Parte}, la parte utilizzerà
  * il metodo {@link Sequence#createTrack()} per ottenere la
  * {@link Track} di cui essa rappresenta una astrazione.
  * </p>
- * 
+ *
  * @see Parte
  * @see Strumento
- * 
+ *
  */
 public class Brano {
 
@@ -59,7 +59,7 @@ public class Brano {
 
 	/** La sequenza usata per rappresentare il brano. */
 	final Sequence sequence;
-	
+
 	/** Costruisce un nuovo brano. */
 	public Brano() {
 		try {
@@ -68,28 +68,28 @@ public class Brano {
 			throw new RuntimeException( e ); // questo non dovrebbe mai accadere
 		}
 	}
-	
+
 	private Brano( final Sequence sequence ) {
 		this.sequence = sequence;
 	}
-	
+
 	/** Riproduce (un dato numero di volte) il brano (usando il {@link Sintetizzatore}.
-	 * 
-	 * @param ripetizioni il numero di volte per cui la riproduzione va ripetuta 
+	 *
+	 * @param ripetizioni il numero di volte per cui la riproduzione va ripetuta
 	 *                    (se il valore non è positivo, il brano viene ripetuto all'infinito).
-	 * 
+	 *
 	 */
 	public void riproduci( final int ripetizioni ) {
 		Sintetizzatore.riproduci( sequence, ripetizioni  );
 	}
-	
+
 	/** Riproduce il brano (usando il {@link Sintetizzatore}. */
 	public void riproduci() {
 		Sintetizzatore.riproduci( sequence );
 	}
 
 	/** Scrive il brano in un file midi.
-	 * 
+	 *
 	 * @param path il percorso del file.
 	 * @throws IOException se ci sono errori di I/O.
 	 */
@@ -98,8 +98,9 @@ public class Brano {
 	}
 
 	/** Restituisce un brano ottenuto leggendo la sequenza da un file midi.
-	 * 
+	 *
 	 * @param path il percorso del file.
+	 * @return il brano letto dal file.
 	 * @throws IOException se ci sono errori di I/O.
 	 * @throws InvalidMidiDataException se il file non è nel formato corretto.
 	 */
