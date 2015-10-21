@@ -24,14 +24,14 @@ Una volta scaricato il `.jar`, ad esempio con il comando
 
 è possibile eseguire il codice d'esempio con
 
-	java -cp j4im-0.6-beta.jar it.unimi.di.j4im.esempi.Groove
-	java -cp j4im-0.6-beta.jar it.unimi.di.j4im.esempi.FraMartinoCanone
+	java -cp j4im-0.7-beta.jar it.unimi.di.j4im.esempi.Groove
+	java -cp j4im-0.7-beta.jar it.unimi.di.j4im.esempi.FraMartinoCanone
 
 o compilare una propria classe (supponendo si chiami `MiaClasse`) che faccia
 uso della libreria con
 
-	javac -cp j4im-0.6-beta.jar MiaClasse.java
-	java -cp j4im-0.6-beta.jar MiaClasse
+	javac -cp j4im-0.7-beta.jar MiaClasse.java
+	java -cp j4im-0.7-beta.jar MiaClasse
 
 
 Come contribuire
