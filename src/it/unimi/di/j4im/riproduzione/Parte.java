@@ -1,5 +1,14 @@
 package it.unimi.di.j4im.riproduzione;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiEvent;
+import javax.sound.midi.MidiMessage;
+import javax.sound.midi.ShortMessage;
+import javax.sound.midi.Track;
+
 /*
  * Copyright 2014 Massimo Santini
  * 
@@ -23,14 +32,6 @@ package it.unimi.di.j4im.riproduzione;
 import it.unimi.di.j4im.notazione.Nota;
 import it.unimi.di.j4im.notazione.Pausa;
 import it.unimi.di.j4im.notazione.Simbolo;
-
-import java.util.Arrays;
-
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiEvent;
-import javax.sound.midi.MidiMessage;
-import javax.sound.midi.ShortMessage;
-import javax.sound.midi.Track;
 
 /** Una parte di un {@link Brano brano} musicale.
  * 
@@ -155,7 +156,11 @@ public class Parte {
 	 */
 	public void accodaAccordo( final Nota[] accordo ) {
 		final Nota[] note = Arrays.copyOf( accordo, accordo.length );
-		Arrays.sort( note );
+		Arrays.sort( note, new Comparator<Nota>() {
+			public int compare( Nota p, Nota q ) {
+				return p.durata().compareTo( q.durata() );
+			}
+		} );
 		try {
 			for ( Nota n : note )
 				track.add( new MidiEvent( new ShortMessage( ShortMessage.NOTE_ON, canale, n.pitch(), n.intensita() ), ticks ) );
