@@ -18,16 +18,20 @@ Gli studenti possono scaricare l'ultima versione dalla pagina delle
 osserva che una copia della documentazione è presente anche nelle release
 scaricabili dal precedente link.
 
-Una volta scaricato il `.jar`, è possibile eseguire il codice d'esempio con
+Una volta scaricato il `.jar`, ad esempio con il comando
 
-	java -cp j4im-0.5-beta.jar it.unimi.di.j4im.esempi.Groove
-	java -cp j4im-0.5-beta.jar it.unimi.di.j4im.esempi.FraMartinoCanone
+	curl -sLO https://github.com/mapio/j4im/releases/download/0.6-beta/j4im-0.6-beta.jar
+
+è possibile eseguire il codice d'esempio con
+
+	java -cp j4im-0.6-beta.jar it.unimi.di.j4im.esempi.Groove
+	java -cp j4im-0.6-beta.jar it.unimi.di.j4im.esempi.FraMartinoCanone
 
 o compilare una propria classe (supponendo si chiami `MiaClasse`) che faccia
 uso della libreria con
 
-	javac -cp j4im-0.5-beta.jar MiaClasse.java
-	java -cp j4im-0.5-beta.jar MiaClasse
+	javac -cp j4im-0.6-beta.jar MiaClasse.java
+	java -cp j4im-0.6-beta.jar MiaClasse
 
 
 Come contribuire
