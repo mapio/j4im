@@ -53,8 +53,8 @@
 			srcdir="${src}"
 			destdir="${build}"
 			classpathref="classpath"
-			source="1.8"
-			target="1.8"
+			source="1.7"
+			target="1.7"
 		/>
 	</target>
 
@@ -76,8 +76,8 @@
 			srcdir="${test}"
 			destdir="${build}"
 			classpathref="classpath"
-			source="1.8"
-			target="1.8"
+			source="1.7"
+			target="1.7"
 		/>
 	</target>
 
@@ -120,7 +120,7 @@
 			windowtitle="J4IM"
 			locale="it_IT"
 			overview="${src}/overview.html"
-			source="1.8"
+			source="1.7"
 		>
 			<footer><![CDATA[<img src='https://ga-beacon.appspot.com/UA-377250-20/j4im-api?pixel' />]]></footer>
 			<link href="http://docs.oracle.com/javase/7/docs/api/"/>
