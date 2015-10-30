@@ -129,17 +129,25 @@ public class Parte {
 		ticks += pausa.durata().ticks( Brano.RESOLUTION );
 	}
 
+	/** Accoda il simbolo specificato alla parte.
+	 * 
+	 * @param simbolo il simbolo.
+	 * 
+	 */
+	public void accoda( final Simbolo simbolo ) {
+		if ( simbolo instanceof Pausa ) 
+			accoda( (Pausa)simbolo );
+		else 
+			accoda( (Nota)simbolo );
+	}
+
 	/** Accoda (in sequenza) un array di {@link Simbolo} alla parte. 
 	 *
 	 * @param simboli l'array di simboli.
 	 * 
 	 */
 	public void accoda( final Simbolo[] simboli ) {
-		for ( Simbolo s : simboli )
-			if ( s instanceof Pausa ) 
-				accoda( (Pausa)s );
-			else 
-				accoda( (Nota)s );
+		for ( Simbolo s : simboli ) accoda( s );
 	}
 
 	/** Accoda un accordo (vettore di {@link Nota}) alla parte.
