@@ -20,18 +20,18 @@ scaricabili dal precedente link.
 
 Una volta scaricato il `.jar`, ad esempio con il comando
 
-	curl -sLO https://github.com/mapio/j4im/releases/download/0.6-beta/j4im-0.6-beta.jar
+	curl -sLO https://github.com/mapio/j4im/releases/download/0.8-beta/j4im-0.8-beta.jar
 
 è possibile eseguire il codice d'esempio con
 
-	java -cp j4im-0.7-beta.jar it.unimi.di.j4im.esempi.Groove
-	java -cp j4im-0.7-beta.jar it.unimi.di.j4im.esempi.FraMartinoCanone
+	java -cp j4im-0.8-beta.jar it.unimi.di.j4im.esempi.Groove
+	java -cp j4im-0.8-beta.jar it.unimi.di.j4im.esempi.FraMartinoCanone
 
 o compilare una propria classe (supponendo si chiami `MiaClasse`) che faccia
 uso della libreria con
 
-	javac -cp j4im-0.7-beta.jar MiaClasse.java
-	java -cp j4im-0.7-beta.jar MiaClasse
+	javac -cp j4im-0.8-beta.jar MiaClasse.java
+	java -cp j4im-0.8-beta.jar MiaClasse
 
 
 Come contribuire
