@@ -21,6 +21,10 @@ package it.unimi.di.j4im.riproduzione;
 /** La batteria. */
 public class Batteria extends Strumento {
 
+	// Il canale della batteria
+	
+	public final static int CANALE = 9;
+	
 	// I pezzi della batteria
 
 	public final static int KICK = 35;
