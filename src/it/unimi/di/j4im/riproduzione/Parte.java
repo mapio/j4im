@@ -53,7 +53,7 @@ import it.unimi.di.j4im.notazione.Simbolo;
  * 
  * <p>Per far si che un gruppo di note (quando il brano sarà riprodotto) suoni a partire 
  * dallo stesso istante (come in un accordo), esse vanno accodate usando metodo 
- * {@link #accodaAccordo(Nota[])}; il simbolo accodato alla parte dopo l'inivocazione 
+ * {@link #accodaAccordo(Simbolo[])}; il simbolo accodato alla parte dopo l'inivocazione 
  * di questo medoto (e quindi i successivi) suonerà (una volta che il brano sarà riprodotto)
  * dopo la nota di maggior durata presente nell'accordo.
  * </p>
@@ -150,31 +150,33 @@ public class Parte {
 		for ( Simbolo s : simboli ) accoda( s );
 	}
 
-	/** Accoda un accordo (vettore di {@link Nota}) alla parte.
+	/** Accoda un accordo (vettore di {@link Simbolo}) alla parte.
 	 * 
 	 * <p> 
 	 * Le note presenti nel vettore <samp>accordo</samp> inizieranno 
 	 * a suonare nello stesso istante, viceversa i simboli aggiunti alla
-	 * sequenza dopo l'accordo suoneranno al termine della nota di maggior
+	 * sequenza dopo l'accordo suoneranno al termine del simbolo di maggior
 	 * durata dell'accordo stesso.
 	 * </p> 
 	 * 
 	 * @param accordo il vettore di note che formano l'accordo.
 	 * 
 	 */
-	public void accodaAccordo( final Nota[] accordo ) {
-		final Nota[] note = Arrays.copyOf( accordo, accordo.length );
-		Arrays.sort( note, new Comparator<Nota>() {
-			public int compare( Nota p, Nota q ) {
+	public void accodaAccordo( final Simbolo[] accordo ) {
+		final Simbolo[] simboli = Arrays.copyOf( accordo, accordo.length );
+		Arrays.sort( simboli, new Comparator<Simbolo>() {
+			public int compare( Simbolo p, Simbolo q ) {
 				return p.durata().compareTo( q.durata() );
 			}
 		} );
 		try {
-			for ( Nota n : note )
-				track.add( new MidiEvent( new ShortMessage( ShortMessage.NOTE_ON, canale, n.pitch(), n.intensita() ), ticks ) );
-			for ( Nota n : note )
-				track.add( new MidiEvent( new ShortMessage( ShortMessage.NOTE_OFF, canale, n.pitch(), 0 ), ticks + n.durata().ticks( Brano.RESOLUTION ) ) );
-			ticks += note[ note.length - 1 ].durata().ticks( Brano.RESOLUTION );
+			for ( Simbolo s : simboli )
+				if ( s instanceof Nota )
+					track.add( new MidiEvent( new ShortMessage( ShortMessage.NOTE_ON, canale, ((Nota)s).pitch(), ((Nota)s).intensita() ), ticks ) );
+			for ( Simbolo s : simboli )
+				if ( s instanceof Nota )
+					track.add( new MidiEvent( new ShortMessage( ShortMessage.NOTE_OFF, canale, ((Nota)s).pitch(), 0 ), ticks + ((Nota)s).durata().ticks( Brano.RESOLUTION ) ) );
+			ticks += simboli[ simboli.length - 1 ].durata().ticks( Brano.RESOLUTION );
 		} catch ( InvalidMidiDataException e ) {
 			throw new IllegalArgumentException( "Nota non valida", e ); // non dovrebbe mai capitare
 		}
