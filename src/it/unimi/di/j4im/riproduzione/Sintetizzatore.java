@@ -120,7 +120,7 @@ public class Sintetizzatore {
 			// vanno chiusi tutti i transmitter per evitare "echi"
 			for ( Transmitter t : sequencer.getTransmitters() ) t.close();
 			
-			// va associato il sequencer al synt in modo che i program change sui channels siano rispettati
+			// va associato il sequencer al synth in modo che i program change sui channels siano rispettati
 			sequencer.getTransmitter().setReceiver( synth.getReceiver() );
 
 		} catch ( MidiUnavailableException e ) {
@@ -157,6 +157,7 @@ public class Sintetizzatore {
 			throw new RuntimeException( e ); // questo non dovrebbe mai accadere
 		}
 		sequencer.setTickPosition( 0 );
+		sequencer.setTempoInBPM( Sintetizzatore.bpm );
 		sequencer.start();
 		try {
 			cdl.await();
