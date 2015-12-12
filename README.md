@@ -1,7 +1,7 @@
 Java 4 Informatica Musicale (j4im)
 ==================================
 
-![build status](https://travis-ci.org/mapio/j4im.svg?branch=master)
+[![Build Status](https://travis-ci.org/mapio/j4im.svg)](https://travis-ci.org/mapio/j4im)
 
 Libreria di supporto all'insegnamento di
 [Programmazione](http://boldi.di.unimi.it/Corsi/Mus2015/) del corso di studi
