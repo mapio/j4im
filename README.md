@@ -4,9 +4,9 @@ Java 4 Informatica Musicale (j4im)
 [![Build Status](https://travis-ci.org/mapio/j4im.svg)](https://travis-ci.org/mapio/j4im)
 
 Libreria di supporto all'insegnamento di
-[Programmazione](http://boldi.di.unimi.it/Corsi/Mus2015/) del corso di studi
+[Programmazione](http://mereghetti.di.unimi.it/prog/) del corso di studi
 in [Informatica
-musicale](http://www.ccdinfmi.unimi.it/it/corsiDiStudio/2015/F3Xof2/)
+musicale](http://www.ccdinfmi.unimi.it/it/corsiDiStudio/2017/F3Xof2/)
 dell'[Università degli Studi di Milano](http://www.unimi.it/).
 
 Come usare la libreria
@@ -20,18 +20,18 @@ scaricabili dal precedente link.
 
 Una volta scaricato il `.jar`, ad esempio con il comando
 
-	curl -sLO https://github.com/mapio/j4im/releases/download/0.10-beta/j4im-0.10-beta.jar
+	curl -sLO https://github.com/mapio/j4im/releases/download/0.11-beta/j4im-0.11-beta.jar
 
 è possibile eseguire il codice d'esempio con
 
-	java -cp j4im-0.10-beta.jar it.unimi.di.j4im.esempi.Groove
-	java -cp j4im-0.10-beta.jar it.unimi.di.j4im.esempi.FraMartinoCanone
+	java -cp j4im-0.11-beta.jar it.unimi.di.j4im.esempi.Groove
+	java -cp j4im-0.11-beta.jar it.unimi.di.j4im.esempi.FraMartinoCanone
 
 o compilare una propria classe (supponendo si chiami `MiaClasse`) che faccia
 uso della libreria con
 
-	javac -cp j4im-0.10-beta.jar MiaClasse.java
-	java -cp j4im-0.10-beta.jar:. MiaClasse
+	javac -cp j4im-0.11-beta.jar MiaClasse.java
+	java -cp j4im-0.11-beta.jar:. MiaClasse
 
 
 Come contribuire
@@ -45,4 +45,3 @@ repositoty: le richieste di [pull](https://github.com/mapio/j4im/pulls)
 saranno considerate con molto interesse!
 
 ![Analytics](https://ga-beacon.appspot.com/UA-377250-20/j4im?pixel)
-
